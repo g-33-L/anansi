@@ -38,6 +38,6 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
-    "typescript": "^5.4.0"
+    "typescript": "^6.0.3"
   }
 }
