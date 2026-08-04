@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "security-audit-policy",
+    "last_edited": "2025-08-15T09:00:00Z",
+    "blocks": [
+      {
+        "id": "secaudit-doc-1",
+        "text": "The Security team notifies all department heads to begin collecting evidence packages 6 weeks before the scheduled audit date. IT, Engineering, and Compliance each collect their respective evidence packages in parallel."
+      },
+      {
+        "id": "secaudit-doc-2",
+        "text": "The Security team consolidates all evidence packages and performs a pre-audit readiness review to identify any gaps or deficiencies."
+      },
+      {
+        "id": "secaudit-doc-3",
+        "text": "Any critical gaps identified during the readiness review must be remediated or formally documented as exceptions before the evidence package is submitted to the auditor."
+      },
+      {
+        "id": "secaudit-doc-4",
+        "text": "The Audit Committee must approve the final consolidated evidence package before it is submitted to the external auditor. The audit report, once delivered by the auditor, is presented to the Board of Directors."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "secaudit-slack-1",
+      "ts": "2026-06-10T09:00:00Z",
+      "text": "Process change: the Legal team is now included as a fourth evidence collection owner alongside IT, Engineering, and Compliance, effective for the next audit cycle."
+    },
+    {
+      "id": "secaudit-chat-1",
+      "ts": "2026-01-20T10:00:00Z",
+      "text": "Is there a template for the evidence packages or does each department use its own format?"
+    },
+    {
+      "id": "secaudit-chat-2",
+      "ts": "2026-02-05T14:30:00Z",
+      "text": "Should we hire a consultant to do a pre-audit before the actual audit? Seems like it could help."
+    },
+    {
+      "id": "secaudit-chat-3",
+      "ts": "2026-03-01T11:00:00Z",
+      "text": "Who decides whether a gap is 'critical' vs just a minor finding? Is there a rubric?"
+    }
+  ]
+}

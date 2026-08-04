@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "patent-filing-policy",
+    "last_edited": "2025-08-01T09:00:00Z",
+    "blocks": [
+      {
+        "id": "patent-doc-1",
+        "text": "An inventor discloses an invention to the IP Legal team using a standardized invention disclosure form. Legal has 30 days from receipt of the disclosure to assess patentability and notify the inventor of its determination."
+      },
+      {
+        "id": "patent-doc-2",
+        "text": "If the invention is deemed patentable, Legal prepares a provisional patent application within 60 days of the original disclosure date."
+      },
+      {
+        "id": "patent-doc-3",
+        "text": "The CTO must approve the provisional application before it is filed. Engineering must confirm that no third-party IP is incorporated into the invention prior to filing. CTO approval and Engineering IP confirmation may be obtained in parallel."
+      },
+      {
+        "id": "patent-doc-4",
+        "text": "The provisional application must be filed before the 1-year statutory bar date. If the inventor has already published or publicly disclosed the invention, the filing must occur within 12 months of first publication."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "patent-slack-1",
+      "ts": "2026-03-15T10:00:00Z",
+      "text": "Heads up: as of Q1 2026 Legal requires inventors to complete a prior art search form and attach it to the disclosure before patentability assessment begins."
+    },
+    {
+      "id": "patent-chat-1",
+      "ts": "2026-01-10T09:30:00Z",
+      "text": "Can we file continuation patents in other countries simultaneously? Asking for a project."
+    },
+    {
+      "id": "patent-chat-2",
+      "ts": "2026-01-14T14:00:00Z",
+      "text": "What happens if the inventor leaves the company before the provisional is filed? Just a hypothetical."
+    },
+    {
+      "id": "patent-chat-3",
+      "ts": "2026-02-05T11:00:00Z",
+      "text": "Should we move to using continuation-in-part filings more aggressively? Heard competitors do it."
+    }
+  ]
+}

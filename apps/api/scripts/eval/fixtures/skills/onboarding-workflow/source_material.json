@@ -1,0 +1,43 @@
+{
+  "docs": [
+    {
+      "id": "doc-ob-01",
+      "title": "New Hire Onboarding Checklist",
+      "last_edited": "2026-04-10T16:00:00Z",
+      "blocks": [
+        {
+          "id": "doc-ob-block-001",
+          "text": "Day 1: Welcome! Your manager will send you the HR paperwork via Docusign. This must be completed by EOD."
+        },
+        {
+          "id": "doc-ob-block-002",
+          "text": "Day 1: Your laptop and peripherals will be provisioned by the IT department. You'll receive an email when it's ready."
+        },
+        {
+          "id": "doc-ob-block-003",
+          "text": "Day 2: Once your accounts are active, your manager will add you to the company GitHub organization."
+        },
+        {
+          "id": "doc-ob-block-999-temporal",
+          "text": "Prior to January 2026, all new hires used ADP for payroll. We now use Gusto."
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "slack-ob-100",
+      "channel": "hr-announcements",
+      "author": "hr_bot",
+      "ts": "2026-06-05T09:00:00Z",
+      "text": "A big welcome to our new engineer, @alex! Their manager is @sarah."
+    },
+    {
+      "id": "slack-ob-101",
+      "channel": "it-help",
+      "author": "alex",
+      "ts": "2026-06-05T14:00:00Z",
+      "text": "Hi, just wondering when my laptop will be ready for pickup?"
+    }
+  ]
+}

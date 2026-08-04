@@ -1,0 +1,25 @@
+{
+  "messages": [
+    {
+      "id": "slack-msg-67890",
+      "channel": "engineering",
+      "author": "jane_doe",
+      "ts": "2026-05-20T10:00:00Z",
+      "text": "Reminder everyone: as soon as an incident is confirmed, please create the slack channel for it so we can centralize comms."
+    },
+    {
+      "id": "slack-msg-67891",
+      "channel": "incidents",
+      "author": "john_smith",
+      "ts": "2026-05-22T14:30:00Z",
+      "text": "For INC-2026-088, I've assessed and we don't need a war room. Proceeding with investigation."
+    },
+    {
+      "id": "slack-msg-banana-bread",
+      "channel": "random",
+      "author": "sara_lee",
+      "ts": "2026-05-23T11:00:00Z",
+      "text": "I found the most amazing recipe for banana bread, it's so moist!"
+    }
+  ]
+}

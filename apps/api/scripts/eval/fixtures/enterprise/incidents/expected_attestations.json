@@ -1,0 +1,20 @@
+{
+  "domain": "incidents",
+  "attestations": [
+    { "claim": "SEV1 incidents are acknowledged within 5 minutes", "claim_key": "sev1_ack_sla", "claim_fingerprint": "sev1_ack_sla:5_min", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": "2026-03", "from_basis": "stated", "from_granularity": "month" }, "evidence": [ { "source_id": "i3", "quote": "since March we ack SEV1 within 5 minutes" } ] },
+    { "claim": "SEV1 incidents are acknowledged within 15 minutes", "claim_key": "sev1_ack_sla", "claim_fingerprint": "sev1_ack_sla:15_min", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "disputed", "source_role": "documented_baseline", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b1", "quote": "acknowledged within 15 minutes of the page" } ] },
+    { "claim": "A postmortem is required for every SEV1 and SEV2 incident", "claim_key": "postmortem_policy", "claim_fingerprint": "postmortem_policy:required_sev1_sev2", "claim_type": "policy", "polarity": "assertion", "inference_status": "corroborated", "expected_status": "observed", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b2", "quote": "A postmortem is required for every SEV1 and SEV2 incident" }, { "source_id": "i6", "quote": "gets a postmortem in Notion" } ] },
+    { "claim": "The incident commander is the engineering manager on call", "claim_key": "incident_commander_role", "claim_fingerprint": "incident_commander_role:eng_manager_on_call", "claim_type": "role", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "i5", "quote": "IC is always the eng manager on call" } ] },
+    { "claim": "Incident war rooms are opened in #incidents", "claim_key": "war_room_channel", "claim_fingerprint": "war_room_channel:#incidents", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "i4", "quote": "Opening a war room in #incidents" } ] },
+    { "claim": "PagerDuty is used for paging", "claim_key": "paging_tool", "claim_fingerprint": "paging_tool:pagerduty", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "i7", "quote": "PagerDuty for paging" } ] },
+    { "claim": "Grafana is used for incident dashboards", "claim_key": "dashboard_tool", "claim_fingerprint": "dashboard_tool:grafana", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "i7", "quote": "Grafana for the dashboards" } ] }
+  ],
+  "refusals": [
+    { "source_id": "i8", "reason": "opinion" },
+    { "source_id": "i9", "reason": "proposal_not_adopted" },
+    { "source_id": "i10", "reason": "not_operational" }
+  ],
+  "divergences": [
+    { "claim_key": "sev1_ack_sla", "documented": "sev1_ack_sla:15_min", "observed": "sev1_ack_sla:5_min", "changed_at": "2026-03" }
+  ]
+}

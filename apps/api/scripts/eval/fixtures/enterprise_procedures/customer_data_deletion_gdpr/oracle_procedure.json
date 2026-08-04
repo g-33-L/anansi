@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "domain": "customer_data_deletion_gdpr",
+  "canonicalRoles": [
+    {
+      "id": "privacy_ops",
+      "aliases": [
+        "Privacy Operations",
+        "Privacy Ops"
+      ]
+    },
+    {
+      "id": "data_engineering",
+      "aliases": [
+        "Data Engineering"
+      ]
+    },
+    {
+      "id": "legal",
+      "aliases": [
+        "Legal"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "verify_identity",
+        "description": "Privacy Operations verifies the requestor's identity within 5 business days of receiving the Right to Erasure request.",
+        "ownerRole": "privacy_ops",
+        "critical": true,
+        "deadline": {
+          "value": 5,
+          "unit": "business_days",
+          "relativeTo": "receipt of erasure request"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-1",
+            "quote": "Privacy Operations must verify the requestor's identity within 5 business days"
+          }
+        ]
+      },
+      {
+        "id": "map_data_stores",
+        "description": "Data Engineering maps all systems and data stores containing the customer's personal data.",
+        "ownerRole": "data_engineering",
+        "dependsOn": [
+          "verify_identity"
+        ],
+        "preconditions": [
+          {
+            "subject": "identity verification",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-2",
+            "quote": "Data Engineering must map all systems and data stores containing the customer's personal data"
+          }
+        ]
+      },
+      {
+        "id": "legal_contract_review",
+        "description": "If the customer is under an active contract, Legal confirms deletion does not breach contract obligations before any deletion proceeds.",
+        "ownerRole": "legal",
+        "dependsOn": [
+          "map_data_stores"
+        ],
+        "preconditions": [
+          {
+            "subject": "data mapping",
+            "operator": "after"
+          }
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "contract status",
+              "operator": "equals",
+              "value": "active"
+            },
+            "thenSteps": [
+              "legal_contract_review"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-3",
+            "quote": "If the customer is subject to an active contract, Legal must confirm that deletion does not breach contract obligations before any deletion proceeds"
+          }
+        ]
+      },
+      {
+        "id": "execute_deletion",
+        "description": "Data Engineering executes deletion across all mapped systems within 30 days of the verified request date.",
+        "ownerRole": "data_engineering",
+        "dependsOn": [
+          "legal_contract_review"
+        ],
+        "preconditions": [
+          {
+            "subject": "legal contract review",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 30,
+          "unit": "days",
+          "relativeTo": "verified request date"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-4",
+            "quote": "Data Engineering must execute deletion across all mapped systems within 30 days of the verified request date"
+          },
+          {
+            "sourceChunkId": "gdpr-doc-3",
+            "quote": "Legal review must be completed before Data Engineering begins deletion execution"
+          }
+        ]
+      },
+      {
+        "id": "mark_backup_for_deletion",
+        "description": "If personal data resides in a backup system, the backup is marked for deletion at the next scheduled rotation cycle.",
+        "ownerRole": "data_engineering",
+        "dependsOn": [
+          "execute_deletion"
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "backup data",
+              "operator": "equals",
+              "value": "present"
+            },
+            "thenSteps": [
+              "mark_backup_for_deletion"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-4",
+            "quote": "If personal data resides in a backup system, the backup is marked for deletion at the next scheduled rotation cycle"
+          }
+        ]
+      },
+      {
+        "id": "send_deletion_confirmation",
+        "description": "Privacy Operations sends a written deletion confirmation to the customer upon completion.",
+        "ownerRole": "privacy_ops",
+        "dependsOn": [
+          "execute_deletion"
+        ],
+        "preconditions": [
+          {
+            "subject": "deletion execution",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "gdpr-doc-4",
+            "quote": "Privacy Operations must send a written deletion confirmation to the customer upon completion"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "gdpr-chat-1",
+      "reason": "casual scope question, not a procedure step"
+    },
+    {
+      "sourceChunkId": "gdpr-chat-2",
+      "reason": "hypothetical automation proposal, not current process"
+    },
+    {
+      "sourceChunkId": "gdpr-chat-3",
+      "reason": "unrelated operational question about backup schedule"
+    },
+    {
+      "sourceChunkId": "gdpr-chat-4",
+      "reason": "casual team logistics, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "trial-account-legal-gate-skip",
+      "documentedStepId": "legal_contract_review",
+      "observedStepId": "legal_contract_review",
+      "observedAfter": "2026-02-10"
+    }
+  ],
+  "knownFailureModes": [
+    "legal review gate omitted for active contract customers",
+    "backup marking step dropped because it follows a 'completed' deletion step",
+    "30-day deadline missed by conflating it with the 5-business-day identity window",
+    "deletion confirmation sent before deletion executes"
+  ]
+}

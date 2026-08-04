@@ -1,0 +1,31 @@
+{
+  "chunkIds": ["policy-1"],
+  "approvalGatePropagation": {
+    "skillName": "termination",
+    "steps": [
+      {"stepId": "hr_meeting", "description": "HR conducts the meeting.", "evidence": ["policy-1"]},
+      {"stepId": "it_disable", "description": "IT disables access.", "evidence": ["policy-1"]}
+    ],
+    "graph": {
+      "gates": [{"predicate": {"subject": "approval", "operator": "after"}, "appliesTo": ["hr_meeting", "it_disable"], "evidence": ["policy-1"]}]
+    }
+  },
+  "symmetricParallel": {
+    "skillName": "review",
+    "steps": [
+      {"stepId": "finance_review", "description": "Finance reviews the package.", "evidence": ["policy-1"]},
+      {"stepId": "security_review", "description": "Security reviews the package.", "evidence": ["policy-1"]}
+    ],
+    "graph": {
+      "parallelGroups": [{"id": "package_review", "members": ["finance_review", "security_review"], "semantics": "unordered", "evidence": ["policy-1"]}]
+    }
+  },
+  "oneSidedParallel": {
+    "skillName": "review",
+    "steps": [
+      {"stepId": "finance_review", "description": "Finance reviews the package.", "evidence": ["policy-1"], "parallel": {"group": "package_review", "semantics": "unordered"}},
+      {"stepId": "security_review", "description": "Security reviews the package.", "evidence": ["policy-1"]}
+    ]
+  },
+  "refusal": {"refused": true, "reason": "casual chatter"}
+}

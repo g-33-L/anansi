@@ -1,0 +1,33 @@
+{
+  "skillName": "quarterly_access_review",
+  "skillDescription": "The procedure for conducting quarterly reviews of production system access.",
+  "expectedProcedure": {
+    "steps": [
+      {
+        "stepId": "generate_user_list",
+        "description": "The security team generates a list of users with production access at the start of each quarter.",
+        "evidence": ["doc-sa-block-001"],
+        "critical": true,
+        "trigger": true
+      },
+      {
+        "stepId": "manager_reviews_access",
+        "description": "Department managers review the access list for their reports.",
+        "evidence": ["doc-sa-block-002", "slack-sa-200"],
+        "critical": true,
+        "precedes": ["revoke_unneeded_access"]
+      },
+      {
+        "stepId": "revoke_unneeded_access",
+        "description": "The security team revokes access for users no longer requiring it.",
+        "evidence": ["doc-sa-block-003"]
+      }
+    ]
+  },
+  "expectedRefusals": [
+    {
+      "sourceChunkId": "slack-sa-201",
+      "reason": "A transient technical question, not a procedural step."
+    }
+  ]
+}

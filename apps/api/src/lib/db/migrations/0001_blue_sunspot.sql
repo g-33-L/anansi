@@ -1,0 +1,1 @@
+ALTER TABLE "channels" ADD CONSTRAINT "channels_workspace_slack_channel_unique" UNIQUE("workspace_id","slack_channel_id");

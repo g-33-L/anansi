@@ -1,0 +1,162 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check + build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Dependency audit
+        run: pnpm audit --audit-level high
+        # Documented exceptions (non-applicable advisories) live in
+        # pnpm-workspace.yaml auditConfig.ignoreGhsas — see ADR-0009.
+
+  # Supply-chain evidence (Phase 10.1 / ADR-0009). Best-effort and NON-BLOCKING:
+  # produces an SBOM + build provenance for traceability, but a tooling hiccup must
+  # never fail the build. Promote to a required gate once stable.
+  supply-chain:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+
+      - name: Record build provenance
+        run: |
+          cat > provenance.json <<EOF
+          {
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "run_id": "${{ github.run_id }}",
+            "run_attempt": "${{ github.run_attempt }}",
+            "workflow": "${{ github.workflow }}",
+            "actor": "${{ github.actor }}",
+            "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          cat provenance.json
+
+      - name: Upload supply-chain artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: supply-chain
+          path: |
+            sbom.cdx.json
+            provenance.json
+          if-no-files-found: warn
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: anansi
+          POSTGRES_PASSWORD: anansi
+          POSTGRES_DB: anansi
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The service container starts empty every run — create the schema before
+      # tests. Invoked without --env-file (no .env exists in CI); migrate.ts
+      # reads DATABASE_URL from the environment.
+      - name: Run database migrations
+        run: pnpm --filter @anansi/api exec tsx src/lib/db/migrate.ts
+        env:
+          DATABASE_URL: postgresql://anansi:anansi@localhost:5432/anansi
+
+      - name: Run tests with coverage
+        run: pnpm --filter @anansi/api test --reporter=verbose --coverage
+        env:
+          DATABASE_URL: postgresql://anansi:anansi@localhost:5432/anansi
+          REDIS_URL: redis://localhost:6379
+          ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000001"
+          CSRF_SIGNING_KEY: test-csrf-signing-key-for-ci-only
+          API_KEY_HMAC_SECRET: test-hmac-secret-for-ci-at-least-32-chars
+          QUERY_API_KEY: test-query-api-key-ci
+          GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || 'placeholder-not-used-in-tests' }}
+          NODE_ENV: test
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run browser journeys
+        run: pnpm test:web
+
+      - name: Upload browser test artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-test-artifacts
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 14

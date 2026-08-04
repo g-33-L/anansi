@@ -1,0 +1,55 @@
+node_modules/
+dist/
+coverage/
+.turbo/
+.env
+*.local
+.DS_Store
+apps/api/src/lib/db/migrations/*.snap
+apps/api/scripts/eval/last-run.json
+.gstack/
+design-md/
+gtm/
+__pycache__/
+.venv/
+idea.md
+
+# Internal GTM strategy — kept local; must not enter the (public) repo history.
+# Ops/architecture docs (_docs/DEPLOY.md, STRIPE_SETUP.md, adr/) stay tracked intentionally.
+# Superseded strategy docs live in _docs/archive/ (also local-only).
+GTM_REPORT.md
+_docs/LAUNCH_PLAYBOOK.md
+_docs/LAUNCH_PLAYBOOK.docx
+_docs/LAUNCH_CHECKLIST.md
+_docs/PITCH_FAQ.md
+_docs/plans/
+_docs/archive/
+*.tsbuildinfo
+apps/api/scripts/eval/results/
+
+# ── Terraform ────────────────────────────────────────────────────────────────
+# Provider plugin cache — ~650 MB per directory, and GitHub rejects any blob
+# over 100 MB. Reproduced by `terraform init`.
+.terraform/
+
+# State belongs in the S3 backend, never in git. Even when it holds nothing
+# sensitive today, state accumulates resource attributes (passwords, keys) as
+# the stack grows, and git history cannot be un-leaked.
+# NOTE: infra/terraform/bootstrap uses a local backend by necessity — it is the
+# stack that creates the S3 bucket. Its state stays on disk only; the bucket and
+# lock table are re-importable if lost (see infra/README.md).
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# May contain credentials. Variables are passed with -var / TF_VAR_ instead.
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# .terraform.lock.hcl is intentionally NOT ignored — it pins provider versions
+# and must be committed.
+
+# Local scratch notes from agent sessions — never part of the distribution.
+memory/

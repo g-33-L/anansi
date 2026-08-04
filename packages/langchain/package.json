@@ -1,0 +1,59 @@
+{
+  "name": "anansi-langchain",
+  "version": "0.3.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "description": "LangChain + LangGraph integration for Anansi — retriever, memory tools, and graph-state memory annotation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./langgraph": {
+      "import": "./dist/langgraph.js",
+      "types": "./dist/langgraph.d.ts",
+      "default": "./dist/langgraph.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "tsc"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": ["memory", "llm", "ai", "langchain", "langgraph", "retriever", "anansi"],
+  "license": "MIT",
+  "author": "Anansi",
+  "homepage": "https://github.com/g-33-L/anansi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/g-33-L/anansi.git",
+    "directory": "packages/langchain"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@langchain/core": ">=0.3.0",
+    "@langchain/langgraph": ">=0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@langchain/langgraph": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@langchain/core": "^1.0.0",
+    "@langchain/langgraph": "^1.0.0",
+    "typescript": "^5.4.0"
+  }
+}

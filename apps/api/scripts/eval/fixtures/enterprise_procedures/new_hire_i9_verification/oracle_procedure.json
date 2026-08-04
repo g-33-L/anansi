@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "domain": "new_hire_i9_verification",
+  "canonicalRoles": [
+    {
+      "id": "new_hire",
+      "aliases": [
+        "new hire",
+        "employee",
+        "New Hire"
+      ]
+    },
+    {
+      "id": "hr",
+      "aliases": [
+        "HR",
+        "Human Resources"
+      ]
+    },
+    {
+      "id": "authorized_rep",
+      "aliases": [
+        "authorized representative"
+      ]
+    },
+    {
+      "id": "legal",
+      "aliases": [
+        "Legal"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "section_1_completion",
+        "description": "New hire completes Section 1 of Form I-9 on or before their first day of employment.",
+        "ownerRole": "new_hire",
+        "critical": true,
+        "deadline": {
+          "value": 1,
+          "unit": "days",
+          "relativeTo": "start of employment"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-1",
+            "quote": "A new hire must complete Section 1 of Form I-9 on or before their first day of employment"
+          }
+        ]
+      },
+      {
+        "id": "section_2_verification",
+        "description": "HR completes Section 2, verifying identity and employment authorization documents, within 3 business days of the employee's first day.",
+        "ownerRole": "hr",
+        "dependsOn": [
+          "section_1_completion"
+        ],
+        "preconditions": [
+          {
+            "subject": "section 1",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 3,
+          "unit": "business_days",
+          "relativeTo": "first day of employment"
+        },
+        "conditions": [
+          {
+            "when": {
+              "subject": "work location",
+              "operator": "equals",
+              "value": "remote"
+            },
+            "thenSteps": [
+              "authorized_rep_verification"
+            ],
+            "elseSteps": [
+              "receipt_temporary_acceptance"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-1",
+            "quote": "HR must complete Section 2, verifying the employee's identity and employment authorization documents, within 3 business days of the employee's first day"
+          }
+        ]
+      },
+      {
+        "id": "authorized_rep_verification",
+        "description": "For remote employees, an authorized representative completes Section 2 in person; HR records the representative's full name and contact information.",
+        "ownerRole": "authorized_rep",
+        "dependsOn": [
+          "section_1_completion"
+        ],
+        "preconditions": [
+          {
+            "subject": "section 1",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-3",
+            "quote": "an authorized representative may complete Section 2 on behalf of the employer"
+          },
+          {
+            "sourceChunkId": "i9-doc-3",
+            "quote": "HR must record the authorized representative's full name and contact information in the employer notes"
+          }
+        ]
+      },
+      {
+        "id": "receipt_temporary_acceptance",
+        "description": "If the employee presents a receipt for a lost, stolen, or damaged document, HR temporarily accepts the receipt and records the 90-day follow-up deadline.",
+        "ownerRole": "hr",
+        "dependsOn": [
+          "section_2_verification"
+        ],
+        "preconditions": [
+          {
+            "subject": "section 2",
+            "operator": "after"
+          }
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "document presented",
+              "operator": "equals",
+              "value": "receipt"
+            },
+            "thenSteps": [
+              "receipt_temporary_acceptance"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-2",
+            "quote": "If the employee presents a receipt for a lost, stolen, or damaged document, HR may temporarily accept the receipt"
+          }
+        ]
+      },
+      {
+        "id": "original_document_collection",
+        "description": "Employee provides the original document within 90 days of the first day of employment.",
+        "ownerRole": "new_hire",
+        "dependsOn": [
+          "receipt_temporary_acceptance"
+        ],
+        "preconditions": [
+          {
+            "subject": "receipt acceptance",
+            "operator": "after"
+          }
+        ],
+        "deadline": {
+          "value": 90,
+          "unit": "days",
+          "relativeTo": "first day of employment"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-2",
+            "quote": "The employee must provide the original document within 90 days of the first day of employment"
+          }
+        ]
+      },
+      {
+        "id": "legal_notification_no_docs",
+        "description": "If acceptable documentation is not provided by day 3, HR notifies Legal before allowing the employee to continue working.",
+        "ownerRole": "hr",
+        "dependsOn": [
+          "section_2_verification"
+        ],
+        "preconditions": [
+          {
+            "subject": "section 2",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "conditions": [
+          {
+            "when": {
+              "subject": "acceptable documentation",
+              "operator": "equals",
+              "value": "not provided"
+            },
+            "thenSteps": [
+              "legal_notification_no_docs"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "i9-doc-4",
+            "quote": "HR must notify Legal before allowing the employee to continue working"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "i9-chat-1",
+      "reason": "scope question about contractors, not a procedure step"
+    },
+    {
+      "sourceChunkId": "i9-chat-2",
+      "reason": "hypothetical video call proposal, not current process"
+    },
+    {
+      "sourceChunkId": "i9-chat-3",
+      "reason": "storage question, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "remote-authorized-rep-vendor-restriction",
+      "documentedStepId": "authorized_rep_verification",
+      "observedStepId": "authorized_rep_verification",
+      "observedAfter": "2026-04-20"
+    }
+  ],
+  "knownFailureModes": [
+    "90-day receipt follow-up deadline omitted",
+    "Legal notification gate for missing documents dropped",
+    "authorized representative step missing HR recording requirement",
+    "Section 1 and Section 2 deadlines conflated as the same day"
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1780434537028,
+      "tag": "0000_strong_jimmy_woo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1780435573529,
+      "tag": "0001_blue_sunspot",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1780449903449,
+      "tag": "0002_happy_thor_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1780648711749,
+      "tag": "0003_robust_hitman",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1780900000000,
+      "tag": "0004_developer_api",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1780900100000,
+      "tag": "0005_notion_connector",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1780900200000,
+      "tag": "0006_gdoc_linear",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1780900300000,
+      "tag": "0007_connector_provider_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1780900400000,
+      "tag": "0008_transcript_webhook_outbound",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1780900500000,
+      "tag": "0009_hybrid_search",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1780900600000,
+      "tag": "0010_api_plan",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1780900700000,
+      "tag": "0011_standalone_developer_auth",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1780900800000,
+      "tag": "0012_memory_expiry",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1780900900000,
+      "tag": "0013_entity_graph",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1780901000000,
+      "tag": "0014_entity_edges_active_unique",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "6",
+      "when": 1780901100000,
+      "tag": "0015_entity_edges_transaction_time",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "6",
+      "when": 1780901200000,
+      "tag": "0016_memory_chunks_user_synthesized",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1780901300000,
+      "tag": "0017_memory_users_opted_out",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1781827200000,
+      "tag": "0018_add_scale_plan",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1781913600000,
+      "tag": "0019_attestations",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1782000000000,
+      "tag": "0020_skill_definitions",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1782100000000,
+      "tag": "0021_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1782200000000,
+      "tag": "0022_enterprise",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1782300000000,
+      "tag": "0023_operations",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1782400000000,
+      "tag": "0024_skill_workspace_integrity",
+      "breakpoints": true
+    }
+  ]
+}

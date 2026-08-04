@@ -1,0 +1,14 @@
+{
+  "domain": "onboarding",
+  "docs": [
+    {
+      "id": "onboarding_guide",
+      "title": "New Hire Onboarding Guide",
+      "last_edited": "2025-07-10T00:00:00Z",
+      "blocks": [
+        { "id": "b1", "heading": "IT Setup", "text": "New hires complete laptop and account setup in their first week by filing an IT ticket." },
+        { "id": "b2", "heading": "Training", "text": "All new hires must complete security training within their first week." }
+      ]
+    }
+  ]
+}

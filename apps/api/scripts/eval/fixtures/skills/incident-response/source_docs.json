@@ -1,0 +1,31 @@
+{
+  "docs": [
+    {
+      "id": "doc-01",
+      "title": "Incident Response Playbook",
+      "last_edited": "2026-01-15T12:00:00Z",
+      "blocks": [
+        {
+          "id": "doc-block-001",
+          "text": "Upon detection of a new incident, whether from monitoring alerts or a user report, the first step is to create a new incident channel in Slack."
+        },
+        {
+          "id": "doc-block-002",
+          "text": "The on-call engineer must acknowledge the incident in PagerDuty within 5 minutes. This formally begins the response."
+        },
+        {
+          "id": "doc-block-003",
+          "text": "Next, the Incident Commander (IC) assesses the severity. Based on the assessment, they will decide whether to declare a major incident or proceed with standard investigation."
+        },
+        {
+          "id": "doc-block-004",
+          "text": "For major incidents (SEV-0, SEV-1), the IC must open a war room video call and post the link in the incident channel."
+        },
+        {
+          "id": "doc-block-999",
+          "text": "Legacy procedure (deprecated March 2026): All incidents required a manual ticket to be filed in Jira. This is no longer the case."
+        }
+      ]
+    }
+  ]
+}

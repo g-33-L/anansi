@@ -1,0 +1,12 @@
+{
+  "name": "anansi-example-claude-chatbot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.30.0",
+    "anansi-memory": "0.3.0"
+  }
+}

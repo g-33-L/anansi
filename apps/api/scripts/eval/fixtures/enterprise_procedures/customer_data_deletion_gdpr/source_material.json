@@ -1,0 +1,51 @@
+{
+  "docs": [{
+    "id": "gdpr-deletion-policy",
+    "last_edited": "2025-09-15T10:00:00Z",
+    "blocks": [
+      {
+        "id": "gdpr-doc-1",
+        "text": "On receipt of a Right to Erasure request under GDPR Article 17, Privacy Operations must verify the requestor's identity within 5 business days. Verification requires at least one government-issued ID or equivalent account authentication."
+      },
+      {
+        "id": "gdpr-doc-2",
+        "text": "Once identity is verified, Data Engineering must map all systems and data stores containing the customer's personal data, including production databases, analytics platforms, and data warehouses."
+      },
+      {
+        "id": "gdpr-doc-3",
+        "text": "If the customer is subject to an active contract, Legal must confirm that deletion does not breach contract obligations before any deletion proceeds. Legal review must be completed before Data Engineering begins deletion execution."
+      },
+      {
+        "id": "gdpr-doc-4",
+        "text": "Data Engineering must execute deletion across all mapped systems within 30 days of the verified request date. If personal data resides in a backup system, the backup is marked for deletion at the next scheduled rotation cycle. Privacy Operations must send a written deletion confirmation to the customer upon completion."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "gdpr-slack-1",
+      "ts": "2026-02-10T14:30:00Z",
+      "text": "Process update effective today: SaaS trial accounts are not subject to active contracts, so the Legal review gate is skipped for trial account deletion requests."
+    },
+    {
+      "id": "gdpr-chat-1",
+      "ts": "2026-01-05T09:00:00Z",
+      "text": "Does GDPR apply to B2B contact data too? Just wondering about scope."
+    },
+    {
+      "id": "gdpr-chat-2",
+      "ts": "2026-01-08T11:15:00Z",
+      "text": "Should we build an automated deletion pipeline to handle these requests faster? Seems like a lot of manual steps."
+    },
+    {
+      "id": "gdpr-chat-3",
+      "ts": "2026-01-12T16:00:00Z",
+      "text": "What is the backup rotation schedule for the EU-west region?"
+    },
+    {
+      "id": "gdpr-chat-4",
+      "ts": "2026-01-20T08:45:00Z",
+      "text": "Reminder: Privacy team offsite is next Thursday. Please bring your laptops."
+    }
+  ]
+}

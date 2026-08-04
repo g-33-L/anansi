@@ -1,0 +1,35 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+allowBuilds:
+  es5-ext: false
+  esbuild: true
+  msgpackr-extract: true
+# Audit exceptions (documented). react-router's RSC-mode CSRF advisory does not
+# apply: apps/web is a client-side Vite SPA (BrowserRouter), not React Server
+# Components, and react-router-dom has no patched line (fix is react-router@8.3.0,
+# which react-router-dom@7 does not consume). Revisit on the react-router v8
+# migration. See docs/architecture/decisions/0009-supply-chain-and-build-integrity.md.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-qwww-vcr4-c8h2
+overrides:
+  esbuild: ">=0.28.1"
+  form-data: ">=4.0.6"
+  vite: ">=6.4.3"
+  hono: ">=4.12.27"
+  fast-uri: ">=4.1.2"
+  undici: ">=8.9.0"
+  ip-address: ">=10.3.1"
+  # DoS advisory (CVE-2025-5889) fix, PER MAJOR — never a single global pin. The tree
+  # has two incompatible minimatch majors: minimatch@9 (coverage-v8 → test-exclude →
+  # glob) compiles `import expand from "brace-expansion"` → calls `.default` → needs the
+  # classic CJS `module.exports = fn` shape (1.x/2.x); minimatch@10 compiles
+  # `import {expand}` → calls `.expand` → needs the modern named export (5.x). A single
+  # forced version satisfies only one and crashes the other in CI coverage. So we patch
+  # each line in place and let each consumer keep its native major. See ADR-0009.
+  "brace-expansion@1": "1.1.12"
+  "brace-expansion@2": "2.1.4"
+  shell-quote: ">=1.8.5"
+  axios: ">=1.18.0"
+  postcss: ">=8.5.18"

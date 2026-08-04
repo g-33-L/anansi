@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "domain": "export_compliance_review",
+  "canonicalRoles": [
+    {
+      "id": "trade_compliance",
+      "aliases": [
+        "Trade Compliance",
+        "Trade Compliance team"
+      ]
+    },
+    {
+      "id": "legal",
+      "aliases": [
+        "Legal"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "dpl_screen",
+        "description": "Trade Compliance screens the recipient against the Denied Party List before any export proceeds.",
+        "ownerRole": "trade_compliance",
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "export-doc-1",
+            "quote": "the Trade Compliance team must screen the recipient against the Denied Party List (DPL)"
+          },
+          {
+            "sourceChunkId": "export-doc-1",
+            "quote": "No export may proceed until the DPL screen is completed"
+          }
+        ]
+      },
+      {
+        "id": "eccn_country_assessment",
+        "description": "If recipient is not on the DPL, Trade Compliance assesses whether an export license is required based on the ECCN and destination country.",
+        "ownerRole": "trade_compliance",
+        "dependsOn": [
+          "dpl_screen"
+        ],
+        "preconditions": [
+          {
+            "subject": "DPL screen",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "conditions": [
+          {
+            "when": {
+              "subject": "destination country",
+              "operator": "equals",
+              "value": "sanctioned"
+            },
+            "thenSteps": [
+              "sanctions_joint_review"
+            ],
+            "elseSteps": [
+              "ear99_determination"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "export-doc-2",
+            "quote": "Trade Compliance assesses whether an export license is required based on the product's Export Control Classification Number (ECCN) and the destination country"
+          }
+        ]
+      },
+      {
+        "id": "sanctions_joint_review",
+        "description": "For sanctioned countries (Cuba, Iran, North Korea, Syria, Russia), Legal and Trade Compliance jointly approve the transaction; no export proceeds without a valid export license.",
+        "ownerRole": "trade_compliance",
+        "dependsOn": [
+          "eccn_country_assessment"
+        ],
+        "preconditions": [
+          {
+            "subject": "ECCN assessment",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "export-doc-3",
+            "quote": "Legal and Trade Compliance must jointly approve the transaction, and no export may proceed without a valid export license"
+          }
+        ]
+      },
+      {
+        "id": "ear99_determination",
+        "description": "For EAR99 items to non-sanctioned countries, no export license is required; the DPL screen already completed satisfies the pre-export requirement.",
+        "ownerRole": "trade_compliance",
+        "dependsOn": [
+          "eccn_country_assessment"
+        ],
+        "preconditions": [
+          {
+            "subject": "ECCN assessment",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "export-doc-4",
+            "quote": "Items classified as EAR99 destined for non-sanctioned countries do not require an export license, but the DPL screen must still be completed prior to export"
+          }
+        ]
+      },
+      {
+        "id": "retain_export_records",
+        "description": "All export transaction records must be retained for a minimum of 5 years.",
+        "ownerRole": "trade_compliance",
+        "dependsOn": [
+          "sanctions_joint_review",
+          "ear99_determination"
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "export-doc-4",
+            "quote": "All export transaction records must be retained for a minimum of 5 years"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "export-chat-1",
+      "reason": "scope question about open-source software, not a procedure step"
+    },
+    {
+      "sourceChunkId": "export-chat-2",
+      "reason": "hypothetical automation proposal, not current process"
+    },
+    {
+      "sourceChunkId": "export-chat-3",
+      "reason": "records ownership question, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "belarus-added-to-sanctions-list",
+      "documentedStepId": "sanctions_joint_review",
+      "observedStepId": "sanctions_joint_review",
+      "observedAfter": "2026-05-20"
+    }
+  ],
+  "knownFailureModes": [
+    "DPL screen omitted for EAR99 items to non-sanctioned countries",
+    "sanctions joint review reduced to single-owner approval",
+    "EAR99 path incorrectly skips DPL screen",
+    "5-year record retention deadline omitted"
+  ]
+}

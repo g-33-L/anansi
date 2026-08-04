@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "domain": "board_resolution_approval",
+  "canonicalRoles": [
+    {
+      "id": "corporate_secretary",
+      "aliases": [
+        "Corporate Secretary"
+      ]
+    },
+    {
+      "id": "board",
+      "aliases": [
+        "Board of Directors",
+        "Board",
+        "directors"
+      ]
+    },
+    {
+      "id": "general_counsel",
+      "aliases": [
+        "General Counsel",
+        "GC"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "initiate_resolution",
+        "description": "Corporate Secretary determines whether the resolution will be adopted at a duly noticed meeting or by written consent, and initiates the appropriate path.",
+        "ownerRole": "corporate_secretary",
+        "critical": true,
+        "conditions": [
+          {
+            "when": {
+              "subject": "resolution method",
+              "operator": "equals",
+              "value": "meeting"
+            },
+            "thenSteps": [
+              "send_meeting_notice"
+            ],
+            "elseSteps": [
+              "collect_written_consents"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-1",
+            "quote": "Board resolutions may be adopted at a duly noticed meeting or by written consent"
+          }
+        ]
+      },
+      {
+        "id": "send_meeting_notice",
+        "description": "Corporate Secretary provides written notice to all directors at least 10 days before the meeting date.",
+        "ownerRole": "corporate_secretary",
+        "dependsOn": [
+          "initiate_resolution"
+        ],
+        "preconditions": [
+          {
+            "subject": "resolution initiation",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 10,
+          "unit": "days",
+          "relativeTo": "meeting date"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-1",
+            "quote": "the Corporate Secretary must provide written notice to all directors at least 10 days before the meeting date"
+          }
+        ]
+      },
+      {
+        "id": "conduct_meeting_vote",
+        "description": "Board votes at the meeting; a quorum (majority of total directors) must be present for the vote to be valid.",
+        "ownerRole": "board",
+        "dependsOn": [
+          "send_meeting_notice"
+        ],
+        "preconditions": [
+          {
+            "subject": "meeting notice",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-2",
+            "quote": "A quorum, consisting of a majority of the total number of directors, must be present for a meeting vote to be valid"
+          }
+        ]
+      },
+      {
+        "id": "collect_written_consents",
+        "description": "For written consent path, all directors must sign the resolution unless the bylaws authorize a lesser threshold.",
+        "ownerRole": "corporate_secretary",
+        "dependsOn": [
+          "initiate_resolution"
+        ],
+        "preconditions": [
+          {
+            "subject": "resolution initiation",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-2",
+            "quote": "Written consent resolutions require the signature of all directors unless the bylaws expressly authorize a lesser threshold"
+          }
+        ]
+      },
+      {
+        "id": "general_counsel_review",
+        "description": "General Counsel reviews the resolution before it is recorded in the corporate records.",
+        "ownerRole": "general_counsel",
+        "dependsOn": [
+          "conduct_meeting_vote"
+        ],
+        "preconditions": [
+          {
+            "subject": "meeting vote",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-3",
+            "quote": "The General Counsel must review all resolutions before they are recorded in the corporate records"
+          }
+        ]
+      },
+      {
+        "id": "record_in_minute_book",
+        "description": "Corporate Secretary records the resolution and files it in the corporate minute book within 5 business days of adoption.",
+        "ownerRole": "corporate_secretary",
+        "dependsOn": [
+          "general_counsel_review"
+        ],
+        "preconditions": [
+          {
+            "subject": "General Counsel review",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 5,
+          "unit": "business_days",
+          "relativeTo": "adoption"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-3",
+            "quote": "The Corporate Secretary then records the resolution and files it in the corporate minute book within 5 business days of adoption"
+          }
+        ]
+      },
+      {
+        "id": "state_filing_stock_issuance",
+        "description": "For stock issuance resolutions, Corporate Secretary files with the Secretary of State within 30 days of adoption.",
+        "ownerRole": "corporate_secretary",
+        "dependsOn": [
+          "record_in_minute_book"
+        ],
+        "preconditions": [
+          {
+            "subject": "minute book",
+            "operator": "after"
+          }
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "resolution type",
+              "operator": "equals",
+              "value": "stock issuance"
+            },
+            "thenSteps": [
+              "state_filing_stock_issuance"
+            ]
+          }
+        ],
+        "deadline": {
+          "value": 30,
+          "unit": "days",
+          "relativeTo": "adoption"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "board-doc-4",
+            "quote": "Resolutions authorizing the issuance of stock must additionally be filed with the Secretary of State within 30 days of adoption"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "board-chat-1",
+      "reason": "question about telephonic participation and quorum, not a procedure step"
+    },
+    {
+      "sourceChunkId": "board-chat-2",
+      "reason": "hypothetical e-signature proposal, not current process"
+    },
+    {
+      "sourceChunkId": "board-chat-3",
+      "reason": "question about deadline tracking ownership, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "notice-period-extended-to-14-days",
+      "documentedStepId": "send_meeting_notice",
+      "observedStepId": "send_meeting_notice",
+      "observedAfter": "2026-04-15"
+    }
+  ],
+  "knownFailureModes": [
+    "General Counsel review gate omitted or placed after recording",
+    "quorum requirement dropped from meeting vote step",
+    "30-day state filing deadline treated as unconditional",
+    "written consent path missing all-directors signature requirement"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "domain": "customer_escalation",
+  "attestations": [
+    { "claim": "Enterprise escalations go to the assigned CSM and the VP of Customer Success", "claim_key": "escalation_owner", "claim_fingerprint": "escalation_owner:csm_and_vp", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": "2026-04", "from_basis": "stated", "from_granularity": "month" }, "evidence": [ { "source_id": "e2", "quote": "enterprise escalations go straight to the assigned CSM and loop in the VP of CS" } ] },
+    { "claim": "Customer escalations are routed to the support lead", "claim_key": "escalation_owner", "claim_fingerprint": "escalation_owner:support_lead", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "disputed", "source_role": "documented_baseline", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b1", "quote": "escalations are routed to the support lead" } ] },
+    { "claim": "Enterprise accounts have a 1-hour first-response SLA on escalations", "claim_key": "escalation_sla", "claim_fingerprint": "escalation_sla:1_hour", "claim_type": "policy", "polarity": "assertion", "inference_status": "corroborated", "expected_status": "observed", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "e4", "quote": "1-hour first-response SLA on escalations" }, { "source_id": "b2", "quote": "receive a first response within 1 hour" } ] },
+    { "claim": "Escalations are logged in Salesforce with the reason and resolution", "claim_key": "escalation_logging", "claim_fingerprint": "escalation_logging:salesforce", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "e5", "quote": "logged in Salesforce with the reason and the resolution" } ] },
+    { "claim": "Critical escalations are tagged with the P0 label in Zendesk", "claim_key": "escalation_tagging", "claim_fingerprint": "escalation_tagging:zendesk_p0", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "e6", "quote": "tag critical escalations with the P0 label in Zendesk" } ] }
+  ],
+  "refusals": [
+    { "source_id": "e7", "reason": "opinion" },
+    { "source_id": "e8", "reason": "proposal_not_adopted" },
+    { "source_id": "e9", "reason": "not_operational" }
+  ],
+  "divergences": [
+    { "claim_key": "escalation_owner", "documented": "escalation_owner:support_lead", "observed": "escalation_owner:csm_and_vp", "changed_at": "2026-04" }
+  ]
+}

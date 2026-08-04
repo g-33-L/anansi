@@ -1,0 +1,32 @@
+{
+  "skillName": "customer_escalation_workflow",
+  "skillDescription": "The procedure for escalating a customer support ticket.",
+  "expectedProcedure": {
+    "steps": [
+      {
+        "stepId": "l1_escalates_to_l2",
+        "description": "L1 support agent escalates unresolved issues to L2 support.",
+        "evidence": ["doc-ce-block-001", "slack-ce-67890"],
+        "critical": true,
+        "precedes": ["l2_replicates_and_files_bug"]
+      },
+      {
+        "stepId": "l2_replicates_and_files_bug",
+        "description": "L2 support replicates the issue and files a bug ticket in Jira if confirmed.",
+        "evidence": ["doc-ce-block-002"],
+        "precedes": ["l2_escalates_to_oncall"]
+      },
+      {
+        "stepId": "l2_escalates_to_oncall",
+        "description": "L2 support escalates critical issues to the on-call engineer via PagerDuty.",
+        "evidence": ["doc-ce-block-003"]
+      }
+    ]
+  },
+  "expectedRefusals": [
+    {
+      "sourceChunkId": "slack-ce-chitchat",
+      "reason": "Conversational chitchat."
+    }
+  ]
+}

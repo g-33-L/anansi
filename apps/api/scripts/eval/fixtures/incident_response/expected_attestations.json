@@ -1,0 +1,113 @@
+{
+  "comment": "Ground-truth oracle for the incident_response extraction eval (PR-2). This is what a TRUSTWORTHY extractor should produce from slack_messages.json + notion_runbook.json. Rules encoded here, to be asserted by the PR-2 eval harness: (1) every evidence.quote is a verbatim substring of the referenced source's text — the evidence-integrity gate; (2) valid_time.from is set ONLY when a date is stated in the evidence, else null/unknown — the model must never invent a start; (3) status tiers reflect corroboration: 'observed' needs >=2 INDEPENDENT sources (distinct authors, or doc+person), single-source stays 'candidate'; (4) contradictory answers to the same claim_key coexist as 'disputed' with distinct fingerprints — the doc never silently wins; (5) chatter is refused, not attested. No field here is a confidence score: confidence is computed by the system, not labeled here.",
+
+  "domain": "incident_response",
+
+  "attestations": [
+    {
+      "claim": "P0 incidents open a war room in #incidents",
+      "claim_type": "propositional",
+      "claim_key": "p0_war_room_channel",
+      "claim_fingerprint": "p0_war_room_channel:#incidents",
+      "polarity": "assertion",
+      "inference_status": "corroborated",
+      "expected_status": "observed",
+      "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" },
+      "evidence": [
+        { "source_id": "m1", "author": "priya", "quote": "Opening the war room in #incidents now" },
+        { "source_id": "m5", "author": "dan", "quote": "war room open in #incidents for the P0" }
+      ],
+      "notes": "Two independent authors (priya, dan) -> observed. No start date stated -> valid_from stays null."
+    },
+    {
+      "claim": "Incident comms and escalation happen in #incidents",
+      "claim_type": "propositional",
+      "claim_key": "escalation_channel",
+      "claim_fingerprint": "escalation_channel:#incidents",
+      "polarity": "assertion",
+      "inference_status": "stated",
+      "expected_status": "disputed",
+      "valid_time": { "from": "2026-03", "from_basis": "stated", "from_granularity": "month" },
+      "evidence": [
+        { "source_id": "m4", "author": "sarah", "quote": "since March we run all incident comms out of #incidents, not #engineering" }
+      ],
+      "notes": "Observed practice with an EXPLICIT stated start ('since March') -> valid_from = 2026-03, basis stated. Conflicts with the documented #engineering answer -> disputed. This is also the divergence/timeline signal for PR-4."
+    },
+    {
+      "claim": "Incidents are escalated in #engineering",
+      "claim_type": "propositional",
+      "claim_key": "escalation_channel",
+      "claim_fingerprint": "escalation_channel:#engineering",
+      "polarity": "assertion",
+      "inference_status": "stated",
+      "expected_status": "disputed",
+      "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" },
+      "source_role": "documented_baseline",
+      "evidence": [
+        { "source_id": "b1", "author": "notion:runbook", "quote": "All production incidents are escalated in #engineering" },
+        { "source_id": "m8", "author": "sarah", "quote": "we escalate incidents in #engineering" }
+      ],
+      "notes": "Documented baseline + a pre-March message. Shares claim_key with the #incidents answer but a DISTINCT fingerprint, so both coexist active as a dispute. m4 implies this ended ~2026-03 (a close/correction candidate PR-2 may act on); the doc must NOT silently win."
+    },
+    {
+      "claim": "On-call engineer must acknowledge a PagerDuty page within 5 minutes or it escalates to the team lead",
+      "claim_type": "policy",
+      "claim_key": "oncall_ack_sla",
+      "claim_fingerprint": "oncall_ack_sla:5min_escalate_team_lead",
+      "polarity": "assertion",
+      "inference_status": "stated",
+      "expected_status": "candidate",
+      "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" },
+      "evidence": [
+        { "source_id": "m7", "author": "dan", "quote": "on-call ack within 5 min is the rule, PagerDuty escalates to the team lead if not" },
+        { "source_id": "m2", "author": "dan", "quote": "Ack'd in PagerDuty" }
+      ],
+      "notes": "Both evidence chunks are authored by dan -> only ONE independent source -> stays 'candidate', not 'observed'. Tests the independence rule (a re-quote by the same author is not corroboration)."
+    },
+    {
+      "claim": "The incident commander is the engineering manager on call",
+      "claim_type": "role",
+      "claim_key": "incident_commander_role",
+      "claim_fingerprint": "incident_commander_role:eng_manager_on_call",
+      "polarity": "assertion",
+      "inference_status": "stated",
+      "expected_status": "candidate",
+      "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" },
+      "evidence": [
+        { "source_id": "m3", "author": "priya", "quote": "I'll run point as incident commander — I'm the eng manager on call this week" }
+      ],
+      "notes": "Single source -> candidate. Uncertainty is shown, not smoothed into a confident fact."
+    },
+    {
+      "claim": "A postmortem is required for P0 and P1 incidents and is filed in Notion",
+      "claim_type": "policy",
+      "claim_key": "postmortem_requirement",
+      "claim_fingerprint": "postmortem_requirement:required_p0_p1_notion",
+      "polarity": "assertion",
+      "inference_status": "corroborated",
+      "expected_status": "observed",
+      "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" },
+      "evidence": [
+        { "source_id": "b3", "author": "notion:runbook", "quote": "A postmortem is required for all P0 and P1 incidents and must be filed in Notion" },
+        { "source_id": "m6", "author": "priya", "quote": "I'll write the postmortem in Notion — required for anything P0 or P1" }
+      ],
+      "notes": "Doc AND observed behavior agree -> corroborated/observed. Contrast with the escalation divergence: agreement strengthens, disagreement disputes."
+    }
+  ],
+
+  "refusals": [
+    { "source_id": "m9", "reason": "opinion", "notes": "Sentiment about the process, not a statement of how the org operates. Only attestable as 'X expressed Y', never as fact." },
+    { "source_id": "m10", "reason": "proposal_not_adopted", "notes": "A question/proposal ('should we...? maybe worth trying'), not adopted practice. Intent != state." },
+    { "source_id": "m11", "reason": "not_operational", "notes": "Joke. No operational claim to ground." }
+  ],
+
+  "divergences": [
+    {
+      "claim_key": "escalation_channel",
+      "documented": "escalation_channel:#engineering",
+      "observed": "escalation_channel:#incidents",
+      "changed_at": "2026-03",
+      "notes": "Bonus oracle for PR-4. The doc (last edited 2025-11) is stale; observed practice moved to #incidents in March 2026. Only reconstructable because the ledger keeps both, dated."
+    }
+  ]
+}

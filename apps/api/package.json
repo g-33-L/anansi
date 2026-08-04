@@ -1,0 +1,51 @@
+{
+  "name": "@anansi/api",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:worker": "node dist/worker-entry.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx --env-file=.env src/lib/db/migrate.ts",
+    "preflight": "tsx --env-file-if-exists=.env scripts/preflight-check.ts",
+    "eval:synthesis": "tsx --env-file-if-exists=.env scripts/eval/run-synthesis-eval.ts",
+    "demo:ledger": "tsx --env-file-if-exists=.env scripts/ledger-demo.ts",
+    "eval:extraction": "tsx --env-file-if-exists=.env scripts/eval/run-extraction-eval.ts",
+    "eval:skills": "tsx --env-file-if-exists=.env scripts/eval/run-skill-eval.ts",
+    "eval:procedures": "tsx --env-file-if-exists=.env scripts/eval/run-procedure-eval.ts",
+    "eval:skills:benchmark": "tsx --env-file-if-exists=.env scripts/eval/run-skill-model-benchmark.ts",
+    "eval:baseline": "tsx scripts/eval/run-baseline-eval.ts",
+    "reconcile:meters": "tsx --env-file-if-exists=.env scripts/reconcile-meters.ts",
+    "load-test": "tsx --env-file-if-exists=.env scripts/load-test.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.11.0",
+    "@notionhq/client": "^2.3.0",
+    "@node-saml/node-saml": "^5.1.0",
+    "@slack/bolt": "^3.19.0",
+    "@supabase/supabase-js": "^2.108.0",
+    "bullmq": "^5.7.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.3.0",
+    "ioredis": "5.10.1",
+    "mammoth": "^1.7.0",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.11.0",
+    "stripe": "^22.2.0",
+    "undici": "^8.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/pg": "^8.11.0",
+    "@vitest/coverage-v8": "^3.2.7",
+    "drizzle-kit": "^0.30.0",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.0",
+    "vitest": "^3.2.7"
+  }
+}

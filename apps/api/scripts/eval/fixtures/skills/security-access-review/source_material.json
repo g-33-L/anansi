@@ -1,0 +1,39 @@
+{
+  "docs": [
+    {
+      "id": "doc-sa-01",
+      "title": "Quarterly Access Review Policy",
+      "last_edited": "2025-11-01T11:00:00Z",
+      "blocks": [
+        {
+          "id": "doc-sa-block-001",
+          "text": "On the first day of each quarter (Jan 1, Apr 1, Jul 1, Oct 1), the security team will generate a list of all users with access to production systems."
+        },
+        {
+          "id": "doc-sa-block-002",
+          "text": "This list will be sent to each department manager. Managers are required to review the list and confirm that each user still requires production access."
+        },
+        {
+          "id": "doc-sa-block-003",
+          "text": "Any access that is no longer needed must be explicitly marked for revocation. The security team will process all revocations within 5 business days."
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "slack-sa-200",
+      "channel": "engineering-managers",
+      "author": "security_bot",
+      "ts": "2026-07-01T09:00:00Z",
+      "text": "Q3 Access Review: Managers, please review the production access list for your direct reports by EOD Friday. Link: [URL]"
+    },
+    {
+      "id": "slack-sa-201",
+      "channel": "dev-random",
+      "author": "engineer_1",
+      "ts": "2026-07-01T10:00:00Z",
+      "text": "Is anyone else having trouble connecting to the staging DB?"
+    }
+  ]
+}

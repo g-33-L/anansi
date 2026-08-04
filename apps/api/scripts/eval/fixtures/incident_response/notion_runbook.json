@@ -1,0 +1,14 @@
+{
+  "comment": "The DOCUMENTED baseline for incident_response — a Notion runbook last edited 2025-11-15 (stale). Each block has a stable `id` referenced by expected_attestations.json. This source is the 'documented_baseline' role: where it DISAGREES with observed Slack practice (escalation channel), the correct extractor must NOT let the doc win — it records both as a dispute. Where it AGREES with observed practice (postmortem policy), the claim is corroborated across doc + behavior.",
+  "doc": {
+    "id": "runbook",
+    "title": "Incident Response Runbook",
+    "source": "notion",
+    "last_edited": "2025-11-15T00:00:00Z",
+    "blocks": [
+      { "id": "b1", "heading": "Escalation", "text": "All production incidents are escalated in #engineering. Page the on-call engineer via PagerDuty." },
+      { "id": "b2", "heading": "Severity", "text": "P0 incidents require opening a war room and declaring a major incident." },
+      { "id": "b3", "heading": "Postmortem", "text": "A postmortem is required for all P0 and P1 incidents and must be filed in Notion." }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "domain": "incidents",
+  "messages": [
+    { "id": "i1", "channel": "#incidents", "author": "alice", "ts": "2026-05-02T01:10:00Z", "text": "SEV1 on checkout — payments returning 503s. Paging on-call now." },
+    { "id": "i2", "channel": "#incidents", "author": "bob", "ts": "2026-05-02T01:12:00Z", "text": "Ack'd. On it. I've got the pager this week." },
+    { "id": "i3", "channel": "#incidents", "author": "alice", "ts": "2026-03-10T09:00:00Z", "text": "Reminder: since March we ack SEV1 within 5 minutes, not 15. The board asked us to tighten it after the outage." },
+    { "id": "i4", "channel": "#incidents", "author": "carol", "ts": "2026-05-02T01:14:00Z", "text": "Opening a war room in #incidents and pulling in the incident commander." },
+    { "id": "i5", "channel": "#on-call", "author": "bob", "ts": "2026-05-02T01:15:00Z", "text": "IC is always the eng manager on call for the week." },
+    { "id": "i6", "channel": "#incidents", "author": "alice", "ts": "2026-06-01T18:00:00Z", "text": "Every SEV1 and SEV2 gets a postmortem in Notion within 48 hours." },
+    { "id": "i7", "channel": "#incidents", "author": "dave", "ts": "2026-05-02T01:20:00Z", "text": "we use Grafana for the dashboards and PagerDuty for paging" },
+    { "id": "i8", "channel": "#incidents", "author": "bob", "ts": "2026-05-02T02:00:00Z", "text": "honestly our alerting is noisy as hell, half of it is garbage" },
+    { "id": "i9", "channel": "#incidents", "author": "carol", "ts": "2026-05-02T02:05:00Z", "text": "should we auto-rollback on SEV1? just thinking out loud" },
+    { "id": "i10", "channel": "#incidents", "author": "dave", "ts": "2026-05-02T02:06:00Z", "text": "sev1 = severely 1 tired engineer lol" }
+  ]
+}
