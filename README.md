@@ -399,15 +399,22 @@ issued enterprise license.
 
 **Two things to know before you assume "MIT means unlimited":**
 
-1. **The engine enforces plan tiers.** `lib/billing/plans.ts` and `feature-gate.ts` are
-   part of the engine, and `routes/v1.ts` calls `gateFeature()` at ten sites. A workspace
-   with no subscription row defaults to `free`: 1,000 ingest calls/month, 7-day
-   retention, and hybrid search, metadata filters, the entity graph, workspace-scoped
-   context, the connectors, and outbound webhooks all disabled. The documented quickstart
-   is unaffected — `seed-dev-key` writes an `enterprise` row — but if you provision keys
-   another way you will hit these limits on your own hardware. You have the source and
-   the database; changing this is a one-row update or a one-line edit. We would rather
-   tell you than have you find out under load.
+1. **The plan tiers exist in the engine, but they do not apply to you.** `lib/billing/plans.ts`
+   and `feature-gate.ts` are part of the engine, and `routes/v1.ts` calls `gateFeature()`
+   at ten sites — that machinery is here because the same code runs the hosted service.
+   On a self-hosted install it is inert: a workspace with no subscription row defaults to
+   `enterprise` — unlimited, nothing expires, every retrieval feature on.
+
+   The default is chosen by whether upgrades are actually purchasable, which is detected
+   by whether Stripe is configured (`resolveDefaultPlan` in `lib/billing/plans.ts`). No
+   Stripe, no metering. Set `ANANSI_DEFAULT_PLAN` if you genuinely want to meter your own
+   install.
+
+   This is worth stating plainly because it used to be the other way round: the default
+   was `free` everywhere, which on your own hardware meant 1,000 ingests/month and a
+   7-day retention window that a background worker enforced by **deleting your data**. A
+   memory engine that forgets after a week is not a product, and we fixed it rather than
+   documenting it.
 
 2. **Enterprise console routes sit behind a license check** you can satisfy yourself, as
    described above.
