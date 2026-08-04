@@ -63,7 +63,7 @@ jobs:
           cat provenance.json
 
       - name: Upload supply-chain artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: supply-chain
           path: |
@@ -152,7 +152,7 @@ jobs:
 
       - name: Upload browser test artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-test-artifacts
           path: |
