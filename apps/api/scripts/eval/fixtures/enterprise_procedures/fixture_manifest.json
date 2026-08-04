@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "domains": [
+    {
+      "id": "access_privilege_escalation",
+      "split": "calibration",
+      "archetypes": ["dual approval gate", "time-limited access", "security critical", "emergency conditional"]
+    },
+    {
+      "id": "board_resolution_approval",
+      "split": "holdout",
+      "archetypes": ["quorum gate", "conditional path", "sequential", "deadline"]
+    },
+    {
+      "id": "capex_over_1m",
+      "split": "calibration",
+      "archetypes": ["threshold approval", "exception", "parallel review"]
+    },
+    {
+      "id": "contract_renewal_high_value",
+      "split": "calibration",
+      "archetypes": ["threshold gate", "parallel review", "conditional legal"]
+    },
+    {
+      "id": "critical_vulnerability_patch",
+      "split": "holdout",
+      "archetypes": ["parallel response", "conditional rollback", "deadline", "sequential gate"]
+    },
+    {
+      "id": "customer_data_deletion_gdpr",
+      "split": "holdout",
+      "archetypes": ["regulatory deadline", "conditional by data type", "legal gate"]
+    },
+    {
+      "id": "data_breach_incident_response",
+      "split": "calibration",
+      "archetypes": ["parallel response", "regulatory deadline", "safety critical", "conditional notification"]
+    },
+    {
+      "id": "deal_desk_nonstandard_terms",
+      "split": "calibration",
+      "archetypes": ["conditional routing", "parallel approvals"]
+    },
+    {
+      "id": "ediscovery_legal_hold",
+      "split": "calibration",
+      "archetypes": ["legal gate", "exception", "business-day deadline"]
+    },
+    {
+      "id": "emergency_termination",
+      "split": "calibration",
+      "archetypes": ["approval gate", "parallel shutdown", "legal exception"]
+    },
+    {
+      "id": "expense_reimbursement",
+      "split": "calibration",
+      "archetypes": ["threshold approval", "conditional routing", "multi-tier", "deadline"]
+    },
+    {
+      "id": "export_compliance_review",
+      "split": "holdout",
+      "archetypes": ["approval gate", "conditional by country", "legal gate", "sequential"]
+    },
+    {
+      "id": "facility_emergency_evacuation",
+      "split": "holdout",
+      "archetypes": ["safety critical", "parallel response", "no approval gate", "conditional initiation"]
+    },
+    {
+      "id": "financial_restatement",
+      "split": "holdout",
+      "archetypes": ["approval gate", "parallel audit review", "board requirement", "sequential"]
+    },
+    {
+      "id": "merger_due_diligence",
+      "split": "calibration",
+      "archetypes": ["parallel workstreams", "milestone gate", "threshold conditional", "sequential"]
+    },
+    {
+      "id": "new_hire_i9_verification",
+      "split": "holdout",
+      "archetypes": ["multi-deadline", "conditional exception", "sequential", "legal gate"]
+    },
+    {
+      "id": "patent_filing_approval",
+      "split": "holdout",
+      "archetypes": ["sequential gates", "hard deadline", "parallel approval", "exception"]
+    },
+    {
+      "id": "performance_improvement_plan",
+      "split": "calibration",
+      "archetypes": ["conditional outcome", "sequential gate", "deadline", "multi-branch"]
+    },
+    {
+      "id": "product_launch_readiness",
+      "split": "calibration",
+      "archetypes": ["parallel approval", "threshold gate", "conditional delay", "deadline"]
+    },
+    {
+      "id": "product_recall",
+      "split": "calibration",
+      "archetypes": ["safety critical", "parallel response", "conditional deadline"]
+    },
+    {
+      "id": "regulatory_exam_preparation",
+      "split": "calibration",
+      "archetypes": ["deadline-driven", "parallel preparation", "approval gate", "sequential"]
+    },
+    {
+      "id": "software_deployment_approval",
+      "split": "calibration",
+      "archetypes": ["sequential gate", "parallel testing", "conditional rollback", "deadline"]
+    },
+    {
+      "id": "third_party_security_audit",
+      "split": "holdout",
+      "archetypes": ["approval gate", "parallel evidence collection", "conditional remediation", "deadline"]
+    },
+    {
+      "id": "vendor_security_onboarding",
+      "split": "calibration",
+      "archetypes": ["threshold gate", "conditional risk tier", "sequential", "approval gate"]
+    },
+    {
+      "id": "whistleblower_investigation",
+      "split": "holdout",
+      "archetypes": ["confidential routing", "conditional escalation", "parallel tracks", "approval gate"]
+    }
+  ]
+}

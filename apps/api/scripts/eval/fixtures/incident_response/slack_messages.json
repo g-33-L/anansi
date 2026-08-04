@@ -1,0 +1,16 @@
+{
+  "comment": "Raw Slack exhaust for the incident_response extraction eval (PR-2). Each message is a source 'chunk' with a stable `id` that expected_attestations.json references by evidence.source_id. Quotes in the oracle are verbatim substrings of these `text` fields — the PR-2 evidence-integrity gate must be able to relocate them. This corpus deliberately encodes: (a) corroborated observed practice, (b) a documented-vs-observed divergence with a stated valid_from, (c) a single-source claim that must stay 'candidate', and (d) non-attestable chatter (opinion, proposal, joke) that must be refused.",
+  "messages": [
+    { "id": "m1", "channel": "#incidents", "author": "priya", "ts": "2026-05-11T02:03:00Z", "text": "PD just paged me — payments API throwing 500s. Calling this a P0. Opening the war room in #incidents now." },
+    { "id": "m2", "channel": "#incidents", "author": "dan", "ts": "2026-05-11T02:05:00Z", "text": "Ack'd in PagerDuty. On it. I'm on-call tonight." },
+    { "id": "m3", "channel": "#incidents", "author": "priya", "ts": "2026-05-11T02:06:00Z", "text": "I'll run point as incident commander — I'm the eng manager on call this week." },
+    { "id": "m4", "channel": "#incidents", "author": "sarah", "ts": "2026-03-04T09:12:00Z", "text": "Heads up: since March we run all incident comms out of #incidents, not #engineering. Please stop paging in #engineering." },
+    { "id": "m5", "channel": "#incidents", "author": "dan", "ts": "2026-06-02T14:20:00Z", "text": "war room open in #incidents for the P0 on the notifications service." },
+    { "id": "m6", "channel": "#incidents", "author": "priya", "ts": "2026-06-02T15:40:00Z", "text": "P0 resolved. I'll write the postmortem in Notion — required for anything P0 or P1." },
+    { "id": "m7", "channel": "#on-call", "author": "dan", "ts": "2026-05-11T02:04:30Z", "text": "on-call ack within 5 min is the rule, PagerDuty escalates to the team lead if not." },
+    { "id": "m8", "channel": "#engineering", "author": "sarah", "ts": "2026-02-01T10:00:00Z", "text": "reminder we escalate incidents in #engineering" },
+    { "id": "m9", "channel": "#incidents", "author": "dan", "ts": "2026-06-02T15:45:00Z", "text": "honestly our incident process is a mess, we wing it half the time" },
+    { "id": "m10", "channel": "#incidents", "author": "sarah", "ts": "2026-06-10T11:00:00Z", "text": "should we start auto-paging on P2s too? maybe worth trying" },
+    { "id": "m11", "channel": "#incidents", "author": "dan", "ts": "2026-06-10T11:02:00Z", "text": "rule: no coffee until the incident is resolved lol" }
+  ]
+}

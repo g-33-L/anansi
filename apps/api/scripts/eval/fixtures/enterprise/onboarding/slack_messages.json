@@ -1,0 +1,14 @@
+{
+  "domain": "onboarding",
+  "messages": [
+    { "id": "o1", "channel": "#onboarding", "author": "gina", "ts": "2026-06-15T09:00:00Z", "text": "New hire starting Monday — kicking off onboarding." },
+    { "id": "o2", "channel": "#onboarding", "author": "hank", "ts": "2026-06-01T09:00:00Z", "text": "Update: since June, laptop and account setup is automated on day 1 via the onboarding bot, no more week-1 IT ticket." },
+    { "id": "o3", "channel": "#onboarding", "author": "gina", "ts": "2026-06-15T09:05:00Z", "text": "Every new hire is assigned an onboarding buddy for their first 30 days." },
+    { "id": "o4", "channel": "#people-ops", "author": "hank", "ts": "2026-06-16T10:00:00Z", "text": "New hires complete security training in Vanta within the first week." },
+    { "id": "o5", "channel": "#onboarding", "author": "gina", "ts": "2026-06-16T10:05:00Z", "text": "Engineering onboarding includes shipping a small PR in week one." },
+    { "id": "o6", "channel": "#people-ops", "author": "hank", "ts": "2026-06-17T11:00:00Z", "text": "all new hires get added to the #announcements and #random channels on day one" },
+    { "id": "o7", "channel": "#onboarding", "author": "gina", "ts": "2026-06-17T15:00:00Z", "text": "onboarding docs are always out of date, nobody reads them" },
+    { "id": "o8", "channel": "#people-ops", "author": "hank", "ts": "2026-06-17T15:05:00Z", "text": "should we do a 90-day onboarding survey? just an idea" },
+    { "id": "o9", "channel": "#onboarding", "author": "gina", "ts": "2026-06-17T15:06:00Z", "text": "onboarding = drinking from a firehose lol" }
+  ]
+}

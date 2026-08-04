@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "i9-verification-policy",
+    "last_edited": "2025-06-15T09:00:00Z",
+    "blocks": [
+      {
+        "id": "i9-doc-1",
+        "text": "A new hire must complete Section 1 of Form I-9 on or before their first day of employment. HR must complete Section 2, verifying the employee's identity and employment authorization documents, within 3 business days of the employee's first day."
+      },
+      {
+        "id": "i9-doc-2",
+        "text": "If the employee presents a receipt for a lost, stolen, or damaged document, HR may temporarily accept the receipt. The employee must provide the original document within 90 days of the first day of employment."
+      },
+      {
+        "id": "i9-doc-3",
+        "text": "For remote employees who cannot appear in person, an authorized representative may complete Section 2 on behalf of the employer. HR must record the authorized representative's full name and contact information in the employer notes."
+      },
+      {
+        "id": "i9-doc-4",
+        "text": "If an employee cannot provide acceptable documentation by the end of 3 business days, HR must notify Legal before allowing the employee to continue working. Legal determines the appropriate next steps."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "i9-slack-1",
+      "ts": "2026-04-20T10:00:00Z",
+      "text": "Policy clarification effective today: remote employees must use an authorized representative from our approved vendor list only. HR to verify vendor status before recording the representative's information."
+    },
+    {
+      "id": "i9-chat-1",
+      "ts": "2026-01-15T09:00:00Z",
+      "text": "Does this apply to contractors too, or only W-2 employees? Just want to make sure I'm not missing anyone."
+    },
+    {
+      "id": "i9-chat-2",
+      "ts": "2026-02-01T11:30:00Z",
+      "text": "Could we do I-9 verification over video call instead? Saves everyone travel time."
+    },
+    {
+      "id": "i9-chat-3",
+      "ts": "2026-02-20T14:00:00Z",
+      "text": "Where do we store the completed I-9 forms? Are they in the HRIS or a separate system?"
+    }
+  ]
+}

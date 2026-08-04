@@ -1,0 +1,50 @@
+{
+  "docs": [{
+    "id": "financial-restatement-policy",
+    "last_edited": "2025-11-01T09:00:00Z",
+    "blocks": [
+      {
+        "id": "restate-doc-1",
+        "text": "When a material accounting error is identified, the CFO must immediately notify the Audit Committee. The Audit Committee then directs the response and oversight of the restatement process."
+      },
+      {
+        "id": "restate-doc-2",
+        "text": "Internal Audit and Legal Counsel conduct their reviews in parallel. Internal Audit quantifies the error and prepares restated financial statements. Legal Counsel assesses disclosure obligations under applicable SEC rules and regulations."
+      },
+      {
+        "id": "restate-doc-3",
+        "text": "External auditors must re-review and sign off on the restated financial statements before the Audit Committee may approve them. The Audit Committee approves the restated financials only after the external auditor re-review is complete."
+      },
+      {
+        "id": "restate-doc-4",
+        "text": "The Board of Directors must ratify the restatement before it is filed with the SEC. The Board ratification must occur after Audit Committee approval. The restated financials are then filed with the SEC."
+      },
+      {
+        "id": "restate-doc-5",
+        "text": "If the restatement is triggered by fraud or intentional misconduct rather than an inadvertent error, the Audit Committee must engage independent outside legal counsel before any restated financials are prepared or reviewed."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "restate-slack-1",
+      "ts": "2026-05-15T11:00:00Z",
+      "text": "Confirmed change: Legal Counsel must now also notify the Investor Relations team before the SEC filing goes out. This step is added post-Board ratification, effective immediately."
+    },
+    {
+      "id": "restate-chat-1",
+      "ts": "2026-01-20T09:00:00Z",
+      "text": "Does this process apply to quarterly estimates or only annual filings? Genuine question."
+    },
+    {
+      "id": "restate-chat-2",
+      "ts": "2026-02-10T14:00:00Z",
+      "text": "Could we get the external auditors on retainer so turnaround is faster? Just thinking out loud."
+    },
+    {
+      "id": "restate-chat-3",
+      "ts": "2026-03-01T10:30:00Z",
+      "text": "Who typically represents the company when filing restated financials with the SEC — Legal or Finance?"
+    }
+  ]
+}

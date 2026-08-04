@@ -1,0 +1,19 @@
+{
+  "domain": "onboarding",
+  "attestations": [
+    { "claim": "Laptop and account setup is automated on day 1 via the onboarding bot", "claim_key": "setup_process", "claim_fingerprint": "setup_process:automated_bot_day1", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": "2026-06", "from_basis": "stated", "from_granularity": "month" }, "evidence": [ { "source_id": "o2", "quote": "laptop and account setup is automated on day 1 via the onboarding bot" } ] },
+    { "claim": "New hires complete setup in their first week by filing an IT ticket", "claim_key": "setup_process", "claim_fingerprint": "setup_process:week1_it_ticket", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "disputed", "source_role": "documented_baseline", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b1", "quote": "setup in their first week by filing an IT ticket" } ] },
+    { "claim": "New hires complete security training within their first week", "claim_key": "security_training", "claim_fingerprint": "security_training:first_week", "claim_type": "policy", "polarity": "assertion", "inference_status": "corroborated", "expected_status": "observed", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "o4", "quote": "complete security training in Vanta within the first week" }, { "source_id": "b2", "quote": "complete security training within their first week" } ] },
+    { "claim": "Every new hire is assigned an onboarding buddy for their first 30 days", "claim_key": "onboarding_buddy", "claim_fingerprint": "onboarding_buddy:30_days", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "o3", "quote": "assigned an onboarding buddy for their first 30 days" } ] },
+    { "claim": "Engineering onboarding includes shipping a PR in week one", "claim_key": "eng_onboarding", "claim_fingerprint": "eng_onboarding:ship_pr_week1", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "o5", "quote": "shipping a small PR in week one" } ] },
+    { "claim": "New hires are added to #announcements and #random on day one", "claim_key": "channel_access", "claim_fingerprint": "channel_access:announcements_random_day1", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "o6", "quote": "added to the #announcements and #random channels on day one" } ] }
+  ],
+  "refusals": [
+    { "source_id": "o7", "reason": "opinion" },
+    { "source_id": "o8", "reason": "proposal_not_adopted" },
+    { "source_id": "o9", "reason": "not_operational" }
+  ],
+  "divergences": [
+    { "claim_key": "setup_process", "documented": "setup_process:week1_it_ticket", "observed": "setup_process:automated_bot_day1", "changed_at": "2026-06" }
+  ]
+}

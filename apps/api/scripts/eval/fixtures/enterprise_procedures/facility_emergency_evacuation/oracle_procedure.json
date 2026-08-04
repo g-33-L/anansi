@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "domain": "facility_emergency_evacuation",
+  "canonicalRoles": [
+    {
+      "id": "facilities",
+      "aliases": [
+        "Facilities",
+        "Facilities team"
+      ]
+    },
+    {
+      "id": "security",
+      "aliases": [
+        "Security",
+        "Security personnel"
+      ]
+    },
+    {
+      "id": "office_manager",
+      "aliases": [
+        "office manager",
+        "Office Manager"
+      ]
+    },
+    {
+      "id": "incident_commander",
+      "aliases": [
+        "incident commander",
+        "Incident Commander"
+      ]
+    },
+    {
+      "id": "hr",
+      "aliases": [
+        "HR",
+        "Human Resources"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "initiate_evacuation",
+        "description": "On alarm activation or observed hazard, the Facilities team immediately initiates evacuation of all occupants. Any employee may initiate without approval if they observe a fire or imminent hazard.",
+        "ownerRole": "facilities",
+        "critical": true,
+        "conditions": [
+          {
+            "when": {
+              "subject": "imminent hazard",
+              "operator": "equals",
+              "value": "observed"
+            },
+            "thenSteps": [
+              "initiate_evacuation"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "evac-doc-1",
+            "quote": "the Facilities team immediately initiates evacuation of all occupants"
+          },
+          {
+            "sourceChunkId": "evac-doc-1",
+            "quote": "Any employee who observes a fire or imminent hazard may and must initiate evacuation without waiting for approval"
+          }
+        ]
+      },
+      {
+        "id": "security_floor_sweep",
+        "description": "Security personnel sweep all floors to confirm that all occupants have evacuated.",
+        "ownerRole": "security",
+        "dependsOn": [
+          "initiate_evacuation"
+        ],
+        "preconditions": [
+          {
+            "subject": "evacuation",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "simultaneous_response",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "evac-doc-2",
+            "quote": "Security personnel sweep all floors to confirm that all occupants have evacuated"
+          }
+        ]
+      },
+      {
+        "id": "notify_building_and_911",
+        "description": "The office manager notifies building management and calls 911 simultaneously with the security floor sweep.",
+        "ownerRole": "office_manager",
+        "dependsOn": [
+          "initiate_evacuation"
+        ],
+        "preconditions": [
+          {
+            "subject": "evacuation",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "simultaneous_response",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "evac-doc-2",
+            "quote": "the office manager notifies building management and calls 911"
+          }
+        ]
+      },
+      {
+        "id": "assembly_point_headcount",
+        "description": "The incident commander accounts for all personnel at the designated assembly point; HR provides a headcount list on request.",
+        "ownerRole": "incident_commander",
+        "dependsOn": [
+          "initiate_evacuation"
+        ],
+        "preconditions": [
+          {
+            "subject": "evacuation",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "simultaneous_response",
+          "semantics": "unordered"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "evac-doc-3",
+            "quote": "The incident commander accounts for all personnel at the designated assembly point"
+          },
+          {
+            "sourceChunkId": "evac-doc-3",
+            "quote": "HR provides a headcount list to the incident commander upon request"
+          }
+        ]
+      },
+      {
+        "id": "authorize_reentry",
+        "description": "Once the all-clear is received from emergency services, the incident commander authorizes re-entry. No re-entry is permitted until this authorization is issued.",
+        "ownerRole": "incident_commander",
+        "dependsOn": [
+          "security_floor_sweep",
+          "notify_building_and_911",
+          "assembly_point_headcount"
+        ],
+        "preconditions": [
+          {
+            "subject": "floor sweep",
+            "operator": "after"
+          },
+          {
+            "subject": "building notification",
+            "operator": "after"
+          },
+          {
+            "subject": "assembly point headcount",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "evac-doc-4",
+            "quote": "the incident commander authorizes re-entry of the facility"
+          },
+          {
+            "sourceChunkId": "evac-doc-4",
+            "quote": "No re-entry is permitted until the incident commander issues authorization"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "evac-chat-1",
+      "reason": "new employee orientation question, not a procedure step"
+    },
+    {
+      "sourceChunkId": "evac-chat-2",
+      "reason": "hypothetical buddy-system proposal, not current process"
+    },
+    {
+      "sourceChunkId": "evac-chat-3",
+      "reason": "question about drill frequency, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "digital-checkin-replaces-paper",
+      "documentedStepId": "assembly_point_headcount",
+      "observedStepId": "assembly_point_headcount",
+      "observedAfter": "2026-04-01"
+    }
+  ],
+  "knownFailureModes": [
+    "parallel simultaneous response steps serialized into sequence",
+    "approval gate incorrectly added to evacuation initiation",
+    "re-entry authorization step omitted",
+    "employee self-initiation right dropped"
+  ]
+}

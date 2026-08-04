@@ -1,0 +1,19 @@
+{
+  "domain": "product_decisions",
+  "attestations": [
+    { "claim": "Product decisions are made via an RFC in #product-triage", "claim_key": "decision_process", "claim_fingerprint": "decision_process:rfc_product_triage", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": "2026-05", "from_basis": "stated", "from_granularity": "month" }, "evidence": [ { "source_id": "p2", "quote": "product decisions are made via an RFC in #product-triage" } ] },
+    { "claim": "Product decisions are made in the weekly PM sync", "claim_key": "decision_process", "claim_fingerprint": "decision_process:weekly_pm_sync", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "disputed", "source_role": "documented_baseline", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b1", "quote": "made in the weekly PM sync" } ] },
+    { "claim": "Roadmap changes require approval from the VP of Product", "claim_key": "roadmap_approver", "claim_fingerprint": "roadmap_approver:vp_product", "claim_type": "policy", "polarity": "assertion", "inference_status": "corroborated", "expected_status": "observed", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "p4", "quote": "VP of Product is the final approver on roadmap changes" }, { "source_id": "b2", "quote": "require approval from the VP of Product" } ] },
+    { "claim": "Every product decision requires an RFC doc", "claim_key": "rfc_requirement", "claim_fingerprint": "rfc_requirement:required", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "p3", "quote": "Every product decision needs an RFC doc" } ] },
+    { "claim": "Shipped decisions are tracked in the Linear Decisions project", "claim_key": "decision_tracking", "claim_fingerprint": "decision_tracking:linear", "claim_type": "propositional", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "p5", "quote": "track all shipped decisions in the Linear" } ] },
+    { "claim": "Customer-facing changes require design sign-off before shipping", "claim_key": "design_signoff", "claim_fingerprint": "design_signoff:required", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "p6", "quote": "customer-facing changes need design sign-off" } ] }
+  ],
+  "refusals": [
+    { "source_id": "p7", "reason": "opinion" },
+    { "source_id": "p8", "reason": "proposal_not_adopted" },
+    { "source_id": "p9", "reason": "not_operational" }
+  ],
+  "divergences": [
+    { "claim_key": "decision_process", "documented": "decision_process:weekly_pm_sync", "observed": "decision_process:rfc_product_triage", "changed_at": "2026-05" }
+  ]
+}

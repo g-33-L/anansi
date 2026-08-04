@@ -1,0 +1,46 @@
+{
+  "docs": [
+    {
+      "id": "doc-ce-01",
+      "title": "Support Escalation Policy",
+      "last_edited": "2026-02-01T09:00:00Z",
+      "blocks": [
+        {
+          "id": "doc-ce-block-001",
+          "text": "When a customer issue cannot be resolved by the L1 support agent within 30 minutes, it must be escalated to L2. The L1 agent should summarize the issue and hand it off."
+        },
+        {
+          "id": "doc-ce-block-002",
+          "text": "L2 Support are senior agents with deeper product knowledge. They will attempt to replicate the issue. If it's a confirmed bug, L2 is responsible for creating a ticket in Jira for the engineering team."
+        },
+        {
+          "id": "doc-ce-block-003",
+          "text": "Critical issues, defined as those impacting more than 50% of users or any financial data, must be escalated directly to the on-call engineer via PagerDuty by the L2 agent."
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "slack-ce-67890",
+      "channel": "support-team",
+      "author": "l1_agent",
+      "ts": "2026-06-01T10:00:00Z",
+      "text": "I'm escalating ticket #12345 to L2, customer is reporting data discrepancies and I can't figure it out."
+    },
+    {
+      "id": "slack-ce-67891",
+      "channel": "dev-team",
+      "author": "l2_agent",
+      "ts": "2026-06-01T10:30:00Z",
+      "text": "I've filed JIRA-555 for ticket #12345. It's a confirmed bug in the reporting dashboard. Not critical enough for PagerDuty."
+    },
+    {
+      "id": "slack-ce-chitchat",
+      "channel": "support-team",
+      "author": "l1_agent_2",
+      "ts": "2026-06-01T11:00:00Z",
+      "text": "Anyone watching the game tonight?"
+    }
+  ]
+}

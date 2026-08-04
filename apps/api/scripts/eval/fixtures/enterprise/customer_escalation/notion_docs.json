@@ -1,0 +1,14 @@
+{
+  "domain": "customer_escalation",
+  "docs": [
+    {
+      "id": "support_playbook",
+      "title": "Support Escalation Playbook",
+      "last_edited": "2025-11-15T00:00:00Z",
+      "blocks": [
+        { "id": "b1", "heading": "Escalation Path", "text": "Customer escalations are routed to the support lead, who decides next steps." },
+        { "id": "b2", "heading": "SLA", "text": "Enterprise accounts receive a first response within 1 hour." }
+      ]
+    }
+  ]
+}

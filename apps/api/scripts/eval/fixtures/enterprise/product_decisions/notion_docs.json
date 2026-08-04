@@ -1,0 +1,14 @@
+{
+  "domain": "product_decisions",
+  "docs": [
+    {
+      "id": "product_process",
+      "title": "How We Make Product Decisions",
+      "last_edited": "2025-09-20T00:00:00Z",
+      "blocks": [
+        { "id": "b1", "heading": "How Decisions Are Made", "text": "Product decisions are made in the weekly PM sync and recorded in the meeting notes." },
+        { "id": "b2", "heading": "Approval", "text": "Roadmap changes require approval from the VP of Product." }
+      ]
+    }
+  ]
+}

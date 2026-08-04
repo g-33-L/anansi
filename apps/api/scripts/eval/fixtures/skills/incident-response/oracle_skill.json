@@ -1,0 +1,50 @@
+{
+  "skillName": "incident_response",
+  "skillDescription": "The procedure for handling production incidents.",
+  "expectedProcedure": {
+    "steps": [
+      {
+        "stepId": "detect_and_create_channel",
+        "description": "Upon detection of a new incident, create a new incident channel in Slack.",
+        "evidence": ["doc-block-001", "slack-msg-67890"],
+        "trigger": true
+      },
+      {
+        "stepId": "acknowledge",
+        "description": "The on-call engineer acknowledges the incident in PagerDuty.",
+        "evidence": ["doc-block-002"],
+        "precedes": ["assess"]
+      },
+      {
+        "stepId": "assess",
+        "description": "The Incident Commander assesses the incident severity.",
+        "evidence": ["doc-block-003", "slack-msg-67891"],
+        "precedes": ["declare_major_incident", "investigate"]
+      },
+      {
+        "stepId": "declare_major_incident",
+        "description": "For major incidents, open a war room video call.",
+        "evidence": ["doc-block-004"]
+      },
+      {
+        "stepId": "investigate",
+        "description": "Proceed with standard investigation for non-major incidents.",
+        "evidence": ["slack-msg-67891"]
+      },
+      {
+        "stepId": "legacy_jira_ticket",
+        "description": "All incidents required a manual ticket to be filed in Jira before March 2026.",
+        "evidence": ["doc-block-999"],
+        "temporalConstraints": {
+          "validUntil": "2026-03-01T00:00:00Z"
+        }
+      }
+    ]
+  },
+  "expectedRefusals": [
+    {
+      "sourceChunkId": "slack-msg-banana-bread",
+      "reason": "The content is conversational chatter, not a procedural step."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: anansi
+      POSTGRES_PASSWORD: anansi
+      POSTGRES_DB: anansi
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anansi -d anansi"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Serves the API + portal (/portal) and runs the core BullMQ workers
+  # (ingestion, synthesis, backfill, retention, embedding) in-process. DB
+  # migrations run automatically on startup (see apps/api/src/index.ts) — no
+  # separate migrate step or entrypoint override is needed.
+  #
+  # Only the Notion/Google Docs connector workers are optional add-ons
+  # (enabled by setting their OAuth env vars); there is no separate `worker`
+  # service because index.ts already starts every core worker for a
+  # single-node self-hosted deployment. Horizontal scale-out with dedicated
+  # worker processes (WORKER_ROLE + `node dist/worker-entry.js`) is possible
+  # but out of scope for this default compose stack.
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      # Inside the compose network, Postgres/Redis are reached by service
+      # name, not localhost — override whatever .env has configured for
+      # host-run `pnpm dev` (where DATABASE_URL/REDIS_URL correctly point at
+      # localhost because Postgres/Redis ports are published to the host).
+      DATABASE_URL: postgresql://anansi:anansi@postgres:5432/anansi
+      REDIS_URL: redis://redis:6379
+      PORT: "3000"
+      # `docker compose up` is intentionally usable from a fresh checkout. These
+      # defaults are safe only for a disposable local instance; set distinct
+      # values in the shell or a local .env file before using this outside
+      # development. Compose reads .env automatically for ${...} interpolation.
+      DEPLOYMENT_MODE: ${DEPLOYMENT_MODE:-local}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      CSRF_SIGNING_KEY: ${CSRF_SIGNING_KEY:-fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210}
+      API_KEY_HMAC_SECRET: ${API_KEY_HMAC_SECRET:-00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff}
+      QUERY_API_KEY: ${QUERY_API_KEY:-anansi-local-query-key}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      # Ollama is optional for startup but required to process locally generated
+      # embeddings and synthesis jobs. host.docker.internal works on Docker
+      # Desktop; extra_hosts below supplies the same name on Linux Docker.
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_LLM_MODEL: ${OLLAMA_LLM_MODEL:-llama3.1:8b}
+      OLLAMA_EMBED_MODEL: ${OLLAMA_EMBED_MODEL:-nomic-embed-text}
+      # Provider selection. These MUST be listed here: this `environment:` block
+      # is an allowlist, so a variable set in .env but absent from this list never
+      # reaches the container. Omitting them made the documented "use hosted
+      # embeddings" path a silent no-op — the API stayed in local mode and kept
+      # calling Ollama, with no error to explain why.
+      #
+      # Empty is the correct default. validateDeploymentConfig() tests these by
+      # truthiness, so "" reads as unset and DEPLOYMENT_MODE=local stays valid;
+      # a non-empty cloud key under local mode is a deliberate startup failure.
+      INFERENCE_LOCATION: ${INFERENCE_LOCATION:-}
+      EMBEDDING_LOCATION: ${EMBEDDING_LOCATION:-}
+      NOMIC_API_KEY: ${NOMIC_API_KEY:-}
+      CEREBRAS_API_KEY: ${CEREBRAS_API_KEY:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      FOUNDER_EMAIL: ${FOUNDER_EMAIL:-}
+    ports:
+      - "${API_PORT:-3000}:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  # Optional embedding/inference backend, started only with:
+  #
+  #   docker compose --profile local-ai up -d
+  #
+  # It is behind a profile because the models are large and a plain
+  # `docker compose up` should not silently pull gigabytes. Ingest and retrieval
+  # need ONLY the embedding model (`nomic-embed-text`, ~274 MB); the much larger
+  # chat model is required just for synthesis, so first-run does not have to wait
+  # for it. See "Running with a local model" in README.md.
+  #
+  # When using this profile, point the API at the service instead of the host by
+  # setting OLLAMA_BASE_URL=http://ollama:11434 in .env — the default assumes
+  # Ollama is running on the host, not in Compose.
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["local-ai"]
+    ports:
+      - "127.0.0.1:${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  ollama_models:

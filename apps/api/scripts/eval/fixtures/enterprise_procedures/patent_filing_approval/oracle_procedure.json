@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "domain": "patent_filing_approval",
+  "canonicalRoles": [
+    {
+      "id": "inventor",
+      "aliases": [
+        "Inventor",
+        "inventor"
+      ]
+    },
+    {
+      "id": "ip_legal",
+      "aliases": [
+        "IP Legal",
+        "Legal",
+        "IP Legal team"
+      ]
+    },
+    {
+      "id": "cto",
+      "aliases": [
+        "CTO",
+        "Chief Technology Officer"
+      ]
+    },
+    {
+      "id": "engineering",
+      "aliases": [
+        "Engineering"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "submit_disclosure",
+        "description": "Inventor discloses an invention to the IP Legal team using a standardized invention disclosure form.",
+        "ownerRole": "inventor",
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-1",
+            "quote": "An inventor discloses an invention to the IP Legal team using a standardized invention disclosure form"
+          }
+        ]
+      },
+      {
+        "id": "patentability_assessment",
+        "description": "Legal assesses patentability and notifies the inventor within 30 days of disclosure receipt.",
+        "ownerRole": "ip_legal",
+        "dependsOn": [
+          "submit_disclosure"
+        ],
+        "preconditions": [
+          {
+            "subject": "invention disclosure",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 30,
+          "unit": "days",
+          "relativeTo": "disclosure receipt"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-1",
+            "quote": "Legal has 30 days from receipt of the disclosure to assess patentability and notify the inventor of its determination"
+          }
+        ]
+      },
+      {
+        "id": "prepare_provisional",
+        "description": "If deemed patentable, Legal prepares a provisional patent application within 60 days of the original disclosure date.",
+        "ownerRole": "ip_legal",
+        "dependsOn": [
+          "patentability_assessment"
+        ],
+        "preconditions": [
+          {
+            "subject": "patentability assessment",
+            "operator": "after"
+          }
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "patentability",
+              "operator": "equals",
+              "value": "patentable"
+            },
+            "thenSteps": [
+              "prepare_provisional"
+            ]
+          }
+        ],
+        "deadline": {
+          "value": 60,
+          "unit": "days",
+          "relativeTo": "disclosure date"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-2",
+            "quote": "If the invention is deemed patentable, Legal prepares a provisional patent application within 60 days of the original disclosure date"
+          }
+        ]
+      },
+      {
+        "id": "cto_approval",
+        "description": "The CTO approves the provisional application before filing.",
+        "ownerRole": "cto",
+        "dependsOn": [
+          "prepare_provisional"
+        ],
+        "preconditions": [
+          {
+            "subject": "provisional application",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "pre_filing",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-3",
+            "quote": "The CTO must approve the provisional application before it is filed"
+          }
+        ]
+      },
+      {
+        "id": "engineering_ip_check",
+        "description": "Engineering confirms that no third-party IP is incorporated into the invention prior to filing.",
+        "ownerRole": "engineering",
+        "dependsOn": [
+          "prepare_provisional"
+        ],
+        "preconditions": [
+          {
+            "subject": "provisional application",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "pre_filing",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-3",
+            "quote": "Engineering must confirm that no third-party IP is incorporated into the invention prior to filing"
+          }
+        ]
+      },
+      {
+        "id": "file_provisional",
+        "description": "Legal files the provisional application before the 1-year statutory bar date; if the inventor has publicly disclosed, filing must occur within 12 months of first publication.",
+        "ownerRole": "ip_legal",
+        "dependsOn": [
+          "cto_approval",
+          "engineering_ip_check"
+        ],
+        "preconditions": [
+          {
+            "subject": "CTO approval",
+            "operator": "after"
+          },
+          {
+            "subject": "Engineering IP check",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "deadline": {
+          "value": 365,
+          "unit": "days",
+          "relativeTo": "first publication"
+        },
+        "conditions": [
+          {
+            "when": {
+              "subject": "public disclosure",
+              "operator": "equals",
+              "value": "prior"
+            },
+            "thenSteps": [
+              "file_provisional"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "patent-doc-4",
+            "quote": "The provisional application must be filed before the 1-year statutory bar date"
+          },
+          {
+            "sourceChunkId": "patent-doc-4",
+            "quote": "If the inventor has already published or publicly disclosed the invention, the filing must occur within 12 months of first publication"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "patent-chat-1",
+      "reason": "question about international filings, not current procedure"
+    },
+    {
+      "sourceChunkId": "patent-chat-2",
+      "reason": "hypothetical about departed inventor, not a procedure step"
+    },
+    {
+      "sourceChunkId": "patent-chat-3",
+      "reason": "strategic proposal to change filing strategy, not current process"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "prior-art-search-prerequisite",
+      "documentedStepId": "submit_disclosure",
+      "observedStepId": "submit_disclosure",
+      "observedAfter": "2026-03-15"
+    }
+  ],
+  "knownFailureModes": [
+    "CTO approval and Engineering IP check serialized instead of parallel",
+    "60-day provisional prep deadline conflated with 30-day patentability window",
+    "filing step created without both pre-filing gate steps as dependencies",
+    "public disclosure 12-month deadline omitted"
+  ]
+}

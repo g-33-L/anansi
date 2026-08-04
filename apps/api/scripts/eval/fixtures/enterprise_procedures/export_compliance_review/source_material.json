@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "export-compliance-policy",
+    "last_edited": "2025-09-01T09:00:00Z",
+    "blocks": [
+      {
+        "id": "export-doc-1",
+        "text": "Before any product, technology, or technical data is exported or shared with a foreign national, the Trade Compliance team must screen the recipient against the Denied Party List (DPL). No export may proceed until the DPL screen is completed."
+      },
+      {
+        "id": "export-doc-2",
+        "text": "If the recipient is not listed on the DPL, Trade Compliance assesses whether an export license is required based on the product's Export Control Classification Number (ECCN) and the destination country."
+      },
+      {
+        "id": "export-doc-3",
+        "text": "For transactions involving countries subject to comprehensive US sanctions (Cuba, Iran, North Korea, Syria, and Russia), Legal and Trade Compliance must jointly approve the transaction, and no export may proceed without a valid export license."
+      },
+      {
+        "id": "export-doc-4",
+        "text": "Items classified as EAR99 destined for non-sanctioned countries do not require an export license, but the DPL screen must still be completed prior to export. All export transaction records must be retained for a minimum of 5 years."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "export-slack-1",
+      "ts": "2026-05-20T10:00:00Z",
+      "text": "Trade Compliance update: Belarus has been added to the comprehensive sanctions list effective immediately. Treat Belarus as a sanctioned country requiring joint Legal and Trade Compliance approval for all transactions."
+    },
+    {
+      "id": "export-chat-1",
+      "ts": "2026-01-12T09:30:00Z",
+      "text": "Does this process apply to open-source software we post publicly? Or only commercial products?"
+    },
+    {
+      "id": "export-chat-2",
+      "ts": "2026-02-03T14:00:00Z",
+      "text": "Could we automate the DPL screen with an API integration? Manual checks seem error-prone."
+    },
+    {
+      "id": "export-chat-3",
+      "ts": "2026-03-10T11:00:00Z",
+      "text": "Who keeps the 5-year record archive — Legal or Trade Compliance? Need to know where to send audit requests."
+    }
+  ]
+}

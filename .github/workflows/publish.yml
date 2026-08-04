@@ -1,0 +1,131 @@
+name: Publish
+
+# Trigger: push a semver tag such as "v1.2.3" (or run manually from the
+# Actions tab to retry a partial publish without re-tagging).
+# The five npm packages are built once and published in order; the Python
+# SDK is built and uploaded to PyPI in a parallel job. Every publish step
+# is idempotent — already-published versions are skipped, so re-running
+# after a partial failure is safe.
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # needed for npm provenance attestation
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Publish anansi-memory
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "::notice::$PKG@$VER already on npm — skipping"
+          else
+            npm publish --access public
+          fi
+        working-directory: packages/sdk
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish anansi-ai-sdk
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "::notice::$PKG@$VER already on npm — skipping"
+          else
+            npm publish --access public
+          fi
+        working-directory: packages/ai-sdk
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish anansi-langchain
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "::notice::$PKG@$VER already on npm — skipping"
+          else
+            npm publish --access public
+          fi
+        working-directory: packages/langchain
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish anansi-tools
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "::notice::$PKG@$VER already on npm — skipping"
+          else
+            npm publish --access public
+          fi
+        working-directory: packages/tools
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish anansi-mcp
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "::notice::$PKG@$VER already on npm — skipping"
+          else
+            npm publish --access public
+          fi
+        working-directory: packages/mcp
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Publishes packages/sdk-python to PyPI via trusted publishing (OIDC).
+  # One-time setup on pypi.org: project anansi-memory → Manage → Publishing →
+  # add GitHub publisher (owner g-33-L, repo anansi, workflow
+  # publish.yml). No token secret needed once that exists.
+  publish-python:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # PyPI trusted publishing
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+        working-directory: packages/sdk-python
+
+      - name: Publish anansi-memory to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/sdk-python/dist
+          skip-existing: true  # idempotent re-runs

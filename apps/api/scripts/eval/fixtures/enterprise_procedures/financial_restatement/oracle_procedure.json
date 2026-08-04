@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "domain": "financial_restatement",
+  "canonicalRoles": [
+    {
+      "id": "cfo",
+      "aliases": [
+        "CFO",
+        "Chief Financial Officer"
+      ]
+    },
+    {
+      "id": "audit_committee",
+      "aliases": [
+        "Audit Committee"
+      ]
+    },
+    {
+      "id": "internal_audit",
+      "aliases": [
+        "Internal Audit"
+      ]
+    },
+    {
+      "id": "legal_counsel",
+      "aliases": [
+        "Legal Counsel",
+        "Legal"
+      ]
+    },
+    {
+      "id": "external_auditors",
+      "aliases": [
+        "External auditors",
+        "external auditors"
+      ]
+    },
+    {
+      "id": "board",
+      "aliases": [
+        "Board of Directors",
+        "Board"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "cfo_notifies_audit_committee",
+        "description": "On identification of a material accounting error, the CFO immediately notifies the Audit Committee.",
+        "ownerRole": "cfo",
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-1",
+            "quote": "the CFO must immediately notify the Audit Committee"
+          }
+        ]
+      },
+      {
+        "id": "engage_outside_counsel",
+        "description": "If the restatement is triggered by fraud or intentional misconduct, the Audit Committee must engage independent outside legal counsel before any restated financials are prepared.",
+        "ownerRole": "audit_committee",
+        "conditions": [{"when":{"subject":"restatement cause","operator":"equals","value":"fraud or intentional misconduct"},"thenSteps":["engage_outside_counsel"]}],
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-5",
+            "quote": "If the restatement is triggered by fraud or intentional misconduct rather than an inadvertent error, the Audit Committee must engage independent outside legal counsel before any restated financials are prepared or reviewed."
+          }
+        ]
+      },
+      {
+        "id": "internal_audit_review",
+        "description": "Internal Audit quantifies the error and prepares restated financial statements, running in parallel with Legal Counsel review.",
+        "ownerRole": "internal_audit",
+        "dependsOn": [
+          "cfo_notifies_audit_committee"
+        ],
+        "preconditions": [
+          {
+            "subject": "CFO notification",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "parallel_review",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-2",
+            "quote": "Internal Audit quantifies the error and prepares restated financial statements"
+          }
+        ]
+      },
+      {
+        "id": "legal_disclosure_review",
+        "description": "Legal Counsel assesses disclosure obligations under applicable SEC rules and regulations, running in parallel with Internal Audit.",
+        "ownerRole": "legal_counsel",
+        "dependsOn": [
+          "cfo_notifies_audit_committee"
+        ],
+        "preconditions": [
+          {
+            "subject": "CFO notification",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "parallel_review",
+          "semantics": "unordered"
+        },
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-2",
+            "quote": "Legal Counsel assesses disclosure obligations under applicable SEC rules and regulations"
+          }
+        ]
+      },
+      {
+        "id": "external_auditor_review",
+        "description": "External auditors re-review and sign off on the restated financial statements before the Audit Committee may approve them.",
+        "ownerRole": "external_auditors",
+        "dependsOn": [
+          "internal_audit_review",
+          "legal_disclosure_review"
+        ],
+        "preconditions": [
+          {
+            "subject": "internal audit review",
+            "operator": "after"
+          },
+          {
+            "subject": "legal disclosure review",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-3",
+            "quote": "External auditors must re-review and sign off on the restated financial statements before the Audit Committee may approve them"
+          }
+        ]
+      },
+      {
+        "id": "audit_committee_approval",
+        "description": "The Audit Committee approves the restated financials only after the external auditor re-review is complete.",
+        "ownerRole": "audit_committee",
+        "dependsOn": [
+          "external_auditor_review"
+        ],
+        "preconditions": [
+          {
+            "subject": "external auditor review",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-3",
+            "quote": "The Audit Committee approves the restated financials only after the external auditor re-review is complete"
+          }
+        ]
+      },
+      {
+        "id": "board_ratification",
+        "description": "The Board of Directors ratifies the restatement after Audit Committee approval and before SEC filing.",
+        "ownerRole": "board",
+        "dependsOn": [
+          "audit_committee_approval"
+        ],
+        "preconditions": [
+          {
+            "subject": "Audit Committee approval",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-4",
+            "quote": "The Board of Directors must ratify the restatement before it is filed with the SEC"
+          },
+          {
+            "sourceChunkId": "restate-doc-4",
+            "quote": "The Board ratification must occur after Audit Committee approval"
+          }
+        ]
+      },
+      {
+        "id": "sec_filing",
+        "description": "The restated financials are filed with the SEC after Board ratification.",
+        "ownerRole": "legal_counsel",
+        "dependsOn": [
+          "board_ratification"
+        ],
+        "preconditions": [
+          {
+            "subject": "Board ratification",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "restate-doc-4",
+            "quote": "The restated financials are then filed with the SEC"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "restate-chat-1",
+      "reason": "scope clarification question, not a procedure step"
+    },
+    {
+      "sourceChunkId": "restate-chat-2",
+      "reason": "hypothetical retainer proposal, not current process"
+    },
+    {
+      "sourceChunkId": "restate-chat-3",
+      "reason": "question about representation, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "ir-notification-added-post-board",
+      "documentedStepId": "sec_filing",
+      "observedStepId": "sec_filing",
+      "observedAfter": "2026-05-15"
+    }
+  ],
+  "knownFailureModes": [
+    "external auditor re-review gate omitted, Audit Committee approval placed directly after parallel review",
+    "parallel Internal Audit and Legal tracks serialized",
+    "Board ratification and Audit Committee approval ordering reversed",
+    "SEC filing step missing dependency on Board ratification"
+  ]
+}

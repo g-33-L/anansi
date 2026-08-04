@@ -1,0 +1,14 @@
+{
+  "domain": "security_compliance",
+  "docs": [
+    {
+      "id": "security_policy",
+      "title": "Information Security Policy",
+      "last_edited": "2025-08-01T00:00:00Z",
+      "blocks": [
+        { "id": "b1", "heading": "Access Reviews", "text": "User access reviews are conducted quarterly by the security team." },
+        { "id": "b2", "heading": "Encryption", "text": "Customer data is encrypted at rest and in transit." }
+      ]
+    }
+  ]
+}

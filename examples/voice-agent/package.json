@@ -1,0 +1,8 @@
+{
+  "name": "anansi-example-voice-agent",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "anansi-memory": "0.3.0"
+  }
+}

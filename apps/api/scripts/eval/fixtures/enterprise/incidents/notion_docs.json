@@ -1,0 +1,15 @@
+{
+  "domain": "incidents",
+  "docs": [
+    {
+      "id": "inc_runbook",
+      "title": "Incident Response Runbook",
+      "last_edited": "2025-10-01T00:00:00Z",
+      "blocks": [
+        { "id": "b1", "heading": "Severity & SLA", "text": "SEV1 incidents must be acknowledged within 15 minutes of the page." },
+        { "id": "b2", "heading": "Postmortems", "text": "A postmortem is required for every SEV1 and SEV2 incident." },
+        { "id": "b3", "heading": "Roles", "text": "The incident commander coordinates the response and owns communication." }
+      ]
+    }
+  ]
+}

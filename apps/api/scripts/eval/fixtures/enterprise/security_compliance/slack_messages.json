@@ -1,0 +1,14 @@
+{
+  "domain": "security_compliance",
+  "messages": [
+    { "id": "s1", "channel": "#compliance", "author": "raj", "ts": "2026-05-10T13:00:00Z", "text": "SOC2 Type II audit kicks off next week. Evidence collection starting." },
+    { "id": "s2", "channel": "#compliance", "author": "tara", "ts": "2026-02-03T09:00:00Z", "text": "Change: since February we run access reviews monthly, not quarterly — the auditors required it for SOC2." },
+    { "id": "s3", "channel": "#security", "author": "raj", "ts": "2026-05-10T13:10:00Z", "text": "All production access requires MFA and goes through the access request workflow in Vanta." },
+    { "id": "s4", "channel": "#security", "author": "tara", "ts": "2026-05-11T10:00:00Z", "text": "Security incidents must be reported to the CISO within 24 hours." },
+    { "id": "s5", "channel": "#compliance", "author": "raj", "ts": "2026-05-12T11:00:00Z", "text": "We encrypt customer data at rest with AES-256 and in transit with TLS 1.2+." },
+    { "id": "s6", "channel": "#security", "author": "tara", "ts": "2026-05-12T11:05:00Z", "text": "vendor security reviews are required before we sign any data processing agreement" },
+    { "id": "s7", "channel": "#compliance", "author": "raj", "ts": "2026-05-12T15:00:00Z", "text": "compliance is just security theater half the time" },
+    { "id": "s8", "channel": "#security", "author": "tara", "ts": "2026-05-12T15:05:00Z", "text": "should we require hardware keys for everyone? throwing it out there" },
+    { "id": "s9", "channel": "#compliance", "author": "raj", "ts": "2026-05-12T15:06:00Z", "text": "SOC2 = Stress On Christmas 2 lol" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "domain": "security_compliance",
+  "attestations": [
+    { "claim": "User access reviews are conducted monthly", "claim_key": "access_review_cadence", "claim_fingerprint": "access_review_cadence:monthly", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": "2026-02", "from_basis": "stated", "from_granularity": "month" }, "evidence": [ { "source_id": "s2", "quote": "we run access reviews monthly" } ] },
+    { "claim": "User access reviews are conducted quarterly", "claim_key": "access_review_cadence", "claim_fingerprint": "access_review_cadence:quarterly", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "disputed", "source_role": "documented_baseline", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "b1", "quote": "access reviews are conducted quarterly" } ] },
+    { "claim": "Customer data is encrypted at rest with AES-256 and in transit with TLS 1.2+", "claim_key": "data_encryption", "claim_fingerprint": "data_encryption:aes256_tls", "claim_type": "policy", "polarity": "assertion", "inference_status": "corroborated", "expected_status": "observed", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "s5", "quote": "encrypt customer data at rest with AES-256 and in transit with TLS 1.2+" }, { "source_id": "b2", "quote": "encrypted at rest and in transit" } ] },
+    { "claim": "Production access requires MFA and the access request workflow in Vanta", "claim_key": "prod_access_control", "claim_fingerprint": "prod_access_control:mfa_vanta", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "s3", "quote": "production access requires MFA and goes through the access request workflow in Vanta" } ] },
+    { "claim": "Security incidents must be reported to the CISO within 24 hours", "claim_key": "security_incident_reporting", "claim_fingerprint": "security_incident_reporting:ciso_24h", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "s4", "quote": "Security incidents must be reported to the CISO within 24 hours" } ] },
+    { "claim": "Vendor security reviews are required before signing a data processing agreement", "claim_key": "vendor_review", "claim_fingerprint": "vendor_review:required_before_dpa", "claim_type": "policy", "polarity": "assertion", "inference_status": "stated", "expected_status": "candidate", "valid_time": { "from": null, "from_basis": "unknown", "from_granularity": "unknown" }, "evidence": [ { "source_id": "s6", "quote": "vendor security reviews are required before we sign any data processing agreement" } ] }
+  ],
+  "refusals": [
+    { "source_id": "s7", "reason": "opinion" },
+    { "source_id": "s8", "reason": "proposal_not_adopted" },
+    { "source_id": "s9", "reason": "not_operational" }
+  ],
+  "divergences": [
+    { "claim_key": "access_review_cadence", "documented": "access_review_cadence:quarterly", "observed": "access_review_cadence:monthly", "changed_at": "2026-02" }
+  ]
+}

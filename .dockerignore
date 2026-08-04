@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.env.*
+!apps/api/.env.example
+*.test.ts
+apps/api/src/test/

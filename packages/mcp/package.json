@@ -1,0 +1,43 @@
+{
+  "name": "anansi-mcp",
+  "version": "0.3.0",
+  "description": "MCP server for Anansi — give Claude Desktop, Cursor, and any MCP client persistent, synthesized memory",
+  "type": "module",
+  "bin": {
+    "anansi-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "tsc"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": ["mcp", "model-context-protocol", "memory", "llm", "ai", "claude", "cursor", "anansi"],
+  "license": "MIT",
+  "author": "Anansi",
+  "homepage": "https://github.com/g-33-L/anansi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/g-33-L/anansi.git",
+    "directory": "packages/mcp"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
+  }
+}

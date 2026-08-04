@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "board-resolution-policy",
+    "last_edited": "2025-07-15T09:00:00Z",
+    "blocks": [
+      {
+        "id": "board-doc-1",
+        "text": "Board resolutions may be adopted at a duly noticed meeting or by written consent. For a meeting, the Corporate Secretary must provide written notice to all directors at least 10 days before the meeting date."
+      },
+      {
+        "id": "board-doc-2",
+        "text": "A quorum, consisting of a majority of the total number of directors, must be present for a meeting vote to be valid. Written consent resolutions require the signature of all directors unless the bylaws expressly authorize a lesser threshold."
+      },
+      {
+        "id": "board-doc-3",
+        "text": "The General Counsel must review all resolutions before they are recorded in the corporate records. The Corporate Secretary then records the resolution and files it in the corporate minute book within 5 business days of adoption."
+      },
+      {
+        "id": "board-doc-4",
+        "text": "Resolutions authorizing the issuance of stock must additionally be filed with the Secretary of State within 30 days of adoption. The Corporate Secretary is responsible for timely state filing of stock issuance resolutions."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "board-slack-1",
+      "ts": "2026-04-15T09:00:00Z",
+      "text": "Governance update: the notice period for board meetings has been extended to 14 days (from 10 days) per the amended bylaws, effective for all meetings called after April 15, 2026."
+    },
+    {
+      "id": "board-chat-1",
+      "ts": "2026-01-20T10:00:00Z",
+      "text": "Can a director participate by phone and still count toward quorum? Asking for a director who travels frequently."
+    },
+    {
+      "id": "board-chat-2",
+      "ts": "2026-02-12T14:30:00Z",
+      "text": "Should we switch to e-signatures for written consents? Would speed things up considerably."
+    },
+    {
+      "id": "board-chat-3",
+      "ts": "2026-03-08T11:00:00Z",
+      "text": "Who tracks the 30-day state filing deadline in practice — the Corporate Secretary or outside counsel?"
+    }
+  ]
+}

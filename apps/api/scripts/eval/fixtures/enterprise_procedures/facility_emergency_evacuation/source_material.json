@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "evacuation-policy",
+    "last_edited": "2025-07-01T09:00:00Z",
+    "blocks": [
+      {
+        "id": "evac-doc-1",
+        "text": "On activation of the fire alarm or emergency notification system, the Facilities team immediately initiates evacuation of all occupants. Any employee who observes a fire or imminent hazard may and must initiate evacuation without waiting for approval."
+      },
+      {
+        "id": "evac-doc-2",
+        "text": "Security personnel sweep all floors to confirm that all occupants have evacuated. Simultaneously, the office manager notifies building management and calls 911."
+      },
+      {
+        "id": "evac-doc-3",
+        "text": "The incident commander accounts for all personnel at the designated assembly point. HR provides a headcount list to the incident commander upon request."
+      },
+      {
+        "id": "evac-doc-4",
+        "text": "Once the all-clear is received from emergency services, the incident commander authorizes re-entry of the facility. No re-entry is permitted until the incident commander issues authorization."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "evac-slack-1",
+      "ts": "2026-04-01T08:00:00Z",
+      "text": "Facilities update: employees now check in digitally by texting SAFE to 555-0100 at the assembly point. The incident commander tracks headcount via the digital dashboard instead of paper lists, effective immediately."
+    },
+    {
+      "id": "evac-chat-1",
+      "ts": "2026-01-10T13:00:00Z",
+      "text": "Where is the designated assembly point for the north wing? I'm new and wasn't shown during onboarding."
+    },
+    {
+      "id": "evac-chat-2",
+      "ts": "2026-01-22T09:30:00Z",
+      "text": "Could we add a buddy system so employees check on each other? Just a thought."
+    },
+    {
+      "id": "evac-chat-3",
+      "ts": "2026-02-14T15:00:00Z",
+      "text": "How often do we run fire drills? I've been here six months and haven't done one yet."
+    }
+  ]
+}

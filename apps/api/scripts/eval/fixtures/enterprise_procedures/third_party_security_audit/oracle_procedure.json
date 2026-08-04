@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "domain": "third_party_security_audit",
+  "canonicalRoles": [
+    {
+      "id": "security",
+      "aliases": [
+        "Security",
+        "Security team"
+      ]
+    },
+    {
+      "id": "it",
+      "aliases": [
+        "IT"
+      ]
+    },
+    {
+      "id": "engineering",
+      "aliases": [
+        "Engineering"
+      ]
+    },
+    {
+      "id": "compliance",
+      "aliases": [
+        "Compliance"
+      ]
+    },
+    {
+      "id": "audit_committee",
+      "aliases": [
+        "Audit Committee"
+      ]
+    },
+    {
+      "id": "board",
+      "aliases": [
+        "Board of Directors",
+        "Board"
+      ]
+    }
+  ],
+  "procedure": {
+    "steps": [
+      {
+        "id": "notify_department_heads",
+        "description": "Security team notifies all department heads to begin collecting evidence packages 6 weeks before the scheduled audit date.",
+        "ownerRole": "security",
+        "critical": true,
+        "deadline": {
+          "value": 42,
+          "unit": "days",
+          "relativeTo": "scheduled audit date"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-1",
+            "quote": "The Security team notifies all department heads to begin collecting evidence packages 6 weeks before the scheduled audit date"
+          }
+        ]
+      },
+      {
+        "id": "it_evidence_collection",
+        "description": "IT collects its evidence package in parallel with Engineering and Compliance.",
+        "ownerRole": "it",
+        "dependsOn": [
+          "notify_department_heads"
+        ],
+        "preconditions": [
+          {
+            "subject": "department head notification",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "evidence_collection",
+          "semantics": "unordered"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-1",
+            "quote": "IT, Engineering, and Compliance each collect their respective evidence packages in parallel"
+          }
+        ]
+      },
+      {
+        "id": "engineering_evidence_collection",
+        "description": "Engineering collects its evidence package in parallel with IT and Compliance.",
+        "ownerRole": "engineering",
+        "dependsOn": [
+          "notify_department_heads"
+        ],
+        "preconditions": [
+          {
+            "subject": "department head notification",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "evidence_collection",
+          "semantics": "unordered"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-1",
+            "quote": "IT, Engineering, and Compliance each collect their respective evidence packages in parallel"
+          }
+        ]
+      },
+      {
+        "id": "compliance_evidence_collection",
+        "description": "Compliance collects its evidence package in parallel with IT and Engineering.",
+        "ownerRole": "compliance",
+        "dependsOn": [
+          "notify_department_heads"
+        ],
+        "preconditions": [
+          {
+            "subject": "department head notification",
+            "operator": "after"
+          }
+        ],
+        "parallel": {
+          "group": "evidence_collection",
+          "semantics": "unordered"
+        },
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-1",
+            "quote": "IT, Engineering, and Compliance each collect their respective evidence packages in parallel"
+          }
+        ]
+      },
+      {
+        "id": "consolidate_and_readiness_review",
+        "description": "Security consolidates all evidence packages and performs a pre-audit readiness review to identify gaps or deficiencies.",
+        "ownerRole": "security",
+        "dependsOn": [
+          "it_evidence_collection",
+          "engineering_evidence_collection",
+          "compliance_evidence_collection"
+        ],
+        "preconditions": [
+          {
+            "subject": "IT evidence collection",
+            "operator": "after"
+          },
+          {
+            "subject": "Engineering evidence collection",
+            "operator": "after"
+          },
+          {
+            "subject": "Compliance evidence collection",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-2",
+            "quote": "The Security team consolidates all evidence packages and performs a pre-audit readiness review to identify any gaps or deficiencies"
+          }
+        ]
+      },
+      {
+        "id": "gap_remediation",
+        "description": "Any critical gaps found during the readiness review must be remediated or formally documented as exceptions before submission.",
+        "ownerRole": "security",
+        "dependsOn": [
+          "consolidate_and_readiness_review"
+        ],
+        "preconditions": [
+          {
+            "subject": "readiness review",
+            "operator": "after"
+          }
+        ],
+        "conditions": [
+          {
+            "when": {
+              "subject": "critical gaps",
+              "operator": "equals",
+              "value": "identified"
+            },
+            "thenSteps": [
+              "gap_remediation"
+            ]
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-3",
+            "quote": "Any critical gaps identified during the readiness review must be remediated or formally documented as exceptions before the evidence package is submitted to the auditor"
+          }
+        ]
+      },
+      {
+        "id": "audit_committee_approval",
+        "description": "The Audit Committee approves the final consolidated evidence package before it is submitted to the external auditor.",
+        "ownerRole": "audit_committee",
+        "dependsOn": [
+          "gap_remediation"
+        ],
+        "preconditions": [
+          {
+            "subject": "gap remediation",
+            "operator": "after"
+          }
+        ],
+        "critical": true,
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-4",
+            "quote": "The Audit Committee must approve the final consolidated evidence package before it is submitted to the external auditor"
+          }
+        ]
+      },
+      {
+        "id": "submit_to_auditor",
+        "description": "Security submits the approved evidence package to the external auditor.",
+        "ownerRole": "security",
+        "dependsOn": [
+          "audit_committee_approval"
+        ],
+        "preconditions": [
+          {
+            "subject": "Audit Committee approval",
+            "operator": "after"
+          }
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-4",
+            "quote": "it is submitted to the external auditor"
+          }
+        ]
+      },
+      {
+        "id": "board_audit_report",
+        "description": "The audit report, once delivered by the auditor, is presented to the Board of Directors.",
+        "ownerRole": "board",
+        "dependsOn": [
+          "submit_to_auditor"
+        ],
+        "evidence": [
+          {
+            "sourceChunkId": "secaudit-doc-4",
+            "quote": "The audit report, once delivered by the auditor, is presented to the Board of Directors"
+          }
+        ]
+      }
+    ]
+  },
+  "refusalTraps": [
+    {
+      "sourceChunkId": "secaudit-chat-1",
+      "reason": "question about evidence format, not a procedure step"
+    },
+    {
+      "sourceChunkId": "secaudit-chat-2",
+      "reason": "hypothetical consulting proposal, not current process"
+    },
+    {
+      "sourceChunkId": "secaudit-chat-3",
+      "reason": "question about gap severity rubric, not a procedure step"
+    }
+  ],
+  "divergences": [
+    {
+      "id": "legal-added-as-fourth-evidence-owner",
+      "documentedStepId": "compliance_evidence_collection",
+      "observedStepId": "compliance_evidence_collection",
+      "observedAfter": "2026-06-10"
+    }
+  ],
+  "knownFailureModes": [
+    "three-way parallel evidence collection serialized",
+    "Audit Committee approval gate omitted or placed after submission",
+    "gap remediation step treated as unconditional",
+    "6-week notification deadline dropped"
+  ]
+}

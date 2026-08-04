@@ -1,0 +1,49 @@
+/*
+ * @anansi/ui — self-hosted fonts.
+ * Inter (rsms/inter) + JetBrains Mono (JetBrains/JetBrainsMono), both SIL OFL 1.1.
+ * Licenses vendored alongside the binaries: ./fonts/inter/LICENSE.txt,
+ * ./fonts/jetbrains-mono/OFL.txt. Single variable-weight file per style covers the
+ * whole range — no per-weight static files, minimal bytes over the wire.
+ * Referenced by --font-sans / --font-mono / --font-display in theme.css; system-stack
+ * fallbacks in those tokens keep text readable if these ever fail to load.
+ */
+
+@font-face {
+  font-family: "Inter";
+  src:
+    url("./fonts/inter/InterVariable.woff2") format("woff2-variations"),
+    url("./fonts/inter/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src:
+    url("./fonts/inter/InterVariable-Italic.woff2") format("woff2-variations"),
+    url("./fonts/inter/InterVariable-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src:
+    url("./fonts/jetbrains-mono/JetBrainsMono[wght].woff2") format("woff2-variations"),
+    url("./fonts/jetbrains-mono/JetBrainsMono[wght].woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src:
+    url("./fonts/jetbrains-mono/JetBrainsMono-Italic[wght].woff2") format("woff2-variations"),
+    url("./fonts/jetbrains-mono/JetBrainsMono-Italic[wght].woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}

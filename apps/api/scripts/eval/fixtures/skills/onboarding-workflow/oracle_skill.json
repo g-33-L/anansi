@@ -1,0 +1,36 @@
+{
+  "skillName": "new_hire_onboarding",
+  "skillDescription": "The process for onboarding a new employee.",
+  "expectedProcedure": {
+    "steps": [
+      {
+        "stepId": "complete_hr_paperwork",
+        "description": "The new hire completes HR paperwork sent by their manager.",
+        "evidence": ["doc-ob-block-001"],
+        "critical": true,
+        "precedes": ["get_it_equipment"]
+      },
+      {
+        "stepId": "get_it_equipment",
+        "description": "The IT department provisions and provides a laptop.",
+        "evidence": ["doc-ob-block-002"],
+        "critical": true,
+        "precedes": ["add_to_github"]
+      },
+      {
+        "stepId": "add_to_github",
+        "description": "The manager adds the new hire to the GitHub organization.",
+        "evidence": ["doc-ob-block-003"]
+      },
+      {
+        "stepId": "use_adp_payroll",
+        "description": "New hires used ADP for payroll before January 2026.",
+        "evidence": ["doc-ob-block-999-temporal"],
+        "temporalConstraints": {
+          "validUntil": "2026-01-01T00:00:00Z"
+        }
+      }
+    ]
+  },
+  "expectedRefusals": []
+}

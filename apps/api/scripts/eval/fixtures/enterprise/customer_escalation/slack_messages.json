@@ -1,0 +1,14 @@
+{
+  "domain": "customer_escalation",
+  "messages": [
+    { "id": "e1", "channel": "#escalations", "author": "mia", "ts": "2026-05-05T14:00:00Z", "text": "Enterprise customer Acme is threatening to churn — escalating now." },
+    { "id": "e2", "channel": "#escalations", "author": "sam", "ts": "2026-04-02T10:00:00Z", "text": "Heads up: since April, enterprise escalations go straight to the assigned CSM and loop in the VP of CS, not the support lead." },
+    { "id": "e3", "channel": "#escalations", "author": "mia", "ts": "2026-05-05T14:05:00Z", "text": "Assigned CSM is Priya for Acme. Looping in the VP of Customer Success now." },
+    { "id": "e4", "channel": "#support", "author": "sam", "ts": "2026-05-05T14:10:00Z", "text": "Enterprise accounts have a 1-hour first-response SLA on escalations." },
+    { "id": "e5", "channel": "#escalations", "author": "mia", "ts": "2026-05-06T09:00:00Z", "text": "Every escalation gets logged in Salesforce with the reason and the resolution." },
+    { "id": "e6", "channel": "#support", "author": "leo", "ts": "2026-05-06T09:05:00Z", "text": "we tag critical escalations with the P0 label in Zendesk" },
+    { "id": "e7", "channel": "#escalations", "author": "sam", "ts": "2026-05-06T12:00:00Z", "text": "escalations are a nightmare, customers are so dramatic sometimes" },
+    { "id": "e8", "channel": "#escalations", "author": "leo", "ts": "2026-05-06T12:05:00Z", "text": "should we give CSMs discount authority? floating the idea" },
+    { "id": "e9", "channel": "#escalations", "author": "mia", "ts": "2026-05-06T12:06:00Z", "text": "escalation = my blood pressure +20 lol" }
+  ]
+}

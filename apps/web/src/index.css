@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "@anansi/ui/theme.css";
+
+/* Tailwind v4 doesn't scan node_modules — pick up class names in @anansi/ui source. */
+@source "../../../packages/ui/src";

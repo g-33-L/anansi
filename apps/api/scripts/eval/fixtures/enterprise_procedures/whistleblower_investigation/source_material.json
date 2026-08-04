@@ -1,0 +1,46 @@
+{
+  "docs": [{
+    "id": "whistleblower-policy",
+    "last_edited": "2025-10-01T09:00:00Z",
+    "blocks": [
+      {
+        "id": "whistle-doc-1",
+        "text": "All whistleblower reports received through the Ethics Hotline are logged by the Compliance officer, who must acknowledge receipt to the reporter within 2 business days."
+      },
+      {
+        "id": "whistle-doc-2",
+        "text": "If the report implicates a VP or above (senior leadership), it is routed directly to the Audit Committee and bypasses the normal Compliance investigation track."
+      },
+      {
+        "id": "whistle-doc-3",
+        "text": "For all other reports, Compliance and Legal investigate in parallel. Legal reviews for attorney-client privilege considerations; Compliance interviews witnesses and collects evidence."
+      },
+      {
+        "id": "whistle-doc-4",
+        "text": "If the investigation finds substantiated violations, HR and Legal jointly determine the appropriate remediation. All investigation findings, regardless of outcome, are reported to the Audit Committee."
+      }
+    ]
+  }],
+  "messages": [
+    {
+      "id": "whistle-slack-1",
+      "ts": "2026-03-12T09:00:00Z",
+      "text": "Updated as of today: Compliance must also notify the CFO within 2 business days of receiving any whistleblower report, in addition to acknowledging receipt to the reporter."
+    },
+    {
+      "id": "whistle-chat-1",
+      "ts": "2026-01-08T10:00:00Z",
+      "text": "Is the Ethics Hotline number posted in the office kitchen? I can't find it."
+    },
+    {
+      "id": "whistle-chat-2",
+      "ts": "2026-01-15T14:30:00Z",
+      "text": "Could we add an anonymous online submission form instead of just a phone hotline?"
+    },
+    {
+      "id": "whistle-chat-3",
+      "ts": "2026-02-01T11:00:00Z",
+      "text": "What if both Compliance and Legal are conflicted on the same report? Who takes over?"
+    }
+  ]
+}
