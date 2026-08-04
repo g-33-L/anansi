@@ -52,7 +52,7 @@ export default function ApiKeysPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-5xl p-6 sm:p-8">
+      <div className="lab-page lab-page--narrow">
         <div className="flex justify-center py-12">
           <Spinner className="text-muted-foreground" />
         </div>
@@ -61,16 +61,17 @@ export default function ApiKeysPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
-      <Heading level={2}>API Keys</Heading>
-      <Text muted className="mt-1">
-        Bearer keys for the public <code className="font-mono text-xs">/v1</code> API. Keys are shown once — store them securely.
-      </Text>
+    <div className="lab-page lab-page--narrow lab-api-keys">
+      <header className="lab-page-header">
+        <p className="lab-page-overline">Access control</p>
+        <Heading level={2}>API Keys</Heading>
+        <Text muted className="mt-1">Bearer keys for the public <code className="font-mono text-xs">/v1</code> API. Keys are shown once — store them securely.</Text>
+      </header>
 
       {error && <Alert variant="danger" className="mt-6">{error}</Alert>}
 
       {secret && (
-        <Card className="mt-6 p-5">
+        <Card className="lab-key-reveal mt-6 p-5">
           <div className="mb-2 flex items-center gap-2">
             <Badge variant="success">New key</Badge>
             <span className="text-sm text-muted-foreground">Copy it now — you won't see it again.</span>
@@ -83,7 +84,7 @@ export default function ApiKeysPage() {
       )}
 
       {canManage && (
-        <Card className="mt-6 p-6">
+        <Card className="lab-key-create mt-6 p-6">
           <h3 className="font-semibold">Create a key</h3>
           <form onSubmit={create} className="mt-4 space-y-4">
             <Field label="Name">
@@ -112,7 +113,7 @@ export default function ApiKeysPage() {
         {keys.length === 0 ? (
           <p className="text-sm text-muted-foreground">No API keys yet.</p>
         ) : (
-          <Card className="divide-y divide-border">
+          <Card className="lab-data-list divide-y divide-border">
             {keys.map((k) => (
               <div key={k.id} className="flex items-center justify-between gap-3 p-4">
                 <div className="min-w-0">

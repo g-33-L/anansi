@@ -24,11 +24,14 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
-      <Heading level={2}>Search</Heading>
-      <Text muted className="mt-1">Keyword search across your organization's ingested memory.</Text>
+    <div className="lab-page lab-page--narrow lab-search">
+      <header className="lab-page-header">
+        <p className="lab-page-overline">Source index</p>
+        <Heading level={2}>Search</Heading>
+        <Text muted className="mt-1">Keyword search across your organization's ingested memory.</Text>
+      </header>
 
-      <form onSubmit={run} className="mt-6 flex items-end gap-3">
+      <form onSubmit={run} className="lab-search-form">
         <Field label="Query" className="flex-1">
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="e.g. incident response owner" autoFocus />
         </Field>
@@ -37,22 +40,22 @@ export default function SearchPage() {
 
       {error && <Alert variant="danger" className="mt-6">{error}</Alert>}
 
-      <div className="mt-8">
+      <div className="mt-9">
         {loading ? (
           <div className="flex justify-center">
             <Spinner className="text-muted-foreground" />
           </div>
         ) : results === null ? (
-          <p className="text-sm text-muted-foreground">Enter a query to search.</p>
+          <div className="lab-search-prompt"><span>⌘</span><p>Enter a query to search the source index.</p></div>
         ) : results.length === 0 ? (
-          <EmptyState title="No results" description="Nothing matched — try different keywords, or ingest more content first." />
+          <EmptyState className="lab-empty" title="No results" description="Nothing matched — try different keywords, or ingest more content first." />
         ) : (
-          <div className="space-y-3">
+          <div className="lab-data-list space-y-3">
             {results.map((r) => (
-              <Card key={r.id} className="p-4">
+              <Card key={r.id} className="lab-search-result p-5">
                 <div className="mb-2 flex items-center gap-2">
                   <Badge>{r.sourceType}</Badge>
-                  <span className="text-xs text-muted-foreground">score {r.score.toFixed(3)}</span>
+                  <span className="ml-auto font-mono text-[10px] uppercase tracking-[.08em] text-muted-foreground">score {r.score.toFixed(3)}</span>
                 </div>
                 <p className="text-sm">{r.content}</p>
               </Card>

@@ -32,6 +32,8 @@ interface FGInstance {
   nodeCanvasObjectMode?(fn: (n: GraphNode) => string): this;
   onZoom?(fn: (z: { k: number }) => void): this;
   onCameraChange?(fn: (cam: { position: { x: number; y: number; z: number } }) => void): this;
+  width?(width: number): this;
+  height?(height: number): this;
   d3Force(name: string): { strength(v: number): void } | undefined;
   graphData(data?: GraphData): GraphData;
   d3AlphaDecay?(v: number): void;
@@ -41,13 +43,13 @@ interface FGInstance {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 export const TYPE_COLORS: Record<string, string> = {
-  person: '#818cf8',
-  org: '#fb923c',
-  tech: '#34d399',
-  project: '#60a5fa',
-  location: '#f87171',
-  chunk: '#94a3b8',
-  supernode: '#e2e8f0',
+  person: '#91adff',
+  org: '#d7a85e',
+  tech: '#70c6a3',
+  project: '#66b7d8',
+  location: '#dc8c80',
+  chunk: '#8f9cae',
+  supernode: '#e1e9f7',
 };
 
 const ZOOM_MACRO = 0.5; // < this → Layer 0 (supernodes)
@@ -173,6 +175,15 @@ export function GraphCanvas({
     containerRef.current.innerHTML = '';
 
     let cancelled = false;
+    const resizeGraph = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const { width, height } = container.getBoundingClientRect();
+      graphRef.current?.width?.(width);
+      graphRef.current?.height?.(height);
+    };
+    const resizeObserver = new ResizeObserver(resizeGraph);
+    resizeObserver.observe(containerRef.current);
 
     void (async () => {
       if (dimension === '2d') {
@@ -181,11 +192,11 @@ export function GraphCanvas({
 
         const fg = (ForceGraph as any)()(containerRef.current!) as FGInstance;
 
-        fg.backgroundColor('#0f0f11')
-          .nodeColor((n: GraphNode) => TYPE_COLORS[n.type] ?? '#94a3b8')
+        fg.backgroundColor('#101925')
+          .nodeColor((n: GraphNode) => TYPE_COLORS[n.type] ?? '#8f9cae')
           .nodeLabel((n: GraphNode) => `${n.name} (${n.type})`)
           .nodeVal((n: GraphNode) => n.val)
-          .linkColor((l: GraphLink) => (l.active ? '#64748b' : '#475569'))
+          .linkColor((l: GraphLink) => (l.active ? '#53647b' : '#344154'))
           .linkWidth((l: GraphLink) => (l.confidence ?? 0.5) * 2.5)
           .linkLabel((l: GraphLink) => `${l.label}${l.validUntil ? ' [ended]' : ''}`)
           .linkDirectionalArrowLength(4)
@@ -199,13 +210,13 @@ export function GraphCanvas({
           const r = Math.sqrt(n.val ?? 1) * 3;
           ctx.beginPath();
           ctx.arc(n.x ?? 0, n.y ?? 0, r, 0, 2 * Math.PI);
-          ctx.fillStyle = TYPE_COLORS[n.type] ?? '#94a3b8';
+          ctx.fillStyle = TYPE_COLORS[n.type] ?? '#8f9cae';
           ctx.fill();
           const fontSize = Math.max(10, 14 / globalScale);
           ctx.font = `${fontSize}px ui-sans-serif, system-ui, sans-serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
-          ctx.fillStyle = '#e2e8f0';
+          ctx.fillStyle = '#e6edf7';
           ctx.fillText(n.name, n.x ?? 0, (n.y ?? 0) + r + 3);
         });
         fg.nodeCanvasObjectMode?.(() => 'replace');
@@ -214,17 +225,18 @@ export function GraphCanvas({
 
         fg.d3Force('charge')?.strength(-120);
         graphRef.current = fg;
+        resizeGraph();
       } else {
         const { default: ForceGraph3D } = await import('3d-force-graph');
         if (cancelled) return;
 
         const fg = (ForceGraph3D as any)()(containerRef.current!) as FGInstance;
 
-        fg.backgroundColor('#0f0f11')
-          .nodeColor((n: GraphNode) => TYPE_COLORS[n.type] ?? '#94a3b8')
+        fg.backgroundColor('#101925')
+          .nodeColor((n: GraphNode) => TYPE_COLORS[n.type] ?? '#8f9cae')
           .nodeLabel((n: GraphNode) => n.name)
           .nodeVal((n: GraphNode) => n.val)
-          .linkColor((l: GraphLink) => (l.active ? '#64748b' : '#475569'))
+          .linkColor((l: GraphLink) => (l.active ? '#53647b' : '#344154'))
           .linkWidth((l: GraphLink) => (l.confidence ?? 0.5) * 2)
           .linkLabel((l: GraphLink) => l.label)
           .linkDirectionalArrowLength(4)
@@ -241,12 +253,16 @@ export function GraphCanvas({
 
         fg.d3Force('charge')?.strength(-120);
         graphRef.current = fg;
+        resizeGraph();
       }
 
       graphRef.current?.graphData(graphData);
     })();
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      resizeObserver.disconnect();
+    };
   }, [dimension]); // intentionally omit graphData — handled below
 
   // ── Stream data updates without re-initializing ───────────────────────────────

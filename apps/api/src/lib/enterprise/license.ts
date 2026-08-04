@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * Edition gating + signed-license validation (Phase 7).
  *
  * Two independent sources of "is this org enterprise?":

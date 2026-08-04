@@ -1,0 +1,70 @@
+Anansi Enterprise Edition License v1.0
+
+Copyright (c) 2026 Jibril Suleiman. All rights reserved.
+
+This license applies only to the files and directories that are marked as
+governed by it — either by a header comment referencing "LICENSE-EE" or by
+their listing in the "Enterprise Edition" section of LICENSE at the root of
+this repository. All other files in this repository are licensed under the
+MIT License (see LICENSE) and this license does not apply to them.
+
+1. Grant of rights (source-available, not open source)
+
+   Subject to the restrictions below, you may view, download, and modify the
+   covered source code for the purpose of:
+
+   (a) evaluating it prior to purchasing a commercial license;
+   (b) contributing changes back to this project via pull request; or
+   (c) internal development and testing that does not constitute Production
+       Use, as defined below.
+
+2. Restriction — no Production Use without a commercial license
+
+   You may not use the covered source code, in original or modified form, in
+   Production Use unless you hold a current commercial license from Jibril
+   Suleiman (or a successor entity operating the Anansi project) covering that
+   use.
+
+   "Production Use" means running the covered code, or software derived from
+   it, to provide a service or feature to any user other than yourself for
+   the purpose of running your own business or organization's live workload —
+   including, without limitation, hosting it as part of a paid or free product
+   offering, or offering it as a managed or white-labeled service to third
+   parties.
+
+   Running the covered code for evaluation, local development, automated
+   testing, or contribution purposes is not Production Use.
+
+3. No sublicensing or redistribution of a competing offering
+
+   You may not remove or alter licensing notices, and you may not repackage,
+   resell, or offer the covered code (modified or not) as a standalone
+   product or hosted service that competes with Anansi's commercial offering,
+   whether or not you charge for it.
+
+4. Contributions
+
+   By submitting a contribution to a file governed by this license, you grant
+   Jibril Suleiman a perpetual, worldwide, royalty-free license to use,
+   modify, relicense, and sublicense your contribution as part of Anansi,
+   including under different license terms in the future.
+
+5. No warranty
+
+   THE COVERED SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN
+   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+   LIABILITY ARISING FROM THE USE OF THE COVERED SOFTWARE.
+
+6. Term
+
+   This license remains in effect until terminated. It terminates
+   automatically if you breach any of its terms; on termination you must stop
+   all use of the covered code beyond what MIT-licensed core components allow
+   on their own.
+
+For a commercial license enabling Production Use of Enterprise Edition
+features — SSO/SAML, SCIM provisioning, audit and governance workflows,
+team management, the hosted control plane, and related billing/licensing
+infrastructure — contact the project maintainer.

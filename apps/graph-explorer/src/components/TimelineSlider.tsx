@@ -26,26 +26,28 @@ export function TimelineSlider({ min, max, value, onChange }: Props) {
   }
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 px-6 pb-4 pt-3 bg-gradient-to-t from-[#0f0f11] to-transparent z-10">
-      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+    <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[#101925] via-[#101925]/96 to-transparent px-5 pb-4 pt-7">
+      <div className="mb-2 flex items-center justify-between font-mono text-[0.625rem] uppercase tracking-[0.08em] text-slate-500">
         <span>{new Date(min).getFullYear()}</span>
         <span className="text-slate-300">
           {value ? `as of ${formatDate(value)}` : 'showing all'}
         </span>
         <button
           onClick={() => onChange(null)}
-          className="text-slate-500 hover:text-white transition-colors"
+          aria-label="Reset temporal filter"
+          className="text-slate-500 transition-colors hover:text-white"
         >
           Reset
         </button>
       </div>
       <input
         type="range"
+        aria-label="Filter graph by date"
         min={0}
         max={1000}
         value={pct}
         onChange={handleRange}
-        className="w-full accent-indigo-500 cursor-pointer"
+        className="w-full cursor-pointer"
       />
     </div>
   );

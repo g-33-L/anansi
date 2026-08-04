@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * OIDC authorization-code flow (Phase 7), dependency-free (native fetch + crypto).
  *
  * Security model: the code→token exchange is a server-to-server call over TLS, so

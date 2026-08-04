@@ -1,3 +1,10 @@
+/*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
 import { Hono } from "hono";
 import { getCookie } from "hono/cookie";
 import { eq } from "drizzle-orm";
@@ -6,7 +13,7 @@ import { stripe, createCheckoutSession, createPortalSession, handleWebhookEvent 
 import { db } from "../lib/db/index.js";
 import { workspaces } from "../lib/db/schema.js";
 import { readSignedCookieValue } from "../lib/utils/crypto.js";
-import { TOKENS_CSS, BASE_CSS } from "../lib/ui/theme.js";
+import { TOKENS_CSS, BASE_CSS, THEME_TOGGLE_CSS, THEME_TOGGLE_HTML, THEME_SCRIPT } from "../lib/ui/theme.js";
 
 export const billingRoutes = new Hono();
 
@@ -83,17 +90,29 @@ billingRoutes.get("/success", (c) => {
 <style>
   ${TOKENS_CSS}
   ${BASE_CSS}
-  body{max-width:480px;margin:80px auto;text-align:center;padding:0 20px}
-  h1{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-  p{color:var(--text-muted);line-height:1.6;margin-bottom:16px}
+  ${THEME_TOGGLE_CSS}
+  body{min-height:100vh;display:grid;place-items:center;padding:24px}
+  .receipt{width:min(100%,500px);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:44px 36px;text-align:center}
+  .mark{width:42px;height:42px;display:grid;place-items:center;margin:0 auto 20px;border:1px solid var(--ok-border);border-radius:50%;background:var(--ok-soft);color:var(--ok);font-family:var(--font-mono);font-size:1rem}
+  .eyebrow{margin-bottom:10px}
+  h1{font-family:var(--font-display);font-size:2.15rem;font-weight:600;letter-spacing:-.04em;line-height:1.05;margin-bottom:12px}
+  p{color:var(--text-muted);line-height:1.65;margin-bottom:24px}
+  .return-link{display:block;margin-top:18px;font-size:.82rem}
+  .theme-toggle{position:fixed;top:18px;right:18px;z-index:1}
+  @media(max-width:480px){.receipt{padding:34px 22px}h1{font-size:1.85rem}}
 </style>
+<script>${THEME_SCRIPT}</script>
 </head>
 <body>
-  <div style="font-size:2.5rem;margin-bottom:16px">🎉</div>
-  <h1>Subscription activated!</h1>
-  <p>Your plan is now active. Head back to your dashboard to start using your new limits.</p>
-  <a href="/dashboard" class="btn btn-primary">Back to dashboard</a>
-  <p style="margin-top:16px"><a href="/portal" style="font-size:.9rem">Or go to the developer portal →</a></p>
+  ${THEME_TOGGLE_HTML}
+  <main class="receipt">
+    <div class="mark" aria-hidden="true">✓</div>
+    <div class="eyebrow">Billing updated</div>
+    <h1>Subscription activated</h1>
+    <p>Your plan is now active. Head back to your dashboard to start using your new limits.</p>
+    <a href="/dashboard" class="btn btn-primary">Back to dashboard</a>
+    <a href="/portal" class="return-link">Or go to the developer portal →</a>
+  </main>
 </body></html>`);
 });
 

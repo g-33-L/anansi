@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * SCIM 2.0 provisioning endpoint (Phase 7) — public, authed by a per-org SCIM
  * bearer token (Authorization: Bearer scim_…), NOT a session. The IdP calls these
  * to keep users/groups in sync. All operations are scoped to the token's org.

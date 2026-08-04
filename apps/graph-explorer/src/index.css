@@ -1,13 +1,28 @@
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
+@theme {
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 body {
   margin: 0;
-  background: #0f0f11;
-  color: #e2e8f0;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  background: #0f1622;
+  color: #f4f6f8;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
   overflow: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input { font: inherit; }
+
+::selection { background: rgb(136 169 255 / 0.36); }
+
+input[type="range"] {
+  accent-color: #88a9ff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

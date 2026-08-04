@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * Public SSO endpoints (Phase 7) — NOT session-authed; they ESTABLISH a session.
  *   GET  /sso/:slug/login     → redirect the user to their org's IdP
  *   GET  /sso/:slug/callback  → OIDC code exchange → JIT provision → session

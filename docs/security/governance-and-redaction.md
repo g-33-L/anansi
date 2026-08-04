@@ -17,7 +17,7 @@ This guide covers Anansi's enterprise-grade governance features, including conte
 
 Redaction rules allow you to define a set of patterns to automatically redact sensitive information from content. This is a powerful tool for compliance and data privacy.
 
-**Note:** The redaction rule engine is not yet automatically applied to the live ingestion path. This is a planned feature.
+**Note:** The redaction rule engine is applied to the live ingestion path. It runs after the static secret scrubber and before content is stored or sent to an LLM.
 
 ### How Redaction Works
 

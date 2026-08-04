@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * Admin-configurable PII redaction (Phase 7), applied ON TOP of the static
  * secret scrubber (lib/utils/sanitize.ts). Each org row is a pattern (a named
  * detector or a raw regex source) + an action (mask | drop | hash). Rules run

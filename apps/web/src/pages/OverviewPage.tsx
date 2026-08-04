@@ -14,37 +14,52 @@ export default function OverviewPage() {
   const org = me?.activeOrganization;
 
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
-      <Heading level={2}>Welcome{me?.user.name ? `, ${me.user.name}` : ""}</Heading>
-      <Text muted className="mt-1 flex items-center gap-2">
-        {org ? (
-          <>
-            <span>{org.name}</span>
-            <Badge variant="primary">{org.role}</Badge>
-          </>
-        ) : (
-          "No active organization selected."
-        )}
-      </Text>
+    <div className="lab-page lab-overview">
+      <header className="lab-page-header lab-overview-header">
+        <p className="lab-page-overline">Workspace index</p>
+        <Heading level={2}>Welcome{me?.user.name ? `, ${me.user.name}` : ""}</Heading>
+        <Text muted className="mt-2 flex items-center gap-2">
+          {org ? <><span>{org.name}</span><Badge variant="primary">{org.role}</Badge></> : "No active organization selected."}
+        </Text>
+      </header>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <section className="lab-overview-intro" aria-label="Workspace status">
+        <div>
+          <p className="lab-overview-kicker">Working surface</p>
+          <p>Start with a source, inspect what Anansi retained, then give your application only the context it needs.</p>
+        </div>
+        <div className="lab-overview-readout"><span aria-hidden="true" /><span>Organization-scoped</span></div>
+      </section>
+
+      <section className="mt-9" aria-labelledby="quick-actions-heading">
+        <div className="mb-4 flex items-baseline justify-between gap-4">
+          <h3 id="quick-actions-heading" className="text-sm font-semibold">Start a working session</h3>
+          <span className="font-mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">Four paths</span>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
         {QUICK_ACTIONS.map((a) => (
           <Link key={a.to} to={a.to}>
-            <Card className="h-full p-5 transition-colors hover:border-border-strong hover:bg-accent/40">
+            <Card className="lab-document-card h-full p-5">
+              <div className="mb-6 flex items-center justify-between"><span className="lab-action-index">{String(QUICK_ACTIONS.indexOf(a) + 1).padStart(2, "0")}</span><span className="lab-action-arrow" aria-hidden="true">↗</span></div>
               <h3 className="font-semibold tracking-tight">{a.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{a.body}</p>
             </Card>
           </Link>
         ))}
-      </div>
+        </div>
+      </section>
 
-      <Card className="mt-6 p-5">
-        <h3 className="text-sm font-semibold">What's live</h3>
+      <Card className="lab-overview-notice mt-9 p-5">
+        <div className="lab-notice-rule" aria-hidden="true" />
+        <div>
+        <p className="lab-page-overline">Available now</p>
+        <h3 className="text-sm font-semibold">Workspace surfaces</h3>
         <p className="mt-1 text-sm text-muted-foreground">
           Organizations, members, roles, teams, and profile are backed by the{" "}
           <code className="font-mono text-xs">/console</code> API. Search, memory, evidence, graph, procedures,
           sources, connectors, usage, and billing use the same organization-scoped engine data.
         </p>
+        </div>
       </Card>
     </div>
   );

@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * SSO connection storage (Phase 7). One row per org (SAML or OIDC). Non-secret IdP
  * wiring lives in `config` (jsonb); the OIDC client secret is encrypted at rest
  * (AES-256-GCM via lib/utils/crypto) and never returned to the client.

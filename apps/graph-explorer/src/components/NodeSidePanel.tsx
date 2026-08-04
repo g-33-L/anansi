@@ -14,55 +14,57 @@ function fmt(iso: string | undefined): string {
 export function NodeSidePanel({ node, onClose }: Props) {
   if (!node) return null;
 
-  const color = TYPE_COLORS[node.type] ?? '#94a3b8';
+  const color = TYPE_COLORS[node.type] ?? '#8f9cae';
 
   return (
-    <div className="absolute right-0 top-0 bottom-0 w-80 bg-[#16161a] border-l border-white/10 flex flex-col z-20 overflow-hidden">
+    <aside aria-label="Selected graph entity" className="absolute bottom-0 right-0 top-0 z-20 flex w-full max-w-[22rem] flex-col overflow-hidden border-l border-[#304055] bg-[#151f2d] shadow-[-18px_0_48px_rgb(0_0_0/0.22)] sm:w-80">
       {/* Header */}
-      <div className="flex items-start gap-2 px-4 pt-4 pb-3 border-b border-white/10">
+      <div className="flex items-start gap-3 border-b border-[#304055] px-5 pb-4 pt-5">
         <span
-          className="mt-0.5 w-3 h-3 rounded-full flex-shrink-0"
+          className="mt-1 size-2.5 shrink-0 rounded-full shadow-[0_0_0_3px_rgb(255_255_255/0.06)]"
           style={{ backgroundColor: color }}
         />
         <div className="flex-1 min-w-0">
-          <h2 className="font-semibold text-sm text-white truncate">{node.name}</h2>
-          <p className="text-xs text-slate-500 capitalize">{node.type}</p>
+          <p className="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-slate-500">Selected entity</p>
+          <h2 className="mt-1 truncate text-base font-semibold tracking-[-0.02em] text-white">{node.name}</h2>
+          <p className="mt-0.5 text-xs capitalize text-slate-400">{node.type}</p>
         </div>
         <button
           onClick={onClose}
-          className="text-slate-500 hover:text-white text-lg leading-none ml-2"
+          aria-label="Close entity inspector"
+          className="ml-2 rounded-md px-1.5 py-0.5 text-lg leading-none text-slate-500 transition-colors hover:bg-white/5 hover:text-white"
         >
           ×
         </button>
       </div>
 
       {/* Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+      <div className="flex-1 space-y-5 overflow-y-auto p-5 text-xs">
         {node.type === 'chunk' ? (
           <>
             {node.content && (
               <div>
-                <p className="text-slate-400 mb-1 font-medium uppercase tracking-wide text-[10px]">Content</p>
-                <p className="text-slate-200 leading-relaxed whitespace-pre-wrap">{node.content}</p>
+                <p className="mb-2 font-mono text-[0.625rem] font-medium uppercase tracking-[0.1em] text-slate-500">Source content</p>
+                <p className="whitespace-pre-wrap leading-5 text-slate-200">{node.content}</p>
               </div>
             )}
-            <div className="text-slate-500 space-y-1">
+            <div className="space-y-1 text-slate-500">
               <p>Created: {fmt(node.createdAt)}</p>
             </div>
           </>
         ) : (
           <>
-            <div className="text-slate-500 space-y-1">
+            <div className="space-y-1 text-slate-500">
               <p>First seen: {fmt(node.firstSeenAt)}</p>
-              <p>ID: <span className="font-mono text-[10px] break-all text-slate-400">{node.id}</span></p>
+              <p>ID: <span className="break-all font-mono text-[10px] text-slate-400">{node.id}</span></p>
             </div>
           </>
         )}
 
         {node.type === 'supernode' && node.memberIds && (
           <div>
-            <p className="text-slate-400 mb-1 font-medium uppercase tracking-wide text-[10px]">Members ({node.memberIds.length})</p>
-            <ul className="space-y-0.5 text-slate-400">
+            <p className="mb-2 font-mono text-[0.625rem] font-medium uppercase tracking-[0.1em] text-slate-500">Members ({node.memberIds.length})</p>
+            <ul className="space-y-1 text-slate-400">
               {node.memberIds.slice(0, 20).map(id => (
                 <li key={id} className="font-mono text-[10px] truncate">{id}</li>
               ))}
@@ -73,6 +75,6 @@ export function NodeSidePanel({ node, onClose }: Props) {
           </div>
         )}
       </div>
-    </div>
+    </aside>
   );
 }

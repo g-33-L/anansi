@@ -1,4 +1,11 @@
 /** @jsxImportSource hono/jsx */
+
+/*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
 import { Hono, type Context } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 import { eq, count, and } from "drizzle-orm";
@@ -135,51 +142,61 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
           ${TOKENS_CSS}
           ${BASE_CSS}
           ${THEME_TOGGLE_CSS}
-          body{max-width:760px;margin:0 auto;padding:32px 16px 64px}
-          h1{font-size:1.4rem;font-weight:600;margin-bottom:4px;letter-spacing:-0.2px}
-          .team{color:var(--text-muted);font-size:.88rem;margin-bottom:28px;letter-spacing:-0.1px}
-          .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
-          .card{padding:16px;margin-bottom:0}
-          .card h3{font-size:.72rem;text-transform:uppercase;color:var(--text-muted);letter-spacing:.06em;margin:0 0 6px;font-weight:600}
-          .card .big{font-size:1.6rem;font-weight:600;margin:0;letter-spacing:-0.3px}
-          .card .sub{font-size:.76rem;color:var(--text-muted);margin-top:2px}
-          .plan-badge{margin-left:8px;font-size:.75rem}
-          .channels table,table.data{width:100%;border-collapse:collapse;font-size:.88rem}
-          .channels th,table.data th{text-align:left;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border);padding:6px 0}
-          .channels td,table.data td{padding:8px 0;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text-secondary)}
-          table.data{margin-bottom:14px}
+          body{max-width:1060px;margin:0 auto;padding:clamp(24px,5vw,64px) 20px 88px}
+          .workspace-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:26px;margin-bottom:26px;border-bottom:1px solid var(--border)}
+          h1{font-family:var(--font-display);font-size:clamp(2.1rem,4vw,3.35rem);font-weight:600;line-height:1;letter-spacing:-.05em;margin:6px 0 8px}
+          .team{color:var(--text-muted);font-family:var(--font-mono);font-size:.69rem;letter-spacing:.03em}
+          .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+          .card{position:relative;padding:18px;margin-bottom:0;overflow:hidden}
+          .card:before{content:"";position:absolute;top:0;left:0;width:32px;height:2px;background:var(--brand)}
+          .card h3{font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;color:var(--text-muted);letter-spacing:.08em;margin:0 0 9px;font-weight:650}
+          .card .big{font-family:var(--font-display);font-size:2rem;font-weight:600;line-height:1;margin:0;letter-spacing:-.045em}
+          .card .sub{font-family:var(--font-mono);font-size:.68rem;color:var(--text-muted);margin-top:7px}
+          .plan-badge{margin-left:10px;vertical-align:middle}
+          .channels{overflow-x:auto}
+          .channels table,table.data{width:100%;border-collapse:collapse;font-size:.86rem}
+          .channels th,table.data th{text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);padding:7px 0}
+          .channels td,table.data td{padding:12px 0;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text-secondary)}
+          table.data{margin-bottom:16px}
           table.data td:first-child{color:var(--text)}
-          .status{display:inline-block;padding:2px 8px;border-radius:var(--radius-pill);font-size:.73rem;font-weight:500;color:#fff}
-          .section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px}
-          .section h2{font-size:.95rem;font-weight:600;margin:0 0 14px;color:var(--text);letter-spacing:-0.1px}
-          .meter{background:var(--brand-soft);border-radius:var(--radius-pill);height:4px;margin-top:8px}
+          .status{display:inline-block;padding:3px 6px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:.64rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#fff}
+          .section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:22px;margin-bottom:14px}
+          .section h2{font-family:var(--font-display);font-size:1.35rem;font-weight:600;line-height:1.1;margin:0 0 16px;color:var(--text);letter-spacing:-.03em}
+          .meter{background:var(--surface-2);border-radius:var(--radius-pill);height:4px;margin-top:10px}
           .meter-fill{height:4px;border-radius:var(--radius-pill);background:var(--brand);transition:width .3s}
           .empty{padding:16px 0;font-size:.88rem}
-          .danger-zone{background:var(--surface);border:1px solid var(--danger-border);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px}
-          .danger-zone h2{font-size:.95rem;font-weight:600;margin:0 0 4px;color:var(--danger)}
+          .danger-zone{background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:var(--radius-lg);padding:22px;margin-top:24px}
+          .danger-zone h2{font-family:var(--font-display);font-size:1.35rem;font-weight:600;line-height:1.1;margin:0 0 6px;color:var(--danger)}
           .danger-zone p{font-size:.84rem;color:var(--text-muted);margin:0 0 14px}
           .danger-zone .btn-danger{background:var(--danger);color:#fff;border:none}
-          .danger-zone .btn-danger:hover{background:#c93400;background:color-mix(in srgb,var(--danger) 85%,black)}
-          .purge-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.88rem;color:var(--text-secondary)}
+          .danger-zone .btn-danger:hover{filter:brightness(.9)}
+          .purge-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--danger-border);font-size:.88rem;color:var(--text-secondary)}
           .purge-row:last-child{border-bottom:none}
           a code{color:var(--brand)}
-          input[type=text]{background:var(--surface);border:1px solid var(--border-strong);color:var(--text);padding:7px 12px;border-radius:var(--radius-sm);font-size:.84rem;width:220px;margin-right:8px}
-          input[type=text]:focus{outline:none;border-color:var(--brand)}
+          input[type=text]{background:var(--surface);border:1px solid var(--border-strong);color:var(--text);padding:9px 11px;border-radius:var(--radius-md);font-size:.84rem;width:240px;margin-right:8px}
+          input[type=text]:focus{outline:none;border-color:var(--brand);box-shadow:var(--focus-ring)}
           input[type=text]::placeholder{color:var(--text-muted)}
           .theme-toggle{position:fixed;top:18px;right:18px;z-index:100}
+          @media(max-width:680px){body{padding:26px 14px 56px}.workspace-header{padding-right:42px}.grid{grid-template-columns:1fr}.section{padding:18px}.purge-row{align-items:flex-start;flex-direction:column}input[type=text]{width:100%;margin:0 0 10px}.theme-toggle{top:12px;right:12px}}
         `}</style>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
         <div dangerouslySetInnerHTML={{ __html: THEME_TOGGLE_HTML }} />
-        <h1>
-          {workspace.slackTeamName ?? ""}
-          <span class={`badge plan-badge ${planBadgeClass}`}>{plan.charAt(0).toUpperCase() + plan.slice(1)}</span>
-        </h1>
-        <p class="team">Anansi Workspace Dashboard · {usage.month}</p>
+        <main>
+          <header class="workspace-header">
+            <div>
+              <div class="eyebrow">Workspace record</div>
+              <h1>
+                {workspace.slackTeamName ?? ""}
+                <span class={`badge plan-badge ${planBadgeClass}`}>{plan.charAt(0).toUpperCase() + plan.slice(1)}</span>
+              </h1>
+              <p class="team">Usage period · {usage.month}</p>
+            </div>
+          </header>
 
-        {/* Usage meters */}
-        <div class="grid">
+          {/* Usage meters */}
+          <div class="grid">
           <UsageCard
             label="Queries"
             used={usage.queries.used}
@@ -195,10 +212,10 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
             used={usage.channels.used}
             limit={usage.channels.limit}
           />
-        </div>
+          </div>
 
         {/* Channels */}
-        <div class="section">
+          <div class="section">
           <h2>Indexed channels</h2>
           {channelRows.length === 0 ? (
             <p class="empty">No channels indexed yet. Use <code>/memory channels</code> in Slack to add some.</p>
@@ -229,10 +246,10 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
               </table>
             </div>
           )}
-        </div>
+          </div>
 
         {/* Billing */}
-        <div class="section">
+          <div class="section">
           <h2>Billing</h2>
           {plan === "free" ? (
             <div>
@@ -254,10 +271,10 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
               </form>
             </div>
           )}
-        </div>
+          </div>
 
         {/* API Keys */}
-        <div class="section">
+          <div class="section">
           <h2>API Keys</h2>
           <p style="margin:0 0 14px;font-size:.84rem;color:var(--text-muted)">
             Use these keys to call <code>POST /v1/ingest</code> and <code>GET /v1/context</code> from your LLM app.
@@ -296,10 +313,10 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
             <input type="text" name="keyName" placeholder="Key name (e.g. Production)" aria-label="API key name" required />
             <button type="submit" class="btn btn-primary">Create API Key</button>
           </form>
-        </div>
+          </div>
 
         {/* Danger Zone */}
-        <div class="danger-zone">
+          <div class="danger-zone">
           <h2>Danger Zone</h2>
           <p>Permanently delete indexed memory. This cannot be undone. The bot will re-index as new messages arrive.</p>
 
@@ -327,7 +344,8 @@ dashboardRoutes.get("/", requireAuth, async (c) => {
               Purge all memory ({totalChunks.toLocaleString()} chunks)
             </button>
           </form>
-        </div>
+          </div>
+        </main>
       </body>
     </html>
   ));

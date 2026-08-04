@@ -1,6 +1,5 @@
 /** @jsxImportSource hono/jsx */
 import { Hono } from "hono";
-import { WEB_BG_HTML } from "../lib/ui/web-bg.js";
 import { withDoctype } from "../lib/ui/theme.js";
 import { getDeploymentConfig } from "../lib/config/deployment.js";
 
@@ -16,7 +15,7 @@ const APP_URL = process.env.APP_URL ?? "https://anansimemory.com";
 const WAITLIST_MODE = process.env.WAITLIST_MODE === "true";
 
 // Apple system typography, silver brand, pixel-web ornaments.
-// Data-dense layout (metric strip + endpoints + competitor compare).
+// Data-dense layout (metric strip + API surfaces + decision table).
 // Light/dark not on landing — landing is the marketing surface and stays one mode.
 const css = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -245,6 +244,75 @@ footer{padding:30px 0;color:var(--dim);font-size:12.5px;font-family:'SF Mono',Me
 .waitlist-success{display:inline-flex;align-items:center;gap:10px;background:rgba(95,163,124,.08);border:1px solid rgba(95,163,124,.22);border-radius:8px;padding:14px 22px;font-family:'SF Mono',Menlo,monospace;font-size:13px;color:var(--ok);margin-bottom:12px}
 .waitlist-error{display:inline-flex;align-items:center;gap:10px;background:rgba(201,166,74,.08);border:1px solid rgba(201,166,74,.22);border-radius:8px;padding:14px 22px;font-family:'SF Mono',Menlo,monospace;font-size:13px;color:var(--warn);margin-bottom:12px}
 .waitlist-note{font-size:12px;color:var(--dim);font-family:'SF Mono',Menlo,monospace}
+
+/* ── Production visual system: editorial paper + technical workbench ── */
+:root{--bg:#f5f6f8;--bg2:#fff;--bg3:#edf1f6;--line:#d8dee8;--line2:#bdc8d8;--text:#111827;--mute:#607086;--dim:#8793a5;--brand:#1d5bff;--brand-soft:#e8f0ff;--brand-line:#bed0ff;--brand-glow:#1749c4;--brand-dim:#607086;--ok:#087a5a;--warn:#a66700}
+html,body{background:var(--bg);color:var(--text)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px}
+a{color:#1749c4}.container{max-width:1200px;padding:0 28px}.web-bg-far,.web-bg-near,.spotlight{display:none!important}
+:focus-visible{outline:3px solid rgba(29,91,255,.42);outline-offset:3px}
+
+nav.gnav{height:68px;background:rgba(255,255,255,.94);border-color:var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.gnav-brand{color:var(--text);font-size:16px;font-weight:760;letter-spacing:-.025em}.gnav-links{gap:20px;font-size:13px}.gnav-link{color:var(--mute);font-weight:620}.gnav-link:hover{color:var(--text)}
+.gnav-status{padding:4px 0;background:transparent;border:0;color:var(--ok);font-size:10.5px}.gnav-status::before{box-shadow:none}.gnav-cta{background:#1d5bff;color:#fff;padding:9px 14px;font-size:12.5px;font-weight:700;transition:background .16s ease,transform .16s ease}.gnav-cta:hover{background:#1749c4;filter:none;transform:translateY(-1px)}
+
+.hero{padding:104px 0 92px;background:#f5f6f8;border-color:var(--line)}.hero-grid{grid-template-columns:1.06fr .94fr;gap:72px;align-items:center}.kicker{color:#1749c4;font-size:11px;font-weight:700;letter-spacing:.11em;margin-bottom:22px}
+h1.hero-h1{font-size:clamp(42px,5vw,68px);font-weight:780;letter-spacing:-.052em;line-height:.99;margin-bottom:22px;color:var(--text);max-width:680px}h1.hero-h1 em{color:#1749c4}.hero-sub{font-size:18px;color:var(--mute);max-width:610px;line-height:1.55;margin-bottom:30px;letter-spacing:-.012em}
+.time-rail{border-top:1px solid var(--text);border-bottom:1px solid var(--line2);margin:34px 0 30px;padding:13px 0 14px}.time-rail-head{display:flex;justify-content:space-between;gap:12px;font-family:'SF Mono',Menlo,monospace;font-size:10.5px;color:var(--mute);letter-spacing:.04em;margin-bottom:16px;text-transform:uppercase}.time-rail-head b{color:var(--text);font-weight:700}.time-rail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}.time-axis{padding:0 20px 0 0;border-right:1px solid var(--line)}.time-axis+.time-axis{padding:0 0 0 20px;border:0}.time-axis-label{font-family:'SF Mono',Menlo,monospace;font-size:10.5px;color:#1749c4;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}.time-axis p{font-size:12.5px;line-height:1.45;color:var(--mute)}.hero-footnotes{display:flex;gap:14px;flex-wrap:wrap;font-family:'SF Mono',Menlo,monospace;font-size:10.5px;color:var(--mute);margin-top:16px}.hero-footnotes span::before{content:'•';color:#1d5bff;margin-right:6px}
+.cta-row{gap:10px}.btn-primary{background:#1d5bff;color:#fff;padding:13px 19px;border-radius:6px;font-weight:740;font-size:13.5px;transition:background .16s ease,transform .16s ease}.btn-primary:hover{background:#1749c4;filter:none;transform:translateY(-1px)}.btn-ghost{color:var(--text);padding:12px 17px;border-radius:6px;font-weight:650;font-size:13px;border-color:var(--line2)}.btn-ghost:hover{border-color:#1d5bff;color:var(--text);background:#e8f0ff}
+
+.code-card{background:#0b1322;border-color:#20304a;border-radius:10px;box-shadow:0 22px 50px rgba(17,24,39,.16)}.code-head{padding:13px 16px;background:#111d31;border-color:#22334e;font-size:10.5px;color:#b9c6d8;text-transform:uppercase;letter-spacing:.045em}.code-head .dim{color:#7f91aa}.code-body{padding:23px 24px;font-size:12.5px;line-height:1.95;color:#dfe8f5}.k{color:#9cc1ff}.s{color:#f3c86b}.c{color:#8c9db4}.f{color:#8fc8ff}
+
+.metrics{padding:0;background:#0b1322!important;border-color:#0b1322}.metrics-grid{max-width:1240px;margin:0 auto;padding:0 24px;background:transparent;border:0;border-radius:0}.metric{padding:28px 18px 30px;border-color:#24334b}.metric-label{color:#8da0ba;font-size:10px;margin-bottom:9px}.metric-val{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:17px;font-weight:720;color:#f8fafc;letter-spacing:-.025em}.metric-trend,.metric-trend.dim{color:#8da0ba;font-size:10.5px;margin-top:7px;line-height:1.45}.metric-val .unit{color:#b9c6d8}
+
+.section{padding:104px 0;background:#fff;border-color:var(--line)}.section-label{font-size:10.5px;color:#1749c4;letter-spacing:.11em;font-weight:700;margin-bottom:16px}.section-label::before{content:'// ';color:var(--dim)}.section h2{font-size:clamp(32px,3.5vw,48px);font-weight:760;letter-spacing:-.045em;line-height:1.04;margin-bottom:15px;max-width:760px}.section-sub{font-size:17px;color:var(--mute);max-width:680px;margin-bottom:42px;letter-spacing:-.012em}
+section[id]{scroll-margin-top:92px}
+#how,#compare,#open-source{background:#f5f6f8}#features,#enterprise{background:#0b1322;border-color:#0b1322;color:#f8fafc}#features .section-label,#enterprise .section-label{color:#9cc1ff}#features .section-label::before,#enterprise .section-label::before{color:#6f85a2}#features .section-sub,#enterprise .section-sub{color:#b9c6d8}
+
+.endpoints{border:0;border-top:1px solid var(--line2);border-left:1px solid var(--line2);border-radius:0;background:#fff}.endpoint{padding:29px 30px;border-color:var(--line2);background:#fff;transition:background .16s ease}.endpoint:hover{background:#e8f0ff}.endpoint-row{gap:9px;margin-bottom:11px}.endpoint-method{font-size:10.5px;padding:3px 6px;border-radius:4px}.method-post{background:#e8f0ff;color:#1749c4;border-color:#bed0ff}.method-get{background:#e9f6f1;color:#087a5a;border-color:#b9e5d5}.method-del{background:#fff4df;color:#a66700;border-color:#f1d49a}.endpoint-path{font-size:14px;font-weight:720;color:var(--text);letter-spacing:-.012em}.endpoint p{color:var(--mute);font-size:14px;line-height:1.6;max-width:490px}
+.feature-icon{width:25px;height:25px;display:inline-flex;align-items:center;justify-content:center;color:#8fb6ff;border:1px solid #38547b;border-radius:5px;flex:0 0 auto}.feature-icon svg{width:15px;height:15px}
+#features .endpoints,#enterprise .endpoints{background:#0b1322;border-color:#2a3b56}#features .endpoint,#enterprise .endpoint{background:#0b1322;border-color:#2a3b56}#features .endpoint:hover,#enterprise .endpoint:hover{background:#111d31}#features .endpoint-path,#enterprise .endpoint-path{color:#f8fafc}#features .endpoint p,#enterprise .endpoint p{color:#b9c6d8}
+
+.how-grid{gap:0;margin-bottom:42px;border-top:1px solid var(--line2);border-left:1px solid var(--line2)}.how-block{border-color:var(--line2);border-radius:0;background:#f5f6f8;padding:32px 34px}.how-block h3{font-size:11px;color:#1749c4;margin-bottom:14px}.how-block p{font-size:15px;color:var(--mute);margin-bottom:18px}.how-block ol{font-size:14px;color:var(--text)}.how-block ol li{padding-left:31px;margin-bottom:9px}.how-block ol li::before{color:#1749c4;font-size:10.5px}.how-block.tech ol li{font-size:12px;color:#3d4e66}.how-block.tech ol li b{color:var(--text)}
+.arch-wrap{border-color:#20304a;background:#0b1322;border-radius:10px;padding:30px 26px;box-shadow:0 18px 40px rgba(17,24,39,.12)}.arch-cap{color:#8da0ba;font-size:10.5px;margin-bottom:16px}.arch .n-box{fill:#111d31;stroke:#2d405f}.arch .n-box.brand{fill:#15294a;stroke:#4f84de}.arch .n-box.store{fill:#0d192b;stroke:#354a6a}.arch .n-title{fill:#f8fafc}.arch .n-sub{fill:#a9b9cf}.arch .n-tag{fill:#9cc1ff}.arch .edge{stroke:#71829b}.arch .edge.brand{stroke:#8cb5ff}.arch .edge-label{fill:#a9b9cf}.arch .lane-label{fill:#71829b}
+
+.compare-wrap{border:0;border-top:1px solid var(--line2);border-left:1px solid var(--line2);border-radius:0;background:#fff;overflow:auto}table.compare{min-width:720px}.compare th,.compare td{padding:17px 18px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);vertical-align:top}.compare th{background:#edf1f6;color:var(--mute);font-size:10.5px;font-weight:700}.compare td{background:#fff;color:var(--mute);line-height:1.5}.compare td:first-child{color:var(--text);font-weight:650}.compare .yes,.compare .col-anansi{color:#1749c4}.compare .feat-anansi td{background:#f3f7ff}
+
+.tier-grid{gap:0;border-top:1px solid var(--line2);border-left:1px solid var(--line2)}.tier{border-color:var(--line2);border-radius:0;background:#fff;padding:30px}.tier.featured{border-color:var(--line2);border-top:4px solid #1d5bff;background:#e8f0ff;padding-top:27px}.tier-name{color:#1749c4;font-size:10.5px;font-weight:700;margin-bottom:16px}.tier-price{color:var(--text);font-size:38px;font-weight:760;letter-spacing:-.045em}.tier ul{margin:22px 0 28px}.tier-cta{border-color:var(--line2);color:var(--text);padding:11px 16px;font-weight:700}.tier.featured .tier-cta{background:#1d5bff;color:#fff;border-color:#1d5bff}.tier-cta:hover{background:#e8f0ff;border-color:#1d5bff;filter:none}.tier.featured .tier-cta:hover{background:#1749c4}
+
+.closing{padding:112px 0;background:#0b1322;border-color:#0b1322;color:#f8fafc}.closing h2{font-size:clamp(36px,4vw,54px);font-weight:760;letter-spacing:-.05em;line-height:1.02;margin-bottom:16px}.closing p{color:#b9c6d8;font-size:17px;max-width:600px;margin-bottom:30px}.closing .quote{font-family:'SF Mono',Menlo,monospace;font-style:normal;color:#9cc1ff;font-size:11px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}.closing .btn-ghost{color:#f8fafc;border-color:#4a5d7a}.closing .btn-ghost:hover{color:#f8fafc;background:#111d31;border-color:#8cb5ff}
+footer{padding:32px 0;background:#0b1322;color:#8da0ba;font-size:12px}footer .footer-row a{color:#b9c6d8}.beta-banner{background:#0b1322;border-color:#263853;color:#b9c6d8}.beta-banner strong{color:#fff}.beta-banner a{color:#9cc1ff}
+.waitlist-section{padding:96px 0;background:#f5f6f8;border-color:var(--line)}.waitlist-section h2{font-size:38px;font-weight:760;letter-spacing:-.045em}.waitlist-input{background:#fff;border-color:var(--line2);border-radius:6px;color:var(--text);padding:12px 16px}.waitlist-input:focus{border-color:#1d5bff}.waitlist-success{background:#e9f6f1;border-color:#b9e5d5;border-radius:6px;color:#087a5a}.waitlist-error{background:#fff4df;border-color:#f1d49a;border-radius:6px;color:#a66700}
+
+@media(max-width:920px){.hero{padding:78px 0 72px}.hero-grid,.endpoints,.tier-grid{grid-template-columns:1fr;gap:36px}.endpoint{border-right:0}.endpoint:nth-last-child(-n+2){border-bottom:1px solid var(--line2)}.endpoint:last-child{border-bottom:0}.metrics-grid{grid-template-columns:repeat(3,1fr)}.metric:nth-child(-n+3){border-bottom:1px solid #24334b}.how-grid{grid-template-columns:1fr}.section{padding:78px 0}}
+@media(max-width:560px){.container,.gnav-inner{padding:0 20px}.gnav-links{gap:13px}.gnav-optional,.gnav-status{display:none}.metrics-grid{grid-template-columns:repeat(2,1fr);padding:0}.metric{padding:23px 18px;border-bottom:1px solid #24334b}.metric:nth-child(2n){border-right:0}h1.hero-h1{font-size:42px}.hero-sub{font-size:16px}.time-rail-grid{grid-template-columns:1fr;gap:14px}.time-axis,.time-axis+.time-axis{padding:0;border:0}.time-axis+.time-axis{padding-top:14px;border-top:1px solid var(--line)}.section{padding:66px 0}.section h2{font-size:34px}.section-sub{font-size:16px}.endpoint,.how-block,.tier{padding:25px 22px}.code-body{padding:19px;font-size:11.5px}.hero-footnotes{gap:8px}}
+
+/* ── Research Lab identity ────────────────────────────────────────────────
+   The public site has a different job from the console: explain a technical
+   system. Field-paper sections read like a research note; graphite panels are
+   reserved for executable surfaces and system state. */
+:root{--bg:#f6f5f0;--bg2:#fffefa;--bg3:#ebece6;--line:#d8d9d2;--line2:#bdc0b8;--text:#151b24;--mute:#667085;--dim:#7c8580;--brand:#315ef4;--brand-soft:#e8efff;--brand-line:#aebffa;--brand-glow:#203eaa;--ok:#237a5a;--warn:#9a6200}
+html,body{background:var(--bg);color:var(--text)}body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background-image:linear-gradient(90deg,transparent 0,transparent calc(50% - .5px),rgba(21,27,36,.045) calc(50% - .5px),rgba(21,27,36,.045) calc(50% + .5px),transparent calc(50% + .5px));background-size:min(1440px,100%) 100%;background-position:center top}a{color:var(--brand-glow)}.container{max-width:1280px;padding:0 32px}.web-bg-far,.web-bg-near,.spotlight{display:none!important}:focus-visible{outline:3px solid rgba(49,94,244,.38);outline-offset:3px}
+
+nav.gnav{height:72px;border-color:var(--line);background:rgba(246,245,240,.93);backdrop-filter:blur(14px) saturate(.9);-webkit-backdrop-filter:blur(14px) saturate(.9)}.gnav-inner{max-width:1280px;padding:0 32px}.gnav-brand{gap:10px;color:var(--text);font-weight:730;font-size:16px;letter-spacing:-.035em}.gnav-brand svg{padding:4px;border:1px solid var(--text);width:27px;height:27px}.gnav-links{gap:4px;font-size:12.5px}.gnav-link{padding:7px 9px;color:var(--mute);font-weight:620}.gnav-link:hover{color:var(--text);text-decoration:none}.gnav-status{order:-1;margin-right:10px;padding:0;background:none;border:0;color:var(--ok);font-size:10px;letter-spacing:.06em;text-transform:uppercase}.gnav-status::before{width:5px;height:5px;box-shadow:none}.gnav-cta{border-radius:3px;background:var(--brand);padding:9px 13px;color:#fff;font-size:12px;font-weight:720;box-shadow:inset 0 -1px 0 rgba(11,24,75,.28),0 2px 5px rgba(49,94,244,.16);transition:background .15s,transform .15s}.gnav-cta:hover{background:#244ad0;filter:none;transform:translateY(-1px)}
+
+.hero{padding:clamp(70px,10vw,136px) 0 clamp(78px,10vw,140px);background:var(--bg);border:0}.hero::before{position:absolute;top:0;left:max(32px,calc((100% - 1216px)/2));width:40px;height:1px;background:var(--text);content:''}.hero-grid{grid-template-columns:minmax(0,1.03fr) minmax(370px,.97fr);gap:clamp(54px,8vw,120px);align-items:center}.kicker{margin-bottom:23px;color:var(--brand);font-size:10px;font-weight:750;letter-spacing:.11em}.kicker::before{margin-right:7px;color:var(--dim);content:'//'}h1.hero-h1{max-width:11.8ch;margin-bottom:24px;color:var(--text);font-family:Iowan Old Style,Charter,Georgia,serif;font-size:clamp(52px,6.25vw,84px);font-weight:500;letter-spacing:-.066em;line-height:.91}h1.hero-h1 em{color:var(--text);font-style:italic;font-weight:400}.hero-sub{max-width:540px;margin-bottom:0;color:var(--mute);font-size:17px;letter-spacing:-.012em;line-height:1.66}.time-rail{margin:34px 0 30px;padding:14px 0 16px;border-top:1px solid var(--text);border-bottom:1px solid var(--line)}.time-rail-head{color:var(--mute);font-size:9.5px}.time-rail-head b{color:var(--text)}.time-axis-label{color:var(--brand);font-size:10px}.time-axis p{color:var(--mute);font-size:12.5px}.btn-primary{border-radius:3px;background:var(--brand);padding:12px 18px;color:#fff;font-size:13px;font-weight:720;box-shadow:inset 0 -1px 0 rgba(11,24,75,.28),0 2px 5px rgba(49,94,244,.16)}.btn-primary:hover{background:#244ad0;filter:none}.btn-ghost{border-radius:3px;border-color:var(--line2);color:var(--text);font-size:12px;font-weight:670}.btn-ghost:hover{border-color:var(--text);background:var(--bg2);color:var(--text)}.hero-footnotes{font-size:9.5px;letter-spacing:.035em;text-transform:uppercase}.hero-footnotes span::before{background:var(--ok);border-radius:50%;font-size:0;width:5px;height:5px;display:inline-block;margin-right:6px}
+
+.code-card{position:relative;border-radius:2px;border-color:#39463e;background:#151b18;box-shadow:0 28px 60px rgba(19,25,21,.18)}.code-card::before{position:absolute;z-index:2;top:13px;left:15px;width:6px;height:6px;border-radius:50%;background:#75c3a0;box-shadow:13px 0 #e3b967,26px 0 #e17c6f;content:''}.code-head{padding:12px 16px 12px 56px;border-color:#354139;background:#1d2721;color:#aebbb1;font-size:9.5px;letter-spacing:.075em;text-transform:uppercase}.code-head .dim{color:#8a968d}.code-body{padding:24px;color:#e8efe9;font-size:12px;line-height:2}.k{color:#a6baff}.s{color:#e8c56e}.c{color:#91a096}.f{color:#8ed0b2}
+
+.metrics{background:#151b18!important;border:0}.metrics-grid{max-width:1280px;padding:0 32px}.metric{min-height:108px;padding:27px 18px;border-color:#3a443d}.metric-label{color:#929e95;font-size:9.5px}.metric-val{color:#f2f4ef;font-family:Inter,-apple-system,sans-serif;font-size:16px;font-weight:720}.metric-trend,.metric-trend.dim{color:#adb8b0;font-size:9.5px}.metric:nth-child(1){border-left:1px solid #3a443d}
+
+.section{padding:clamp(76px,9vw,124px) 0;background:var(--bg2);border-color:var(--line)}.section::before{position:absolute;top:0;left:max(32px,calc((100% - 1216px)/2));width:34px;height:1px;background:var(--text);content:''}.section-label{color:var(--brand);font-size:10px;font-weight:750;letter-spacing:.1em}.section-label::before{content:'//';margin-right:7px;color:var(--dim)}.section h2{max-width:18ch;font-family:Iowan Old Style,Charter,Georgia,serif;font-size:clamp(36px,4vw,57px);font-weight:500;letter-spacing:-.055em;line-height:.99}.section-sub{max-width:650px;color:var(--mute);font-size:16px;line-height:1.62}#how,#compare,#open-source{background:var(--bg)}#features,#enterprise{background:#151b18;border-color:#151b18;color:#f2f4ef}#features::before,#enterprise::before{background:#9daca1}#features .section-label,#enterprise .section-label{color:#aac1ff}#features .section-label::before,#enterprise .section-label::before{color:#849087}#features .section-sub,#enterprise .section-sub{color:#b6c0b8}
+
+.endpoints{border-radius:2px;border-color:var(--line);background:var(--line)}.endpoint{padding:28px;background:var(--bg2);border-color:var(--line);transition:transform .16s,background .16s}.endpoint:hover{background:#f1f4ff;transform:translateY(-2px)}.endpoint-path{font-size:14px;font-weight:730}.endpoint p{font-size:13.5px}.endpoint-method{border-radius:3px;font-size:9px}.method-post{border-color:#b9c7fb;background:#e8efff;color:#2448c9}.method-get{border-color:#b8ddcd;background:#e8f4ee;color:#17634a}.method-del{border-color:#ead2a2;background:#fff5df;color:#875305}.feature-icon{border-radius:50%;border-color:#596d60;color:#b4c8ff}#features .endpoints,#enterprise .endpoints{background:#3a443d;border-color:#3a443d}#features .endpoint,#enterprise .endpoint{background:#151b18;border-color:#3a443d}#features .endpoint:hover,#enterprise .endpoint:hover{background:#202a24}#features .endpoint-path,#enterprise .endpoint-path{color:#f2f4ef}#features .endpoint p,#enterprise .endpoint p{color:#b6c0b8}
+
+.how-grid{border-color:var(--line)}.how-block{border-radius:0;border-color:var(--line);background:#f1f0eb;padding:32px}.how-block h3{color:var(--brand);font-size:10px}.how-block p{color:var(--mute);font-size:14px}.how-block ol li::before{color:var(--brand)}.how-block.tech ol li{color:#3e4b44}.arch-wrap{border-radius:2px;border-color:#3a443d;background:#151b18;box-shadow:0 22px 45px rgba(19,25,21,.14)}.arch-cap{color:#9ba99e}.arch .n-box{fill:#1d2721;stroke:#3b4a40}.arch .n-box.brand{fill:#24332a;stroke:#7d9f8d}.arch .n-box.store{fill:#111813;stroke:#3b4a40}.arch .n-title{fill:#eef2ed}.arch .n-sub{fill:#acb8af}.arch .n-tag{fill:#aac1ff}.arch .edge{stroke:#839187}.arch .edge.brand{stroke:#9cc5b1}.arch .edge-label{fill:#acb8af}.arch .lane-label{fill:#839187}
+
+.compare-wrap{border-color:var(--line);border-radius:2px;background:var(--line)}.compare th,.compare td{border-color:var(--line)}.compare th{background:#e9eae4;color:var(--mute);font-size:9.5px}.compare td{background:var(--bg2)}.compare .yes,.compare .col-anansi{color:var(--brand)}.compare .feat-anansi td{background:#eef2ff}
+.tier-grid{border-color:var(--line)}.tier{border-radius:0;border-color:var(--line);background:var(--bg2)}.tier.featured{border-top:3px solid var(--brand);background:#e8efff;padding-top:28px}.tier-name{color:var(--brand)}.tier-price{font-family:Iowan Old Style,Charter,Georgia,serif;font-weight:600}.tier-cta{border-radius:3px}.tier.featured .tier-cta{background:var(--brand);color:#fff;border-color:var(--brand)}
+.closing{background:#151b18;border-color:#151b18}.closing h2{font-family:Iowan Old Style,Charter,Georgia,serif;font-weight:500;letter-spacing:-.06em}.closing p{color:#b6c0b8}.closing .quote{color:#aac1ff}.closing .btn-ghost{border-color:#536159}.closing .btn-ghost:hover{border-color:#c6d0c8;background:#222c26}.closing::before{position:absolute;top:0;left:calc(50% - 20px);width:40px;height:1px;background:#8fa094;content:''}footer{background:#151b18;color:#9ca9a0}footer .footer-row a{color:#dae0da}.waitlist-section{background:var(--bg);padding:96px 0}.waitlist-section h2{font-family:Iowan Old Style,Charter,Georgia,serif;font-weight:500}.waitlist-input{border-radius:3px;background:var(--bg2)}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:44px}.hero{padding:82px 0}.section{padding:78px 0}.metrics-grid{padding:0 24px}.metrics-grid,.gnav-inner,.container{padding-left:24px;padding-right:24px}.metric:nth-child(1){border-left:0}}
+@media(max-width:560px){body{background-image:none}.container,.gnav-inner{padding:0 18px}.hero{padding:68px 0 72px}.hero::before,.section::before{left:18px}.gnav-brand svg{width:24px;height:24px}.gnav-links{gap:5px}.hero-sub{font-size:15.5px}.section h2{font-size:37px}.metrics-grid{padding:0}.metric:nth-child(1){border-left:0}.time-rail{margin-top:28px}.code-body{font-size:11px}.endpoint,.how-block,.tier{padding:23px 20px}}
 `;
 
 // 16×16 pixel-perfect spider web. `shape-rendering: crispEdges` disables
@@ -252,7 +320,7 @@ footer{padding:30px 0;color:var(--dim);font-size:12.5px;font-family:'SF Mono',Me
 // up without blurring.
 // Pixel-art spider web on a 32x32 grid. `shape-rendering: crispEdges` keeps
 // each line a hard 1-2px stair-step at any output size — true 8-bit feel.
-function SpiderMark({ size = 20, color = "#e8e8e8", id }: { size?: number; color?: string; id?: string }) {
+function SpiderMark({ size = 20, color = "#111827", id }: { size?: number; color?: string; id?: string }) {
   return (
     <svg id={id} width={size} height={size} viewBox="0 0 64 64" fill="none" stroke={color} stroke-width="3.5" stroke-linecap="round">
       <circle cx="32" cy="32" r="5" />
@@ -266,6 +334,20 @@ function SpiderMark({ size = 20, color = "#e8e8e8", id }: { size?: number; color
       <line x1="35" y1="36" x2="46" y2="58" />
     </svg>
   );
+}
+
+function CapabilityIcon({ name }: { name: "context" | "history" | "search" | "vectors" }) {
+  const common = { fill: "none", stroke: "currentColor", "stroke-width": "1.7", "stroke-linecap": "round" as const, "stroke-linejoin": "round" as const };
+  if (name === "context") {
+    return <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" {...common}><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 9h8M8 12h6M8 15h4" /></svg></span>;
+  }
+  if (name === "history") {
+    return <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" {...common}><path d="M5 8V4m0 4h4M5.8 7.2A8 8 0 1 1 4 12" /><path d="M12 8v5l3 2" /></svg></span>;
+  }
+  if (name === "search") {
+    return <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" {...common}><circle cx="10.5" cy="10.5" r="5.5" /><path d="m15 15 4.5 4.5" /></svg></span>;
+  }
+  return <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" {...common}><circle cx="6" cy="7" r="2" /><circle cx="18" cy="7" r="2" /><circle cx="12" cy="17" r="2" /><path d="m7.8 8.2 2.7 6.4M16.2 8.2l-2.7 6.4M8 7h8" /></svg></span>;
 }
 
 function BetaBanner() {
@@ -282,17 +364,18 @@ function GlobalNav() {
     <nav class="gnav">
       <div class="gnav-inner">
         <a href="/" class="gnav-brand">
-          <SpiderMark size={20} color="#e8e8e8" id="anansi-logo" />
+          <SpiderMark size={20} color="#111827" id="anansi-logo" />
           Anansi
         </a>
         <div class="gnav-links">
           <a href="/status" class="gnav-status">status</a>
+          <a href="#features" class="gnav-link gnav-optional">Product</a>
+          <a href="#enterprise" class="gnav-link gnav-optional">Enterprise</a>
           <a href="/docs" class="gnav-link">Docs</a>
-          <a href="/#pricing" class="gnav-link">Pricing</a>
-          {!WAITLIST_MODE && <a href="/portal/login" class="gnav-link">Portal</a>}
+          {!WAITLIST_MODE && <a href="/portal/login" class="gnav-link gnav-optional">Portal</a>}
           {WAITLIST_MODE
             ? <a href="#waitlist" class="gnav-cta">Join the beta →</a>
-            : <a href="/portal/login" class="gnav-cta">Get API key →</a>}
+            : <a href="/portal/signup" class="gnav-cta">Create API key</a>}
         </div>
       </div>
     </nav>
@@ -318,23 +401,19 @@ function page(waitlisted: boolean | "error" = false) {
     `<span class="c">// }</span>`,
   ].join("\n");
 
-  // Matches the real surface: GET /v1/entities?asOf=&asOfKnowledge= — see
-  // routes/v1.ts (parseAsOf) and lib/ai/query-engine.ts (getEntitiesForUser).
+  // Matches the real surface: GET /v1/entities?asOf=&asOfKnowledge=.
   const biTemporalCode = [
-    `<span class="c">// In June you learn: Alex actually left Acme back in April.</span>`,
-    `<span class="c">// A single-axis graph quietly rewrites history. Anansi keeps both axes.</span>`,
+    `<span class="c">// Two parameters make the historical question explicit.</span>`,
     ``,
-    `<span class="c">// "What was true on May 1 — as we KNEW it on May 1?"</span>`,
+    `<span class="c">// What was true on May 1, based on records held on May 1?</span>`,
     `<span class="k">await</span> memory.<span class="f">listEntities</span>({`,
     `  userId: <span class="s">"user_abc"</span>,`,
     `  asOf: <span class="s">"2026-05-01"</span>,          <span class="c">// valid-time instant</span>`,
     `  asOfKnowledge: <span class="s">"2026-05-01"</span>, <span class="c">// knowledge-time instant</span>`,
     `});`,
-    `<span class="c">// → Alex —works_at→ Acme (current: true) — you hadn't learned they'd left</span>`,
     ``,
-    `<span class="c">// "What was true on May 1 — as we know it TODAY?"</span>`,
+    `<span class="c">// What was true on May 1, based on records held today?</span>`,
     `<span class="k">await</span> memory.<span class="f">listEntities</span>({ userId: <span class="s">"user_abc"</span>, asOf: <span class="s">"2026-05-01"</span> });`,
-    `<span class="c">// → no works_at edge — the April departure, recorded in June, now applies</span>`,
   ].join("\n");
 
   return (
@@ -342,15 +421,15 @@ function page(waitlisted: boolean | "error" = false) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Anansi — The open-source bi-temporal memory API for AI apps</title>
-        <meta name="description" content="Give your AI persistent memory of your users in two API calls — and rewind to what it knew at any moment in the past. Open-source (MIT), self-hostable, built on a bi-temporal knowledge graph." />
+        <title>Anansi — Temporal knowledge API for AI applications</title>
+        <meta name="description" content="Ingest source data, return synthesized context, and query a history-aware entity graph. Anansi is an open-source temporal knowledge API for AI applications." />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Anansi — The open-source bi-temporal memory API for AI apps" />
-        <meta property="og:description" content="Give your AI persistent memory of your users in two API calls — and rewind to what it knew at any moment in the past. Open-source (MIT), self-hostable, built on a bi-temporal knowledge graph." />
+        <meta property="og:title" content="Anansi — Temporal knowledge API for AI applications" />
+        <meta property="og:description" content="Ingest source data, return synthesized context, and query a history-aware entity graph. Anansi is an open-source temporal knowledge API for AI applications." />
         <meta property="og:image" content="/public/logo.png" />
         <meta property="og:url" content="https://anansimemory.com" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Anansi — The open-source bi-temporal memory API for AI apps" />
+        <meta name="twitter:title" content="Anansi — Temporal knowledge API for AI applications" />
         <meta name="twitter:image" content="/public/logo.png" />
         <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/public/logo.png" />
@@ -360,8 +439,6 @@ function page(waitlisted: boolean | "error" = false) {
         )}
       </head>
       <body>
-        {/* Silver-web background (shared with portal auth pages via lib/ui/web-bg) */}
-        <div dangerouslySetInnerHTML={{ __html: WEB_BG_HTML }} />
         {WAITLIST_MODE && <BetaBanner />}
         <GlobalNav />
 
@@ -370,44 +447,47 @@ function page(waitlisted: boolean | "error" = false) {
 <div class="container">
             <div class="hero-grid">
                 <div>
-                  <div class="kicker">// memory api · v0.3.0 · MIT licensed</div>
-                  <h1 class="hero-h1">Memory that knows what you knew — <em>and when you knew it</em>.</h1>
-                  <p class="hero-sub">Give your AI a memory that remembers your users across every session — and lets you <em>rewind</em> to exactly what it knew at any moment in the past. Two endpoints, synthesized profiles that drop straight into a system prompt, open-source and <span class="mono">docker compose up</span> if you'd rather run it yourself. Under the hood: a bi-temporal knowledge graph.</p>
+                  <div class="kicker">// temporal knowledge api · v0.3.0 · MIT licensed</div>
+                  <h1 class="hero-h1">Give AI systems a record, <em>not just a search index</em>.</h1>
+                  <p class="hero-sub">Anansi ingests conversations and connected sources, then returns synthesized context, a history-aware entity graph, and source-linked retrieval. Query what was true — and what the system knew — at any point in time.</p>
 
-                  <div class="hero-meta">
-                    <div class="hero-meta-cell">
-                      <div class="hero-meta-label">time axes</div>
-                      <div class="hero-meta-val">valid + knowledge</div>
+                  <div class="time-rail" aria-label="Anansi temporal query model">
+                    <div class="time-rail-head">
+                      <b>Temporal coordinate</b>
+                      <span>two independent questions</span>
                     </div>
-                    <div class="hero-meta-cell">
-                      <div class="hero-meta-label">license</div>
-                      <div class="hero-meta-val">MIT</div>
-                    </div>
-                    <div class="hero-meta-cell">
-                      <div class="hero-meta-label">embedding</div>
-                      <div class="hero-meta-val">768-dim</div>
-                    </div>
-                    <div class="hero-meta-cell">
-                      <div class="hero-meta-label">retrieval</div>
-                      <div class="hero-meta-val">BM25 + vector</div>
+                    <div class="time-rail-grid">
+                      <div class="time-axis">
+                        <div class="time-axis-label">valid-time</div>
+                        <p>When was a relationship true in the world?</p>
+                      </div>
+                      <div class="time-axis">
+                        <div class="time-axis-label">knowledge-time</div>
+                        <p>When was that relationship recorded by the system?</p>
+                      </div>
                     </div>
                   </div>
 
                   <div class="cta-row">
                     {WAITLIST_MODE
                       ? <a href="#waitlist" class="btn-primary">Join the Anansi beta →</a>
-                      : <a href="/portal/login" class="btn-primary">Get an API key</a>}
-                    <a href="/docs" class="btn-ghost">{WAITLIST_MODE ? "Read the docs →" : "npm install anansi-memory"}</a>
+                      : <a href="/portal/signup" class="btn-primary">Create an API key</a>}
+                    <a href="/docs/api-reference" class="btn-ghost">Explore the API →</a>
+                  </div>
+                  <div class="hero-footnotes">
+                    <span>REST + JSON</span>
+                    <span>API + connectors</span>
+                    <span>MIT licensed</span>
                   </div>
                 </div>
 
                 <div>
                   <div class="code-card">
                     <div class="code-head">
-                      <span>POST /v1/ingest · GET /v1/context</span>
-                      <span class="dim">REST · JSON · bearer auth</span>
+                      <span>GET /v1/entities · temporal query</span>
+                      <span class="dim">valid-time + knowledge-time</span>
                     </div>
-                    <div class="code-body" dangerouslySetInnerHTML={{ __html: ingestCode }} />
+                    <div class="code-body" dangerouslySetInnerHTML={{ __html: biTemporalCode }} />
                   </div>
                 </div>
               </div>
@@ -419,34 +499,34 @@ function page(waitlisted: boolean | "error" = false) {
           <div class="container">
             <div class="metrics-grid">
               <div class="metric">
-                <div class="metric-label">time axes</div>
-                <div class="metric-val">2</div>
+                <div class="metric-label">synthesis</div>
+                <div class="metric-val">context</div>
+                <div class="metric-trend dim">static facts + dynamic context</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">history</div>
+                <div class="metric-val">2 axes</div>
                 <div class="metric-trend dim">valid-time + knowledge-time</div>
               </div>
               <div class="metric">
-                <div class="metric-label">license</div>
+                <div class="metric-label">retrieval</div>
+                <div class="metric-val">search</div>
+                <div class="metric-trend dim">vector · hybrid on Pro+</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">ingestion</div>
+                <div class="metric-val">sources</div>
+                <div class="metric-trend dim">API · Slack · connected tools</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">deletion</div>
+                <div class="metric-val">cascade</div>
+                <div class="metric-trend dim">memory user + dependent data</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">deployment</div>
                 <div class="metric-val">MIT</div>
-                <div class="metric-trend dim">self-hostable · docker compose</div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">core endpoints</div>
-                <div class="metric-val">2</div>
-                <div class="metric-trend dim">ingest + context</div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">connectors</div>
-                <div class="metric-val">4</div>
-                <div class="metric-trend dim">notion · gdocs · linear · transcripts</div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">retention</div>
-                <div class="metric-val">∞<span class="unit"> pro</span></div>
-                <div class="metric-trend dim">7d free · ∞ pro</div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">embeddings</div>
-                <div class="metric-val">768<span class="unit">-dim</span></div>
-                <div class="metric-trend dim">nomic · ollama · bring your own</div>
+                <div class="metric-trend dim">hosted or self-managed</div>
               </div>
             </div>
           </div>
@@ -455,28 +535,28 @@ function page(waitlisted: boolean | "error" = false) {
         {/* ── How it works ── */}
         <section class="section" id="how">
           <div class="container">
-            <div class="section-label">how it works</div>
-            <h2>From conversation to system-prompt-ready memory.</h2>
-            <p class="section-sub">Two endpoints on the outside. Three stages on the inside. One synthesized artifact your model can actually use.</p>
+            <div class="section-label">from source to context</div>
+            <h2>From source data to queryable context.</h2>
+            <p class="section-sub">Ingestion preserves source material. Background work synthesizes context and relationship history. Retrieval returns the current context your application needs, or historical state when timing matters.</p>
 
             <div class="how-grid">
               <div class="how-block">
-                <h3>In plain English</h3>
-                <p>Think of Anansi as a notebook your AI keeps about each user. Every time someone talks to your app, the message gets handed to Anansi. Anansi quietly figures out what's worth remembering — who the user is, what they're working on, what they prefer — and writes it down. Next time the user shows up, your app asks for the notebook and pastes it into the prompt. The AI greets them like an old friend.</p>
+                <h3>The application model</h3>
+                <p>Send Anansi the conversations, documents, and events your application already has. It keeps the source chunks, synthesizes stable and changing context, and maintains relationships over time.</p>
                 <ol>
-                  <li>Your app sends a message → Anansi stores it</li>
-                  <li>In the background Anansi summarizes what matters about the user</li>
-                  <li>Your app asks for the summary → Anansi returns a short profile</li>
-                  <li>Paste it into the system prompt → the AI remembers the user</li>
+                  <li>Ingest a conversation, document, or event</li>
+                  <li>Background jobs embed and synthesize the source material</li>
+                  <li>Retrieve a profile and relevant chunks for the next request</li>
+                  <li>Query relationship history when a past state matters</li>
                 </ol>
               </div>
               <div class="how-block tech">
-                <h3>Under the hood</h3>
-                <p>Two HTTP surfaces, three internal stages, one versioned artifact (<span class="mono">static_documents</span>) per user.</p>
+                <h3>What the API preserves</h3>
+                <p>Source chunks remain addressable while synthesis writes a versioned profile and a temporal entity graph.</p>
                 <ol>
-                  <li><b>Ingest path</b> — <span class="mono">POST /v1/ingest</span> → sanitize (PII / secret redaction) → chunker (512 tok, 50 overlap, source-aware) → embed (768-dim) → pgvector + Postgres. Returns <span class="mono">202</span> immediately — embedding runs off the request path.</li>
+                  <li><b>Ingest path</b> — <span class="mono">POST /v1/ingest</span> → secret redaction + configured PII rules → chunker (~512 tok, 50 overlap, source-aware) → pgvector + Postgres. Embedding and synthesis run through background jobs; the request returns <span class="mono">202</span> after queuing them.</li>
                   <li><b>Synthesis worker</b> — BullMQ job, advisory-locked per user. An LLM pass reads accumulated chunks and writes <span class="mono">static_facts</span> (≤30) + <span class="mono">dynamic_context</span> (≤15) + bi-temporal entity graph.</li>
-                  <li><b>Retrieve path</b> — <span class="mono">GET /v1/context</span> → Redis cache (60s TTL) → BM25 + vector search (parallel) → reciprocal rank fusion → JSON.</li>
+                  <li><b>Retrieve path</b> — <span class="mono">GET /v1/context</span> → Redis cache (60s TTL) → vector search; plans with hybrid search add parallel BM25 + reciprocal rank fusion → JSON.</li>
                 </ol>
               </div>
             </div>
@@ -509,7 +589,7 @@ function page(waitlisted: boolean | "error" = false) {
 
                 <rect x="401" y="28" width="140" height="60" rx="6" class="n-box" />
                 <text x="471" y="56" text-anchor="middle" class="n-title">Sanitize</text>
-                <text x="471" y="74" text-anchor="middle" class="n-sub">redact PII · secrets</text>
+                <text x="471" y="74" text-anchor="middle" class="n-sub">secrets + PII rules</text>
 
                 <rect x="559" y="28" width="140" height="60" rx="6" class="n-box" />
                 <text x="629" y="56" text-anchor="middle" class="n-title">Chunk + embed</text>
@@ -565,7 +645,7 @@ function page(waitlisted: boolean | "error" = false) {
 
                 <rect x="559" y="320" width="140" height="60" rx="6" class="n-box" />
                 <text x="629" y="348" text-anchor="middle" class="n-title">Hybrid retrieval</text>
-                <text x="629" y="366" text-anchor="middle" class="n-sub">BM25 + vector · RRF</text>
+                <text x="629" y="366" text-anchor="middle" class="n-sub">vector · BM25 + RRF (Pro+)</text>
 
                 <rect x="717" y="320" width="140" height="60" rx="6" class="n-box store" />
                 <text x="787" y="348" text-anchor="middle" class="n-title">Postgres</text>
@@ -585,127 +665,178 @@ function page(waitlisted: boolean | "error" = false) {
         <section class="section" id="endpoints">
           <div class="container">
             <div class="section-label">the api</div>
-            <h2>Two endpoints. No SDK required.</h2>
-            <p class="section-sub">SDKs are convenience wrappers. The contract is REST, the auth is a bearer token, the response is JSON. Two calls do the job; the other two surfaces are there when you need them.</p>
+            <h2>Built for retrieval — and the context around it.</h2>
+            <p class="section-sub">The contract is REST, bearer-token authentication, and JSON. Ingest and context cover the core flow; search and entities expose the raw material and temporal state behind it.</p>
             <div class="endpoints">
               <div class="endpoint">
                 <div class="endpoint-row">
                   <span class="endpoint-method method-post">POST</span>
                   <span class="endpoint-path">/v1/ingest</span>
                 </div>
-                <p>Store a conversation turn, document, note, or meeting transcript. Sanitization + chunking + embedding happen async — the request returns <span class="mono">202</span> before any of it runs.</p>
+                <p>Store a conversation turn, document, note, or meeting transcript. The request queues processing and returns <span class="mono">202</span>; background jobs perform embedding and synthesis.</p>
               </div>
               <div class="endpoint">
                 <div class="endpoint-row">
                   <span class="endpoint-method method-get">GET</span>
                   <span class="endpoint-path">/v1/context</span>
                 </div>
-                <p>Returns synthesized <span class="mono">static</span> + <span class="mono">dynamic</span> arrays plus optional <span class="mono">relevant</span> chunks. Drop both into a system prompt.</p>
+                <p>Return synthesized <span class="mono">static</span> facts, <span class="mono">dynamic</span> context, and optional <span class="mono">relevant</span> chunks for the next application request.</p>
               </div>
               <div class="endpoint">
                 <div class="endpoint-row">
                   <span class="endpoint-method method-post">POST</span>
                   <span class="endpoint-path">/v1/search</span>
                 </div>
-                <p>Raw hybrid search (vector + BM25 + RRF). For when you want the chunks, not the profile.</p>
+                <p>Search the stored chunks directly. Pro+ combines vector and BM25 retrieval with reciprocal-rank fusion.</p>
               </div>
               <div class="endpoint">
                 <div class="endpoint-row">
                   <span class="endpoint-method method-get">GET</span>
                   <span class="endpoint-path">/v1/entities</span>
                 </div>
-                <p>Bi-temporal entity graph extracted during synthesis. People, projects, decisions — with valid-time <em>and</em> knowledge-time edges, queryable via <span class="mono">asOf</span> / <span class="mono">asOfKnowledge</span>. Pro+.</p>
+                <p>Query entity relationships by valid-time and knowledge-time with <span class="mono">asOf</span> and <span class="mono">asOfKnowledge</span>. Pro+.</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── Why it's different ── */}
+        {/* ── Product model ── */}
         <section class="section" id="features">
           <div class="container">
-            <div class="section-label">why anansi</div>
-            <h2>Open-source memory with a bi-temporal graph.</h2>
-            <p class="section-sub">Memory is a crowded space. Here's what Anansi does that's genuinely distinct — each one backed by code in the repo, not a slide.</p>
+            <div class="section-label">the product model</div>
+            <h2>More useful than a matching result alone.</h2>
+            <p class="section-sub">Anansi stores source chunks, synthesizes current context, and keeps relationship history as a queryable part of the same system.</p>
             <div class="endpoints" style="margin-bottom:14px">
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">01 · Bi-temporal graph</span></div>
-                <p>Entity edges track two time axes — <span class="mono">valid-time</span> (when it was true) and <span class="mono">knowledge-time</span> (when we learned it). Query the graph <span class="mono">asOf</span> a date, or as we <span class="mono">knew</span> it. Ask what was true <em>when</em>.</p>
+                <div class="endpoint-row"><CapabilityIcon name="context" /><span class="endpoint-path">Synthesized context</span></div>
+                <p>A background synthesis pass writes stable facts and changing context from accumulated chunks. <span class="mono">GET /v1/context</span> returns both, with relevant chunks when requested.</p>
               </div>
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">02 · MIT & self-hostable</span></div>
-                <p>Open-source under MIT. <span class="mono">docker compose up</span> brings up Postgres + Redis; the API ships its own Dockerfile. Run the hosted service or host it yourself — your users' memory, your infra.</p>
+                <div class="endpoint-row"><CapabilityIcon name="history" /><span class="endpoint-path">Historical entity state</span></div>
+                <p>Entity edges track <span class="mono">valid-time</span> (when a relationship was true) and <span class="mono">knowledge-time</span> (when it was recorded). Query either coordinate.</p>
               </div>
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">03 · Synthesized profiles</span></div>
-                <p>An LLM pass distills accumulated chunks into <span class="mono">static</span> facts and <span class="mono">dynamic</span> context. Drop both arrays into a system prompt — no chunks to dedupe, rank, or trim yourself.</p>
+                <div class="endpoint-row"><CapabilityIcon name="search" /><span class="endpoint-path">Direct retrieval</span></div>
+                <p>Use <span class="mono">POST /v1/search</span> when your application needs chunks rather than a profile. Search results retain source IDs and metadata.</p>
               </div>
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">04 · Bring your own embeddings</span></div>
-                <p>Swap the embedding provider (Nomic or local Ollama), or skip it entirely — pass a pre-computed <span class="mono">embedding</span> on ingest and we store your vectors. Model-agnostic on the LLM side too.</p>
+                <div class="endpoint-row"><CapabilityIcon name="vectors" /><span class="endpoint-path">Portable vector layer</span></div>
+                <p>Use Nomic or local Ollama embeddings, or pass a pre-computed <span class="mono">embedding</span> with ingestion. The API stores 768-dimensional vectors.</p>
               </div>
             </div>
 
-            {/* Bi-temporal proof — real request against GET /v1/entities (asOf + asOfKnowledge) */}
+            {/* Core ingest/context exchange — public API surface */}
             <div class="code-card">
               <div class="code-head">
-                <span>GET /v1/entities · the "as we knew it" query</span>
-                <span class="dim">bi-temporal · Pro+</span>
+                <span>POST /v1/ingest · GET /v1/context</span>
+                <span class="dim">REST · JSON · bearer auth</span>
               </div>
-              <div class="code-body" dangerouslySetInnerHTML={{ __html: biTemporalCode }} />
+              <div class="code-body" dangerouslySetInnerHTML={{ __html: ingestCode }} />
             </div>
           </div>
         </section>
 
-        {/* ── Who it's for ── */}
+        {/* ── Where it fits ── */}
         <section class="section" id="use-cases">
           <div class="container">
-            <div class="section-label">who it's for</div>
-            <h2>Three places Anansi genuinely wins.</h2>
-            <p class="section-sub">Not "memory for everyone" — memory for teams whose problem shape matches what this engine actually does.</p>
+            <div class="section-label">where it fits</div>
+            <h2>Use Anansi when context has structure and history.</h2>
+            <p class="section-sub">The strongest fit is an application that needs more than a list of similar chunks: it needs current context, source material, or a past state.</p>
             <div class="endpoints">
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">Compliance & audit</span></div>
-                <p>"What did we know on March 3rd?" is an audit question, and most memory stores can't answer it — they overwrite. Anansi's knowledge-time axis reconstructs the graph <em>as you knew it</em> at any instant, self-hosting keeps memory on your infrastructure, and <span class="mono">DELETE /v1/user</span> gives you a GDPR hard-delete that cascades through chunks, profile, and graph.</p>
+                <div class="endpoint-row"><span class="endpoint-path">Continuity across requests</span></div>
+                <p>Use synthesized profiles and relevant chunks to give an AI application the context it needs for the next response.</p>
               </div>
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">Slack-first teams</span></div>
-                <p>Install the Slack app and the workspace becomes shared memory: messages ingest automatically, <span class="mono">/ask</span> answers from a two-layer profile (curated static facts + current context), and <span class="mono">/memory forget-me</span> lets anyone opt out. No pipeline to build — the bot runs on the same engine as the API.</p>
+                <div class="endpoint-row"><span class="endpoint-path">Connected team sources</span></div>
+                <p>Ingest through the API, Slack, Notion, Google Docs, Linear, or a transcript webhook, then retrieve the resulting context from the same API.</p>
               </div>
               <div class="endpoint">
-                <div class="endpoint-row"><span class="endpoint-path">OSS-first engineers</span></div>
-                <p>MIT license, no open-core asterisks. <span class="mono">docker compose up</span> starts Postgres + Redis, and with local Ollama serving both embeddings and synthesis, the whole stack runs on your laptop with <em>zero</em> external API calls. Read the retrieval code before you trust it with your users' memory.</p>
+                <div class="endpoint-row"><span class="endpoint-path">Time-sensitive state</span></div>
+                <p>Query what was true at a point in time or what had been recorded by then. <span class="mono">DELETE /v1/user</span> removes the memory user and its dependent data.</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── Compare ── */}
+        {/* ── Decision table ── */}
         <section class="section" id="compare">
           <div class="container">
-            <div class="section-label">vs the field</div>
-            <h2>Where Anansi sits.</h2>
-            <p class="section-sub">An honest read of the memory landscape. Mem0, Supermemory, and Zep are strong tools with graph memory, temporal reasoning, and dashboards of their own — these are the axes where Anansi is genuinely differentiated.</p>
+            <div class="section-label">beyond similarity search</div>
+            <h2>The question determines the surface.</h2>
+            <p class="section-sub">Similarity search answers one useful question. Anansi also exposes synthesized context and historical entity state through the public API.</p>
             <div class="compare-wrap">
               <table class="compare">
                 <thead>
                   <tr>
-                    <th>capability</th>
-                    <th class="col-anansi">anansi</th>
-                    <th>supermemory</th>
-                    <th>mem0</th>
+                    <th>application question</th>
+                    <th class="col-anansi">API surface</th>
+                    <th>returns</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="feat-anansi"><td>Knowledge-time queries — the graph "as we knew it" (<span class="mono">asOfKnowledge</span>)</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
-                  <tr class="feat-anansi"><td>MIT license, full stack self-hostable via docker compose</td><td class="yes">✓</td><td class="no">hosted</td><td class="no">OSS core</td></tr>
-                  <tr><td>Graph / temporal memory</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-                  <tr><td>Synthesized profile (system-prompt ready)</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
-                  <tr><td>Hybrid retrieval (BM25 + vector)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-                  <tr><td>First-party Slack app with <span class="mono">/ask</span> team memory</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+                  <tr><td>What source material matches this request?</td><td class="yes"><span class="mono">POST /v1/search</span></td><td>Stored chunks, source IDs, and metadata</td></tr>
+                  <tr class="feat-anansi"><td>What context should the next request carry forward?</td><td class="yes"><span class="mono">GET /v1/context</span></td><td>Static facts, dynamic context, and optional relevant chunks</td></tr>
+                  <tr class="feat-anansi"><td>What relationship was true at a prior time?</td><td class="yes"><span class="mono">GET /v1/entities</span></td><td>Entity relationships at <span class="mono">asOf</span> and <span class="mono">asOfKnowledge</span> (Pro+)</td></tr>
+                  <tr><td>Which stored items belong to this user or source?</td><td class="yes"><span class="mono">GET /v1/memories</span></td><td>Stored chunks and their source metadata</td></tr>
                 </tbody>
               </table>
             </div>
-            <p style="color:var(--dim);font-size:12px;margin-top:10px;font-family:'SF Mono',Menlo,monospace">// based on each product's public docs as of July 2026. Spotted an error? Open an issue — we'll fix the table.</p>
+            <p style="color:var(--dim);font-size:12px;margin-top:10px;font-family:'SF Mono',Menlo,monospace">// public surfaces verified in <span class="mono">/v1</span></p>
+          </div>
+        </section>
+
+        {/* ── Enterprise ── */}
+        <section class="section" id="enterprise">
+          <div class="container">
+            <div class="section-label">enterprise controls</div>
+            <h2>Control how knowledge is operated.</h2>
+            <p class="section-sub">The Enterprise console provides identity, governance, and administrative controls for the organizations that operate Anansi.</p>
+            <div class="endpoints">
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Identity and access</span></div>
+                <p>Configure SSO and manage SCIM provisioning tokens. Enterprise routes apply organization permissions to each administrative action.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Governance controls</span></div>
+                <p>Manage approval requests and redaction rules from the Enterprise console.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Administrative audit</span></div>
+                <p>The Enterprise console records its administrative mutations and provides audit-log and NDJSON export endpoints.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Edition enforcement</span></div>
+                <p>Enterprise routes are entitlement-gated; self-hosted Enterprise deployments also require a valid organization-bound license.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Open source ── */}
+        <section class="section" id="open-source">
+          <div class="container">
+            <div class="section-label">open source</div>
+            <h2>Run the core data plane yourself.</h2>
+            <p class="section-sub">Anansi is MIT-licensed. The repository includes the API, PostgreSQL, Redis, migrations, and deployment configuration rather than an SDK-only client.</p>
+            <div class="endpoints">
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Compose services</span></div>
+                <p><span class="mono">docker compose up</span> starts the API, PostgreSQL, and Redis services. Configure a model provider separately for embeddings and synthesis.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Local deployment mode</span></div>
+                <p>With <span class="mono">DEPLOYMENT_MODE=local</span> and local Ollama for embeddings and synthesis, content-exporting telemetry is disabled and cloud AI providers are rejected at startup.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Choose the vector path</span></div>
+                <p>Use Nomic or local Ollama embeddings, or provide pre-computed 768-dimensional embeddings in the ingest request.</p>
+              </div>
+              <div class="endpoint">
+                <div class="endpoint-row"><span class="endpoint-path">Inspect the implementation</span></div>
+                <p>Ingestion, retrieval, synthesis, temporal graph modeling, and the public API routes are all present in the repository.</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -739,7 +870,7 @@ function page(waitlisted: boolean | "error" = false) {
                   <li>unlimited memory users</li>
                   <li>infinite retention</li>
                   <li>hybrid search + entity graph</li>
-                  <li>all 4 connectors</li>
+                  <li>Notion, Google Docs, Linear + transcript webhook</li>
                 </ul>
                 {WAITLIST_MODE
                   ? <a href="#waitlist" class="tier-cta">Join waitlist →</a>
@@ -764,14 +895,14 @@ function page(waitlisted: boolean | "error" = false) {
         {/* ── Closing ── */}
         <section class="closing">
           <div class="container">
-            <p class="quote">Anansi didn't weave a new web for every story. Your agent shouldn't build a new mind for every session.</p>
-            <h2>Stop letting your agent forget.</h2>
-            <p>Two function calls. Any LLM. Free tier, no card. Five minutes from signed-up to remembering users in production.</p>
+            <p class="quote">A useful system should retain the source, the context, and the history behind a decision.</p>
+            <h2>Build AI on queryable knowledge.</h2>
+            <p>Ingest source data, retrieve current context, and query historical entity state through one API.</p>
             <div class="cta-row">
               {WAITLIST_MODE
                 ? <a href="#waitlist" class="btn-primary">Join the Anansi beta →</a>
-                : <a href="/portal/signup" class="btn-primary">Get an API key</a>}
-              <a href="/docs" class="btn-ghost">Read the docs →</a>
+                : <a href="/portal/signup" class="btn-primary">Create an API key</a>}
+              <a href="/docs/api-reference" class="btn-ghost">Explore the API →</a>
             </div>
           </div>
         </section>

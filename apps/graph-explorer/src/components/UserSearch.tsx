@@ -18,44 +18,47 @@ export function UserSearch({ onLoad, loading, error }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#0f0f11] z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#f6f5f0] p-5 text-[#151b24]">
       <form
         onSubmit={submit}
-        className="w-full max-w-sm space-y-4 px-6 py-8 bg-[#16161a] rounded-2xl border border-white/10 shadow-2xl"
+        className="w-full max-w-md space-y-6 rounded-xl border border-[#d8d9d2] bg-white px-6 py-7 shadow-[0_24px_64px_rgb(21_27_36/0.12)] sm:px-8 sm:py-9"
       >
         <div>
-          <h1 className="text-lg font-semibold text-white">Memory Graph</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Enter a userId to explore their knowledge graph</p>
+          <p className="font-mono text-[0.625rem] font-medium uppercase tracking-[0.12em] text-[#315ef4]">Anansi / research view</p>
+          <h1 className="mt-2 font-display text-4xl font-medium tracking-[-0.04em] text-[#151b24]">Knowledge map</h1>
+          <p className="mt-2 text-sm leading-6 text-[#667085]">Open a subject’s entity topology, evidence, and temporal history.</p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div>
-            <label className="block text-xs text-slate-400 mb-1">User ID</label>
+            <label htmlFor="graph-user-id" className="mb-1.5 block text-xs font-semibold text-[#344054]">User ID</label>
             <input
+              id="graph-user-id"
               type="text"
               value={userId}
               onChange={e => setUserId(e.target.value)}
               placeholder="+15551234567"
-              className="w-full px-3 py-2 text-sm bg-[#0f0f11] border border-white/15 rounded-lg text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full rounded-md border border-[#c6c8c1] bg-white px-3 py-2.5 text-sm text-[#151b24] placeholder:text-[#98a2b3] focus:border-[#315ef4] focus:outline-none focus:ring-2 focus:ring-[#315ef4]/20"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs text-slate-400 mb-1">API Key</label>
+            <label htmlFor="graph-api-key" className="mb-1.5 block text-xs font-semibold text-[#344054]">API key</label>
             <input
+              id="graph-api-key"
               type="password"
               value={apiKey}
               onChange={e => setApiKey(e.target.value)}
               placeholder="ans_..."
-              className="w-full px-3 py-2 text-sm bg-[#0f0f11] border border-white/15 rounded-lg text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full rounded-md border border-[#c6c8c1] bg-white px-3 py-2.5 text-sm text-[#151b24] placeholder:text-[#98a2b3] focus:border-[#315ef4] focus:outline-none focus:ring-2 focus:ring-[#315ef4]/20"
               required
             />
           </div>
         </div>
 
         {error && (
-          <p className="text-xs text-red-400 bg-red-950/40 border border-red-800/40 rounded-lg px-3 py-2">
+          <p role="alert" className="rounded-md border border-[#f4c7c3] bg-[#fff1f0] px-3 py-2 text-xs text-[#9f1c13]">
             {error}
           </p>
         )}
@@ -63,7 +66,7 @@ export function UserSearch({ onLoad, loading, error }: Props) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white transition-colors"
+          className="w-full rounded-md border border-[#315ef4] bg-[#315ef4] py-2.5 text-sm font-medium text-white shadow-sm transition-[background-color,transform] hover:bg-[#254ad4] disabled:cursor-not-allowed disabled:opacity-50 active:translate-y-px"
         >
           {loading ? 'Loading…' : 'Explore Graph'}
         </button>

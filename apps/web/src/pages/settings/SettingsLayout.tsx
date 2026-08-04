@@ -10,19 +10,22 @@ const TABS = [
 
 export default function SettingsLayout() {
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
-      <Heading level={2}>Settings</Heading>
-      <div className="mt-6 flex gap-1 border-b border-border">
+    <div className="lab-page lab-page--narrow lab-settings">
+      <header className="lab-page-header">
+        <p className="lab-page-overline">Workspace controls</p>
+        <Heading level={2}>Settings</Heading>
+      </header>
+      <div className="lab-settings-tabs">
         {TABS.map((t) => (
           <NavLink
             key={t.to}
             to={t.to}
             className={({ isActive }) =>
               cn(
-                "relative -mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors",
+                "lab-settings-tab",
                 isActive
-                  ? "border-primary text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  ? "lab-active"
+                  : ""
               )
             }
           >

@@ -37,7 +37,7 @@ export function Alert({
   return (
     <div
       role="alert"
-      className={cn("flex gap-3 rounded-md border px-4 py-3 text-sm", ALERT_VARIANT[variant], className)}
+      className={cn("flex gap-3 rounded-md border px-4 py-3 text-sm shadow-[inset_3px_0_0_currentColor]", ALERT_VARIANT[variant], className)}
       {...props}
     >
       <Icon className="mt-0.5 size-4 shrink-0" />
@@ -81,7 +81,7 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border p-12 text-center",
+        "flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-[var(--rule-strong)] bg-card p-10 text-center sm:p-12",
         className
       )}
     >
@@ -111,10 +111,11 @@ export function StatCard({
   className?: string;
 }) {
   return (
-    <Card className={cn("p-5", className)}>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-1 text-2xl font-semibold tracking-tight text-foreground">{value}</p>
-      {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
+    <Card className={cn("relative overflow-hidden p-5", className)}>
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-[var(--rule-strong)]" />
+      <p className="font-mono text-[0.625rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{label}</p>
+      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-foreground">{value}</p>
+      {hint && <p className="mt-1.5 text-xs text-muted-foreground">{hint}</p>}
     </Card>
   );
 }
@@ -147,7 +148,7 @@ export function CodeBlock({
       type="button"
       onClick={onCopy}
       aria-label={copied ? "Copied" : "Copy code"}
-      className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-[#9eabc0] transition-colors duration-150 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {copied ? <CheckIcon className="size-3.5" /> : <CopyIcon className="size-3.5" />}
     </button>
@@ -157,13 +158,13 @@ export function CodeBlock({
     <div
       data-language={language}
       className={cn(
-        "group relative overflow-hidden rounded-md border border-border bg-card",
+        "group relative overflow-hidden rounded-lg border border-[#283649] bg-[#101925] text-[#e6edf7] shadow-[var(--shadow-paper)]",
         className
       )}
     >
       {language ? (
-        <div className="flex items-center justify-between border-b border-border py-1.5 pl-4 pr-1.5">
-          <span className="font-mono text-xs text-muted-foreground">{language}</span>
+        <div className="flex items-center justify-between border-b border-[#283649] bg-[#151f2d] py-2 pl-4 pr-1.5">
+          <span className="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-[#9eabc0]">{language}</span>
           {copyButton}
         </div>
       ) : (
@@ -171,7 +172,7 @@ export function CodeBlock({
           {copyButton}
         </div>
       )}
-      <pre className="overflow-x-auto p-4 font-mono text-sm text-foreground">
+      <pre className="overflow-x-auto p-4 font-mono text-[0.8125rem] leading-6 text-[#e6edf7]">
         <code>{code}</code>
       </pre>
     </div>

@@ -29,6 +29,38 @@ function Loading() {
   return <div className="flex justify-center py-12"><Spinner className="text-muted-foreground" /></div>;
 }
 
+function GraphDiagram({ nodes, edges }: { nodes: GraphNodeDto[]; edges: GraphEdgeDto[] }) {
+  const plotted = nodes.slice(0, 20).map((node, index) => {
+    if (index === 0) return { node, x: 320, y: 180 };
+    const angle = ((index - 1) / Math.max(1, Math.min(nodes.length - 1, 19))) * Math.PI * 2 - Math.PI / 2;
+    const radiusX = index % 2 ? 192 : 144;
+    const radiusY = index % 2 ? 108 : 132;
+    return { node, x: 320 + Math.cos(angle) * radiusX, y: 180 + Math.sin(angle) * radiusY };
+  });
+  const byId = new Map(plotted.map((point) => [point.node.id, point]));
+  const visibleEdges = edges.filter((edge) => byId.has(edge.fromEntityId) && byId.has(edge.toEntityId)).slice(0, 34);
+
+  return (
+    <div className="lab-graph-stage" role="img" aria-label={`${nodes.length} entities and ${edges.length} relationships`}>
+      <span className="lab-graph-label">Relationship field</span>
+      <svg viewBox="0 0 640 360" className="lab-graph-svg" aria-hidden="true">
+        {visibleEdges.map((edge) => {
+          const from = byId.get(edge.fromEntityId)!;
+          const to = byId.get(edge.toEntityId)!;
+          return <line key={edge.id} x1={from.x} y1={from.y} x2={to.x} y2={to.y} className="lab-graph-edge" />;
+        })}
+        {plotted.map(({ node, x, y }, index) => (
+          <g key={node.id}>
+            <circle cx={x} cy={y} r={index === 0 ? 16 : 11} className="lab-graph-node" />
+            <text x={x} y={y + (index === 0 ? 31 : 26)} textAnchor="middle" className="lab-graph-node-label">{node.name.slice(0, 18)}</text>
+          </g>
+        ))}
+      </svg>
+      <span className="lab-graph-legend">{visibleEdges.length} visible relations / {nodes.length} entities</span>
+    </div>
+  );
+}
+
 function GraphView({ mode, nodes, edges }: { mode: "graph" | "relationships"; nodes: GraphNodeDto[]; edges: GraphEdgeDto[] }) {
   const names = useMemo(() => new Map(nodes.map((node) => [node.id, node.name])), [nodes]);
   if (!nodes.length) return <EmptyState title="No entities yet" description="Entity and relationship data appears after synthesized memory has been extracted from ingested content." />;
@@ -36,7 +68,7 @@ function GraphView({ mode, nodes, edges }: { mode: "graph" | "relationships"; no
     return edges.length ? (
       <div className="space-y-3">
         {edges.map((edge) => (
-          <Card key={edge.id} className="p-4">
+          <Card key={edge.id} className="lab-document-card p-4">
             <p className="text-sm font-medium">{names.get(edge.fromEntityId) ?? "Unknown"} <span className="font-normal text-muted-foreground">{readable(edge.relationship)}</span> {names.get(edge.toEntityId) ?? "Unknown"}</p>
             <p className="mt-1 text-xs text-muted-foreground">{edge.validUntil ? `ended ${date(edge.validUntil)}` : "active"} · confidence {edge.confidence.toFixed(2)}</p>
           </Card>
@@ -45,16 +77,14 @@ function GraphView({ mode, nodes, edges }: { mode: "graph" | "relationships"; no
     ) : <EmptyState title="No relationships yet" description="Relationships are extracted from synthesized memory when the workspace has evidence connecting entities." />;
   }
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr]">
-      <Card className="p-5">
-        <h3 className="mb-3 text-sm font-semibold">Entities ({nodes.length})</h3>
+    <div className="grid gap-4 lg:grid-cols-[1.55fr_.85fr]">
+      <GraphDiagram nodes={nodes} edges={edges} />
+      <Card className="lab-graph-index p-5">
+        <div className="mb-4 flex items-baseline justify-between gap-3"><h3 className="text-sm font-semibold">Entity index</h3><span className="font-mono text-[10px] uppercase tracking-[.08em] text-muted-foreground">{nodes.length}</span></div>
         <div className="space-y-2">
-          {nodes.map((node) => <div key={node.id} className="flex items-center justify-between gap-3 text-sm"><span className="truncate">{node.name}</span><Badge>{node.entityType}</Badge></div>)}
+          {nodes.slice(0, 16).map((node) => <div key={node.id} className="flex items-center justify-between gap-3 border-b border-border/70 py-2 text-sm last:border-0"><span className="truncate">{node.name}</span><Badge>{node.entityType}</Badge></div>)}
         </div>
-      </Card>
-      <Card className="p-5">
-        <h3 className="mb-3 text-sm font-semibold">Relationships ({edges.length})</h3>
-        {edges.length ? <div className="space-y-2">{edges.slice(0, 50).map((edge) => <p key={edge.id} className="text-sm text-muted-foreground">{names.get(edge.fromEntityId) ?? "Unknown"} <span className="text-foreground">{readable(edge.relationship)}</span> {names.get(edge.toEntityId) ?? "Unknown"}</p>)}</div> : <p className="text-sm text-muted-foreground">No relationships were found yet.</p>}
+        {nodes.length > 16 && <p className="mt-4 font-mono text-[10px] uppercase tracking-[.08em] text-muted-foreground">+ {nodes.length - 16} more entities</p>}
       </Card>
     </div>
   );
@@ -147,5 +177,5 @@ export default function SurfacePage({ title, description, surface }: { title: st
   else if (surface === "billing" && billing) content = <BillingView billing={billing} />;
   else content = <EmptyState title={`No ${title.toLowerCase()} data yet`} description="This workspace has not produced data for this surface yet." />;
 
-  return <div className="mx-auto max-w-5xl p-6 sm:p-8"><Heading level={2}>{title}</Heading><Text muted className="mt-1">{description}</Text><div className="mt-8">{content}</div></div>;
+  return <div className="lab-page lab-surface"><header className="lab-page-header"><p className="lab-page-overline">{surface.replace(/-/g, " ")}</p><Heading level={2}>{title}</Heading><Text muted className="mt-1">{description}</Text></header><div className="mt-8">{content}</div></div>;
 }

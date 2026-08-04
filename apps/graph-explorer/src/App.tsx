@@ -77,7 +77,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-screen h-screen relative overflow-hidden bg-[#0f0f11]">
+    <div className="w-screen h-screen relative overflow-hidden bg-[#101925]">
       <Toolbar
         dimension={dimension}
         zMode={zMode}
@@ -92,7 +92,7 @@ export default function App() {
       />
 
       {/* Graph area — padded top for toolbar, bottom for slider */}
-      <div className="absolute inset-0 top-[44px] bottom-[56px]">
+      <div className="absolute inset-0 top-[60px] bottom-[64px]">
         <GraphCanvas
           entities={loaded.entities}
           memories={loaded.memories}
@@ -120,11 +120,13 @@ export default function App() {
       )}
 
       {/* User badge */}
-      <div className="absolute top-[52px] left-4 text-[10px] text-slate-600 font-mono">
+      <div className="absolute top-[76px] left-5 flex items-center gap-2 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-slate-500">
+        <span className="size-1.5 rounded-full bg-[#70c6a3]" aria-hidden />
         {loaded.userId}
         <button
           onClick={() => { setLoaded(null); setSelectedNode(null); setAsOf(null); }}
-          className="ml-2 text-slate-700 hover:text-slate-400 transition-colors"
+          aria-label="Change graph subject"
+          className="ml-1 text-slate-600 transition-colors hover:text-slate-200"
         >
           ×
         </button>

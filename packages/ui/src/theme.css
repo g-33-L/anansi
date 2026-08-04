@@ -1,103 +1,98 @@
 /*
- * @anansi/ui — design tokens (canonical, orchestrator-owned contract).
- * Tailwind v4 CSS-first. Apps import AFTER tailwind:
- *   @import "tailwindcss";
- *   @import "@anansi/ui/theme.css";
- * Dark-first. Light mode via [data-theme="light"]. shadcn-compatible semantic
- * names (background/foreground/primary/...) + Anansi extensions (temporal, viz-*).
- * Do not rename tokens without updating DESIGN_TOKENS.md — both subagents depend on these.
+ * @anansi/ui — the Research Lab design contract.
+ *
+ * This is deliberately light-first: narratives live on field-paper; dense work
+ * moves into graphite workspaces. Runtime semantic names stay stable so product
+ * surfaces can change their visual language without changing behavior.
  */
-
-/* Self-hosted Inter + JetBrains Mono (@font-face). Must be the first statement —
-   CSS requires @import to precede all other rules. */
 @import "./fonts.css";
 
-/* ── Runtime semantic variables (mode-switched) ───────────────────────────── */
 :root {
-  color-scheme: dark;
-
-  --background: oklch(0.15 0.006 265);
-  --foreground: oklch(0.96 0.005 265);
-  --card: oklch(0.185 0.007 265);
-  --card-foreground: oklch(0.96 0.005 265);
-  --popover: oklch(0.205 0.008 265);
-  --popover-foreground: oklch(0.96 0.005 265);
-  --muted: oklch(0.235 0.008 265);
-  --muted-foreground: oklch(0.68 0.015 265);
-  --border: oklch(0.305 0.01 265);
-  --input: oklch(0.305 0.01 265);
-  --ring: oklch(0.80 0.13 72);
-
-  /* Brand: silk amber (spider-silk on graphite) */
-  --primary: oklch(0.80 0.13 72);
-  --primary-foreground: oklch(0.20 0.03 72);
-  /* Neutral surface accents */
-  --secondary: oklch(0.235 0.008 265);
-  --secondary-foreground: oklch(0.96 0.005 265);
-  --accent: oklch(0.26 0.02 72);
-  --accent-foreground: oklch(0.96 0.005 265);
-
-  /* NOTE(a11y, DS agent): lightness 0.62→0.57 vs. the original scaffold value.
-     0.62 measured 3.78:1 against --destructive-foreground (fails WCAG AA 4.5:1 on
-     solid Button/destructive text) — WCAG's luminance formula underweights red, so
-     an OKLCH-mid-lightness red reads "light enough" visually but isn't for white
-     text. 0.57 restores 4.65:1 while staying ≥3:1 non-text against --background.
-     Same hue/chroma; name, role, and light-mode value unchanged. */
-  --destructive: oklch(0.57 0.20 25);
-  --destructive-foreground: oklch(0.98 0.01 25);
-  --success: oklch(0.72 0.15 155);
-  --success-foreground: oklch(0.16 0.03 155);
-  --warning: oklch(0.80 0.14 85);
-  --warning-foreground: oklch(0.20 0.04 85);
-  --info: oklch(0.70 0.12 235);
-  --info-foreground: oklch(0.16 0.03 235);
-
-  /* Anansi: temporal axis accent (bi-temporal graph/timeline) */
-  --temporal: oklch(0.72 0.13 285);
-  --temporal-foreground: oklch(0.16 0.03 285);
-}
-
-[data-theme="light"] {
   color-scheme: light;
 
-  --background: oklch(0.99 0.002 265);
-  --foreground: oklch(0.22 0.01 265);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.01 265);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.01 265);
-  --muted: oklch(0.965 0.004 265);
-  --muted-foreground: oklch(0.48 0.015 265);
-  --border: oklch(0.90 0.006 265);
-  --input: oklch(0.90 0.006 265);
-  /* NOTE(a11y, DS agent): decoupled from --primary (was an equal 0.70, matching
-     dark mode's convention) — 0.70 measured 2.68:1 against --background, well
-     under the 3:1 WCAG AA non-text/focus-indicator minimum, meaning keyboard focus
-     was nearly invisible in light mode. 0.58 restores 4.3:1+. --primary (the brand
-     button/fill color) is untouched; only the focus-ring shade is darker. */
-  --ring: oklch(0.58 0.14 66);
+  /* Field paper / graphite — the default reading environment. */
+  --background: #f6f5f0;
+  --foreground: #151b24;
+  --card: #ffffff;
+  --card-foreground: #151b24;
+  --popover: #ffffff;
+  --popover-foreground: #151b24;
+  --muted: #edede7;
+  --muted-foreground: #667085;
+  --border: #d8d9d2;
+  --input: #c6c8c1;
+  --ring: #315ef4;
 
-  --primary: oklch(0.70 0.14 66);
-  --primary-foreground: oklch(0.20 0.03 72);
-  --secondary: oklch(0.965 0.004 265);
-  --secondary-foreground: oklch(0.22 0.01 265);
-  --accent: oklch(0.95 0.02 72);
-  --accent-foreground: oklch(0.30 0.05 72);
+  /* Signal blue is reserved for an action, selection, or current location. */
+  --primary: #315ef4;
+  --primary-foreground: #ffffff;
+  --secondary: #e9e9e3;
+  --secondary-foreground: #151b24;
+  --accent: #e8efff;
+  --accent-foreground: #203eaa;
 
-  --destructive: oklch(0.58 0.21 25);
-  --destructive-foreground: oklch(0.99 0.01 25);
-  --success: oklch(0.58 0.15 155);
-  --success-foreground: oklch(0.99 0.01 155);
-  --warning: oklch(0.70 0.15 75);
-  --warning-foreground: oklch(0.20 0.04 75);
-  --info: oklch(0.58 0.14 235);
-  --info-foreground: oklch(0.99 0.01 235);
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --success: #237a5a;
+  --success-foreground: #ffffff;
+  --warning: #9a6200;
+  --warning-foreground: #ffffff;
+  --info: #315ef4;
+  --info-foreground: #ffffff;
+  --temporal: #5e54a8;
+  --temporal-foreground: #ffffff;
 
-  --temporal: oklch(0.55 0.16 285);
-  --temporal-foreground: oklch(0.99 0.01 285);
+  /* Structural tokens intentionally aren't semantic Tailwind colors. */
+  --surface-raised: #ffffff;
+  --surface-sunken: #eeeee8;
+  --ink-subtle: #475467;
+  --rule-strong: #bfc1b8;
+  --shadow-paper: 0 1px 1px rgb(21 27 36 / 0.03), 0 10px 28px rgb(21 27 36 / 0.055);
+  --shadow-float: 0 2px 4px rgb(21 27 36 / 0.08), 0 20px 50px rgb(21 27 36 / 0.16);
 }
 
-/* ── Map runtime vars → Tailwind color utilities (bg-*, text-*, border-*) ──── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #0f1622;
+  --foreground: #f4f6f8;
+  --card: #161f2d;
+  --card-foreground: #f4f6f8;
+  --popover: #1b2534;
+  --popover-foreground: #f4f6f8;
+  --muted: #202a39;
+  --muted-foreground: #a5afbf;
+  --border: #303c4d;
+  --input: #3a475a;
+  --ring: #88a9ff;
+
+  --primary: #88a9ff;
+  --primary-foreground: #0d1728;
+  --secondary: #202a39;
+  --secondary-foreground: #f4f6f8;
+  --accent: #1d315a;
+  --accent-foreground: #dce7ff;
+
+  --destructive: #f58d84;
+  --destructive-foreground: #24120f;
+  --success: #73c7a5;
+  --success-foreground: #0e281f;
+  --warning: #e9bd64;
+  --warning-foreground: #2d2104;
+  --info: #88a9ff;
+  --info-foreground: #0d1728;
+  --temporal: #b5a7ff;
+  --temporal-foreground: #17132c;
+
+  --surface-raised: #1b2534;
+  --surface-sunken: #101a28;
+  --ink-subtle: #c1c9d4;
+  --rule-strong: #435168;
+  --shadow-paper: 0 1px 1px rgb(0 0 0 / 0.16), 0 10px 28px rgb(0 0 0 / 0.16);
+  --shadow-float: 0 2px 5px rgb(0 0 0 / 0.32), 0 24px 64px rgb(0 0 0 / 0.42);
+}
+
+/* ── Map runtime vars → Tailwind color utilities ─────────────────────────── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -128,38 +123,35 @@
   --color-temporal-foreground: var(--temporal-foreground);
 }
 
-/* ── Static scale tokens (mode-invariant) ─────────────────────────────────── */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
   --radius-lg: 0.625rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.25rem;
 
-  /* Categorical data-viz palette (graph nodes, timeline series). Consult the
-     `dataviz` skill before extending — keep it colorblind-safe + dark/light legible. */
-  --color-viz-1: oklch(0.80 0.13 72);   /* silk amber (brand) */
-  --color-viz-2: oklch(0.72 0.13 285);  /* temporal violet */
-  --color-viz-3: oklch(0.75 0.13 200);  /* cyan */
-  --color-viz-4: oklch(0.75 0.15 150);  /* green */
-  --color-viz-5: oklch(0.72 0.16 20);   /* red-coral */
-  --color-viz-6: oklch(0.78 0.12 330);  /* magenta */
-  --color-viz-7: oklch(0.80 0.12 110);  /* lime */
-  --color-viz-8: oklch(0.70 0.10 250);  /* indigo */
+  --color-viz-1: #315ef4;
+  --color-viz-2: #5e54a8;
+  --color-viz-3: #1683a7;
+  --color-viz-4: #237a5a;
+  --color-viz-5: #b42318;
+  --color-viz-6: #a84277;
+  --color-viz-7: #7b6a13;
+  --color-viz-8: #475467;
 
   --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* ── Base layer (applied to any app importing this file) ──────────────────── */
 @layer base {
   * { border-color: var(--border); }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; background: var(--background); }
   body {
+    min-height: 100vh;
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
@@ -167,6 +159,10 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  ::selection { background-color: color-mix(in oklch, var(--primary) 30%, transparent); }
+  button, input, select, textarea { font: inherit; }
+  ::selection { background-color: color-mix(in srgb, var(--primary) 24%, transparent); }
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  }
 }

@@ -5,8 +5,8 @@ import { consoleApi, type MemoryProfile } from "../lib/api.js";
 function FactList({ title, items }: { title: string; items: string[] }) {
   if (items.length === 0) return null;
   return (
-    <Card className="p-5">
-      <h3 className="mb-3 text-sm font-semibold">{title}</h3>
+    <Card className="lab-memory-section p-5">
+      <div className="mb-4 flex items-center gap-3"><span className="lab-memory-marker" aria-hidden="true" /><h3 className="text-sm font-semibold">{title}</h3></div>
       <ul className="space-y-2">
         {items.map((f, i) => (
           <li key={i} className="text-sm text-muted-foreground">• {f}</li>
@@ -36,11 +36,12 @@ export default function MemoryPage() {
       profile.temporalFacts.length === 0);
 
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
-      <Heading level={2}>Memory</Heading>
-      <Text muted className="mt-1">
-        The workspace-level synthesized profile — stable facts, current context, and time-bounded facts.
-      </Text>
+    <div className="lab-page lab-page--narrow lab-memory">
+      <header className="lab-page-header">
+        <p className="lab-page-overline">Synthesis record</p>
+        <Heading level={2}>Memory</Heading>
+        <Text muted className="mt-1">The workspace-level synthesized profile — stable facts, current context, and time-bounded facts.</Text>
+      </header>
 
       {error && <Alert variant="danger" className="mt-6">{error}</Alert>}
 
@@ -50,23 +51,23 @@ export default function MemoryPage() {
         </div>
       ) : empty ? (
         <div className="mt-8">
-          <EmptyState
+          <EmptyState className="lab-empty"
             title="No synthesized memory yet"
             description="Once you ingest content via the API or a connector, the synthesized profile appears here."
           />
         </div>
       ) : (
-        <div className="mt-8 space-y-4">
-          {profile && (
-            <p className="text-xs text-muted-foreground">
+          <div className="mt-8 space-y-4">
+            {profile && (
+            <p className="lab-memory-version">
               Profile v{profile.version} · {profile.chunksSynthesized.toLocaleString()} chunks synthesized
             </p>
           )}
           <FactList title="Static facts" items={profile!.staticFacts} />
           <FactList title="Dynamic context" items={profile!.dynamicContext} />
           {profile!.temporalFacts.length > 0 && (
-            <Card className="p-5">
-              <h3 className="mb-3 text-sm font-semibold">Temporal facts</h3>
+            <Card className="lab-memory-section p-5">
+              <div className="mb-4 flex items-center gap-3"><span className="lab-memory-marker" aria-hidden="true" /><h3 className="text-sm font-semibold">Temporal facts</h3></div>
               <ul className="space-y-2">
                 {profile!.temporalFacts.map((t, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm">

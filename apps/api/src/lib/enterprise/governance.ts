@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * Generic governance approval queue (Phase 7). approval_requests is a small,
  * kind-tagged workflow table: something requests an action (skill_publish,
  * role_grant, data_export, …), an approver decides, and the decision is recorded

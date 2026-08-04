@@ -6,7 +6,7 @@ function Meter({ label, metric }: { label: string; metric: UsageMetric }) {
   const unlimited = metric.limit === null;
   const pct = !unlimited && metric.limit! > 0 ? Math.min(100, Math.round((metric.used / metric.limit!) * 100)) : 0;
   return (
-    <Card className="p-5">
+    <Card className="lab-usage-meter p-5">
       <div className="flex items-baseline justify-between">
         <p className="text-sm text-muted-foreground">{label}</p>
         <p className="text-sm">
@@ -14,7 +14,7 @@ function Meter({ label, metric }: { label: string; metric: UsageMetric }) {
           <span className="text-muted-foreground">/ {unlimited ? "∞" : metric.limit!.toLocaleString()}</span>
         </p>
       </div>
-      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+      <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-muted">
         <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${pct}%` }} />
       </div>
     </Card>
@@ -35,7 +35,9 @@ export default function UsagePage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-5xl p-6 sm:p-8">
+    <div className="lab-page lab-page--narrow lab-usage">
+      <header className="lab-page-header">
+      <p className="lab-page-overline">Metered operations</p>
       <Heading level={2}>Usage</Heading>
       <Text muted className="mt-1 flex items-center gap-2">
         {usage ? (
@@ -47,6 +49,7 @@ export default function UsagePage() {
           "This month's usage against your plan's limits."
         )}
       </Text>
+      </header>
 
       {error && <Alert variant="danger" className="mt-6">{error}</Alert>}
 

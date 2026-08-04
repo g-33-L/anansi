@@ -28,11 +28,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6">
-      <Card className="w-full max-w-sm p-8">
-        <div className="mb-6 flex items-center gap-2">
-          <span className="inline-block size-6 rounded-sm bg-primary" aria-hidden />
-          <span className="text-lg font-semibold tracking-tight">Anansi</span>
+    <div className="lab-auth">
+      <Card className="lab-auth-panel">
+        <div className="lab-auth-brand">
+          <span className="lab-brand-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3.3" stroke="currentColor" strokeWidth="1.25" /><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" /></svg></span>
+          <div><span className="block text-[15px] font-semibold tracking-tight">Anansi</span><p>Knowledge infrastructure</p></div>
         </div>
 
         {status === "sent" ? (

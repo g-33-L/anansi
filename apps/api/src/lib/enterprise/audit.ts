@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * Append-only audit log (Phase 7). `audit_events` is never updated or deleted —
  * recordAuditEvent inserts, and the only reads are list/export for compliance.
  *

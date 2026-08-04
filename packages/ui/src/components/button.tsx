@@ -9,24 +9,24 @@ export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "des
 export type ButtonSize = "sm" | "md" | "lg";
 
 const BTN_BASE =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium " +
-  "transition-all duration-150 ease-standard active:scale-[0.98] " +
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium tracking-[-0.01em] " +
+  "transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-standard active:translate-y-px " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
   "disabled:pointer-events-none disabled:opacity-50 disabled:active:scale-100 " +
   "aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:active:scale-100";
 
 const BTN_VARIANT: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-primary-foreground hover:opacity-90 active:opacity-95 shadow-sm",
-  secondary: "bg-secondary text-secondary-foreground hover:bg-muted",
-  outline: "border border-border bg-transparent text-foreground hover:bg-accent hover:border-border",
+  primary: "border border-primary bg-primary text-primary-foreground shadow-[0_1px_1px_rgb(21_27_36/0.12)] hover:brightness-95 hover:shadow-sm",
+  secondary: "border border-border bg-secondary text-secondary-foreground hover:bg-muted hover:border-[var(--rule-strong)]",
+  outline: "border border-border bg-transparent text-foreground hover:border-[var(--rule-strong)] hover:bg-card",
   ghost: "bg-transparent text-foreground hover:bg-accent",
-  destructive: "bg-destructive text-destructive-foreground hover:opacity-90 active:opacity-95 shadow-sm",
+  destructive: "border border-destructive bg-destructive text-destructive-foreground shadow-[0_1px_1px_rgb(21_27_36/0.12)] hover:brightness-95",
 };
 
 const BTN_SIZE: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-sm",
+  sm: "h-8 px-3 text-xs",
   md: "h-10 px-4 text-sm",
-  lg: "h-11 px-6 text-base",
+  lg: "h-11 px-5 text-sm",
 };
 
 const SPINNER_SIZE: Record<ButtonSize, string> = {

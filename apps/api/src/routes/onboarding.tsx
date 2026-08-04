@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../lib/db/index.js";
 import { workspaces, channels, subscriptions } from "../lib/db/schema.js";
 import { verifyInstallToken, decrypt, signCookieValue, readSignedCookieValue } from "../lib/utils/crypto.js";
-import { TOKENS_CSS, BASE_CSS, withDoctype } from "../lib/ui/theme.js";
+import { TOKENS_CSS, BASE_CSS, THEME_TOGGLE_CSS, THEME_TOGGLE_HTML, THEME_SCRIPT, withDoctype } from "../lib/ui/theme.js";
 import { backfillQueue } from "../lib/infra/queue.js";
 import { checkLimit } from "../lib/billing/usage.js";
 import { getLimits } from "../lib/billing/plans.js";
@@ -95,51 +95,62 @@ onboardingRoutes.get("/", async (c) => {
         <style>{`
           ${TOKENS_CSS}
           ${BASE_CSS}
-          body{max-width:600px;margin:48px auto;padding:0 16px}
-          h1{font-size:1.4rem;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
-          .sub{color:var(--text-muted);margin-bottom:24px;font-size:.9rem}
-          .channels{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-md);max-height:380px;overflow-y:auto}
-          .channel{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+          ${THEME_TOGGLE_CSS}
+          body{min-height:100vh;padding:clamp(28px,7vw,80px) 16px}
+          .onboarding-shell{width:min(100%,680px);margin:0 auto}
+          .step{font-family:var(--font-mono);font-size:.66rem;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px}
+          h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:600;line-height:1.04;letter-spacing:-.045em;margin-bottom:10px}
+          .sub{max-width:610px;color:var(--text-secondary);margin-bottom:26px;font-size:.93rem;line-height:1.65}
+          .channels{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);max-height:420px;overflow-y:auto}
+          .channel{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);transition:background .15s}
+          .channel:hover{background:var(--surface-2)}
           .channel:last-child{border-bottom:none}
-          .channel label{cursor:pointer;flex:1;font-size:.9rem}
-          .channel .members{font-size:.8rem;color:var(--text-muted)}
-          .channel input[type=checkbox]{accent-color:var(--brand)}
-          .limit-note{font-size:.82rem;color:var(--text-muted);margin:12px 0;background:var(--surface);border:1px solid var(--border);padding:8px 12px;border-radius:var(--radius-sm)}
-          .none-msg{padding:20px;text-align:center;color:var(--text-muted)}
-          .submit{margin-top:20px;width:100%;padding:12px 28px;font-size:1rem}
+          .channel label{cursor:pointer;flex:1;font-size:.91rem;color:var(--text);font-weight:520}
+          .channel .members{font-family:var(--font-mono);font-size:.69rem;color:var(--text-muted);margin-left:5px}
+          .channel input[type=checkbox]{width:16px;height:16px;accent-color:var(--brand)}
+          .limit-note{font-size:.78rem;color:var(--text-secondary);margin:12px 0 18px;background:var(--brand-soft);border-left:2px solid var(--brand);padding:9px 12px}
+          .none-msg{padding:32px 20px;text-align:center;color:var(--text-muted)}
+          .submit{margin-top:20px;width:100%;padding:13px 28px;font-size:.88rem}
+          .theme-toggle{position:fixed;top:18px;right:18px;z-index:1}
+          @media(max-width:480px){.channel{padding:12px}.channel .members{display:block;margin:3px 0 0}.sub{font-size:.88rem}}
         `}</style>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
-        <h1>Choose channels to index</h1>
-        <p class="sub">Anansi will read and index the selected channels. You can change this later with <code>/memory channels</code>.</p>
-        {errorMsg && <p class="alert alert-err" role="alert">{errorMsg}</p>}
-        <p class="limit-note">{limitNote}</p>
+        <div dangerouslySetInnerHTML={{ __html: THEME_TOGGLE_HTML }} />
+        <main class="onboarding-shell">
+          <div class="step">Source setup · 01</div>
+          <h1>Choose channels to index</h1>
+          <p class="sub">Anansi will read and index the selected channels. You can change this later with <code>/memory channels</code>.</p>
+          {errorMsg && <p class="alert alert-err" role="alert">{errorMsg}</p>}
+          <p class="limit-note">{limitNote}</p>
 
-        <form method="post" action="/onboarding/channels">
-          <input type="hidden" name="workspace_id" value={workspaceId} />
-          {slackChannels.length === 0 ? (
-            <div class="channels"><p class="none-msg">No public channels found.</p></div>
-          ) : (
-            <fieldset class="channels" style="border:1px solid var(--border)">
-              <legend class="sr-only">Channels to index</legend>
-              {slackChannels.map((ch) => (
-                <div class="channel">
-                  <input
-                    type="checkbox"
-                    id={ch.id}
-                    name="channels"
-                    value={`${ch.id}:${ch.name}`}
-                  />
-                  <label for={ch.id}>
-                    #{ch.name}
-                    <span class="members"> · {ch.num_members} members</span>
-                  </label>
-                </div>
-              ))}
-            </fieldset>
-          )}
-          <button type="submit" class="btn btn-primary submit">Start indexing →</button>
-        </form>
+          <form method="post" action="/onboarding/channels">
+            <input type="hidden" name="workspace_id" value={workspaceId} />
+            {slackChannels.length === 0 ? (
+              <div class="channels"><p class="none-msg">No public channels found.</p></div>
+            ) : (
+              <fieldset class="channels" style="border:1px solid var(--border)">
+                <legend class="sr-only">Channels to index</legend>
+                {slackChannels.map((ch) => (
+                  <div class="channel">
+                    <input
+                      type="checkbox"
+                      id={ch.id}
+                      name="channels"
+                      value={`${ch.id}:${ch.name}`}
+                    />
+                    <label for={ch.id}>
+                      #{ch.name}
+                      <span class="members">{ch.num_members} members</span>
+                    </label>
+                  </div>
+                ))}
+              </fieldset>
+            )}
+            <button type="submit" class="btn btn-primary submit">Start indexing →</button>
+          </form>
+        </main>
 
         {channelLimit !== Infinity && (
           // hono/jsx HTML-escapes text children (`=>` becomes `=&gt;`), so inline
@@ -224,22 +235,32 @@ onboardingRoutes.post("/channels", async (c) => {
         <style>{`
           ${TOKENS_CSS}
           ${BASE_CSS}
-          body{max-width:480px;margin:80px auto;padding:0 16px;text-align:center}
-          h1{font-size:1.4rem;font-weight:600;letter-spacing:-.02em;margin-bottom:12px}
-          .pill{display:inline-block;background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-border);padding:4px 10px;border-radius:var(--radius-pill);font-size:.82rem;margin:4px}
+          ${THEME_TOGGLE_CSS}
+          body{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center}
+          .complete{width:min(100%,520px);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:42px 28px}
+          .mark{display:grid;place-items:center;width:42px;height:42px;margin:0 auto 18px;border-radius:50%;border:1px solid var(--ok-border);background:var(--ok-soft);color:var(--ok);font-family:var(--font-mono)}
+          h1{font-family:var(--font-display);font-size:2.2rem;font-weight:600;line-height:1.05;letter-spacing:-.045em;margin-bottom:12px}
+          .pill{display:inline-block;background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-border);padding:4px 8px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:.7rem;margin:3px}
+          .theme-toggle{position:fixed;top:18px;right:18px;z-index:1}
         `}</style>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
-        <h1>Indexing started!</h1>
-        <p>Anansi is now reading these channels:</p>
-        <p>{toActivate.map(({ id, name }) => <span class="pill">#{name || id}</span>)}</p>
-        {parsed.length > toActivate.length && (
-          <p class="alert alert-warn" role="status" style="margin-top:16px;text-align:left">
-            Your plan supports {cap} channel{cap === 1 ? "" : "s"}, so {parsed.length - toActivate.length} of your
-            selections weren't activated. Upgrade to index more channels.
-          </p>
-        )}
-        <p style="margin-top:24px;color:var(--text-muted)">Backfill takes a few minutes. Once done, head to Slack and try <code>/ask what did we decide about…</code></p>
+        <div dangerouslySetInnerHTML={{ __html: THEME_TOGGLE_HTML }} />
+        <main class="complete">
+          <div class="mark" aria-hidden="true">✓</div>
+          <div class="eyebrow" style="margin-bottom:10px">Source setup complete</div>
+          <h1>Indexing started</h1>
+          <p>Anansi is now reading these channels:</p>
+          <p>{toActivate.map(({ id, name }) => <span class="pill">#{name || id}</span>)}</p>
+          {parsed.length > toActivate.length && (
+            <p class="alert alert-warn" role="status" style="margin-top:16px;text-align:left">
+              Your plan supports {cap} channel{cap === 1 ? "" : "s"}, so {parsed.length - toActivate.length} of your
+              selections weren't activated. Upgrade to index more channels.
+            </p>
+          )}
+          <p style="margin-top:24px;color:var(--text-muted)">Backfill takes a few minutes. Once done, head to Slack and try <code>/ask what did we decide about…</code></p>
+        </main>
       </body>
     </html>
   ));

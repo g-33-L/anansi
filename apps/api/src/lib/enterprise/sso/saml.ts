@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * SAML 2.0 assertion consumption. Node-SAML validates the XML-DSig before it
  * returns a profile; this module deliberately has no XML parsing fallback. A
  * malformed, expired, unsigned, incorrectly-issued, or wrong-audience response

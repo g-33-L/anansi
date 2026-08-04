@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * JIT (just-in-time) provisioning for SSO logins (Phase 7). Given a verified
  * identity from the IdP, ensure a `users` row and an active `memberships` row in
  * the target org, then mint a /console session. The IdP's group claims are mapped

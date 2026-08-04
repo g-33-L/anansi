@@ -17,7 +17,7 @@ const ThemeContext = createContext<ThemeCtx | null>(null);
 
 export function ThemeProvider({
   children,
-  defaultTheme = "dark",
+  defaultTheme = "light",
   storageKey = "anansi-theme",
 }: {
   children: ReactNode;

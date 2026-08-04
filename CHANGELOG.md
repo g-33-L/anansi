@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- **Open-core licensing** — `LICENSE-EE` introduces a source-available commercial license for the Enterprise Edition surface (SSO/SAML, SCIM, audit/governance/redaction, team management, hosted control plane billing + staff ops console). Every covered file carries a header naming `LICENSE-EE`. Everything else stays MIT. See `README.md#license` for the full path list and rationale.
 - **One-command local Compose startup** — `docker compose up -d` now starts a fresh checkout without requiring a `.env` file. It supplies development-only secrets and local Ollama defaults; real deployments must still set their own secrets and provider configuration.
 - **API-reference completeness** — `docs/api/reference.md` now covers `/health`, `/status`, and the protected `/metrics` endpoint alongside every `/v1` developer endpoint, including the ledger family. It explicitly records that skills have no public REST endpoint yet.
 - **`docker-compose.yml` now runs the full stack** — a new `api` service builds from `apps/api/Dockerfile` and serves the API + portal on `http://localhost:3000`. `docker compose up -d` alone now takes a fresh checkout to a running app; previously the compose file only defined `postgres` and `redis`, so the API had to be started separately with `pnpm dev`. DB migrations apply automatically on container startup (no separate migrate step needed).

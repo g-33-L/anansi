@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * SCIM bearer tokens (Phase 7). Minted `scim_…`, HMAC-hashed at rest (reusing the
  * developer-API-key HMAC), shown once. The IdP's SCIM client presents the token as
  * `Authorization: Bearer scim_…`; validateScimToken resolves it to an org.

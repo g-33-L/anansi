@@ -6,7 +6,7 @@
  */
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Badge, Button, Card, CodeBlock, Field, Heading, Input, Text } from "@anansi/ui";
+import { Alert, Button, Card, CodeBlock, Field, Heading, Input, Text } from "@anansi/ui";
 import { consoleApi } from "../lib/api.js";
 import { markFirstRunComplete } from "../lib/first-run.js";
 import { useSession } from "../lib/session.js";
@@ -25,7 +25,7 @@ function StepIndicator({ current }: { current: number }) {
         return (
           <li
             key={label}
-            className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm ${
+            className={`lab-setup-step flex items-center gap-2 rounded-md border px-3 py-2 text-sm ${
               active ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground"
             }`}
           >
@@ -64,7 +64,7 @@ export default function FirstRunSetupPage() {
 
   if (!organization) {
     return (
-      <div className="mx-auto max-w-2xl p-6 sm:p-8">
+      <div className="lab-page lab-page--narrow">
         <Heading level={2}>Finish account setup</Heading>
         <Alert variant="warning" className="mt-6">
           No active organization is selected. Select an organization in the header, then reopen setup.
@@ -75,7 +75,7 @@ export default function FirstRunSetupPage() {
 
   if (!isOwner) {
     return (
-      <div className="mx-auto max-w-2xl p-6 sm:p-8">
+      <div className="lab-page lab-page--narrow">
         <Heading level={2}>Setup needs an owner</Heading>
         <Alert variant="warning" className="mt-6">
           An organization owner must create the initial key and run the memory check. Ask an owner of {organization.name} to complete this guide.
@@ -201,12 +201,14 @@ export default function FirstRunSetupPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl p-6 sm:p-8" data-testid="first-run-setup">
-      <Badge variant="primary">First-run setup</Badge>
-      <Heading level={2} className="mt-3">Make {organization.name} ready for memory</Heading>
+    <div className="lab-page lab-page--narrow lab-setup" data-testid="first-run-setup">
+      <header className="lab-page-header">
+      <p className="lab-page-overline">First-run protocol</p>
+      <Heading level={2}>Make {organization.name} ready for memory</Heading>
       <Text muted className="mt-2">
         This owner-only guide creates a safe verification key, seeds one real memory item, and confirms it can be searched.
       </Text>
+      </header>
 
       <div className="mt-8">
         <StepIndicator current={step} />
@@ -216,7 +218,7 @@ export default function FirstRunSetupPage() {
       {notice && <Alert variant="success" className="mt-6">{notice}</Alert>}
 
       {step === 0 && (
-        <Card className="mt-6 p-6">
+        <Card className="lab-setup-card mt-6 p-6">
           <Heading level={3}>1. Confirm your organization</Heading>
           <Text muted className="mt-1">Choose the name teammates will see in the console.</Text>
           <form onSubmit={saveOrganization} className="mt-5 space-y-4">
@@ -229,7 +231,7 @@ export default function FirstRunSetupPage() {
       )}
 
       {step === 1 && (
-        <Card className="mt-6 p-6">
+        <Card className="lab-setup-card mt-6 p-6">
           <Heading level={3}>2. Invite a teammate</Heading>
           <Text muted className="mt-1">Optional, but a good way to confirm your organization is ready for collaboration.</Text>
           <form onSubmit={sendInvite} className="mt-5 space-y-4">
@@ -252,7 +254,7 @@ export default function FirstRunSetupPage() {
       )}
 
       {step === 2 && (
-        <Card className="mt-6 p-6">
+        <Card className="lab-setup-card mt-6 p-6">
           <Heading level={3}>3. Create a verification API key</Heading>
           <Text muted className="mt-1">This key has only ingest and read scopes. It is used once below and shown only now.</Text>
           {!apiKey ? (
@@ -273,7 +275,7 @@ export default function FirstRunSetupPage() {
       )}
 
       {step === 3 && (
-        <Card className="mt-6 p-6">
+        <Card className="lab-setup-card mt-6 p-6">
           <Heading level={3}>4. Seed and verify memory</Heading>
           <Text muted className="mt-1">
             We will ingest a small setup note with the key above, then search for it through the signed-in console.

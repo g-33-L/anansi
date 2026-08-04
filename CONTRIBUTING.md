@@ -98,4 +98,9 @@ This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). By particip
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the [MIT License](LICENSE).
+Anansi is open-core — see [License](README.md#license) in the README for the
+full split. By contributing to a file under the MIT license, you agree your
+contribution is licensed under the [MIT License](LICENSE). By contributing to
+a file under the Enterprise Edition license (each such file's header names
+`LICENSE-EE`), you agree your contribution is licensed under [`LICENSE-EE`](LICENSE-EE),
+including the relicensing grant in its §4.

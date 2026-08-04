@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * /console/enterprise — admin surface for the edition-gated enterprise layer
  * (Phase 7). Mounted under the authed console group, so every route already has
  * session + CSRF. The whole group is additionally behind requireEnterprise (402

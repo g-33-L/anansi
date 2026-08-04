@@ -81,7 +81,7 @@ export function Dialog({ open, onOpenChange, title, description, children, class
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50" onClick={() => onOpenChange?.(false)} aria-hidden />
+      <div className="absolute inset-0 bg-[#101722]/55 backdrop-blur-[2px]" onClick={() => onOpenChange?.(false)} aria-hidden />
       <div
         ref={panelRef}
         role="dialog"
@@ -91,7 +91,7 @@ export function Dialog({ open, onOpenChange, title, description, children, class
         tabIndex={-1}
         onKeyDown={onKeyDown}
         className={cn(
-          "relative w-full max-w-lg rounded-lg border border-border bg-popover p-6 text-popover-foreground shadow-lg focus:outline-none",
+          "relative w-full max-w-lg rounded-xl border border-border bg-popover p-5 text-popover-foreground shadow-[var(--shadow-float)] focus:outline-none sm:p-7",
           className
         )}
       >
@@ -100,13 +100,13 @@ export function Dialog({ open, onOpenChange, title, description, children, class
             type="button"
             aria-label="Close"
             onClick={() => onOpenChange(false)}
-            className="absolute right-4 top-4 rounded-md p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="absolute right-4 top-4 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <XIcon className="size-4" />
           </button>
         )}
         {title && (
-          <h2 id={titleId} className="text-lg font-semibold tracking-tight text-foreground">
+          <h2 id={titleId} className="font-display text-2xl font-medium tracking-[-0.03em] text-foreground">
             {title}
           </h2>
         )}
@@ -166,7 +166,7 @@ export function Tabs({ items, value, defaultValue, onValueChange, className }: T
 
   return (
     <div className={className}>
-      <div ref={listRef} role="tablist" onKeyDown={onKeyDown} className="flex gap-1 border-b border-border">
+      <div ref={listRef} role="tablist" onKeyDown={onKeyDown} className="flex gap-4 border-b border-border">
         {items.map((it) => {
           const selected = it.value === active;
           return (
@@ -182,7 +182,7 @@ export function Tabs({ items, value, defaultValue, onValueChange, className }: T
               disabled={it.disabled}
               onClick={() => setActive(it.value)}
               className={cn(
-                "relative -mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "relative -mb-px border-b-2 px-1 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 selected
                   ? "border-primary text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground",
@@ -255,7 +255,7 @@ export function Tooltip({
             role="tooltip"
             id={tipId}
             style={{ position: "fixed", top: pos?.top ?? -9999, left: pos?.left ?? -9999 }}
-            className="pointer-events-none z-50 max-w-xs rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-md"
+            className="pointer-events-none z-50 max-w-xs rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-[var(--shadow-paper)]"
           >
             {label}
           </div>,
@@ -336,7 +336,7 @@ export function DropdownMenu({
             onKeyDown={onMenuKeyDown}
             style={{ position: "fixed", top: pos?.top ?? -9999, left: pos?.left ?? -9999 }}
             className={cn(
-              "z-50 min-w-44 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
+              "z-50 min-w-48 rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-[var(--shadow-float)]",
               className
             )}
           >
@@ -351,7 +351,7 @@ export function DropdownMenu({
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm transition-colors focus-visible:bg-accent focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+                  "flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm transition-colors focus-visible:bg-accent focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
                   it.destructive ? "text-destructive hover:bg-destructive/10" : "text-foreground hover:bg-accent"
                 )}
               >
@@ -394,7 +394,7 @@ export function Toast({
       role="status"
       aria-live="polite"
       className={cn(
-        "flex items-start gap-3 rounded-md border border-border bg-popover px-4 py-3 text-sm text-popover-foreground shadow-md",
+        "flex items-start gap-3 rounded-lg border border-border bg-popover px-4 py-3 text-sm text-popover-foreground shadow-[var(--shadow-float)]",
         className
       )}
     >
@@ -475,15 +475,15 @@ export function CommandPalette({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[15vh]">
-      <div className="absolute inset-0 bg-black/50" onClick={() => onClose?.()} aria-hidden />
+      <div className="absolute inset-0 bg-[#101722]/55 backdrop-blur-[2px]" onClick={() => onClose?.()} aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
         onKeyDown={onKeyDown}
-        className="relative w-full max-w-xl overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-xl"
+        className="relative w-full max-w-xl overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-[var(--shadow-float)]"
       >
-        <div className="flex items-center gap-2 border-b border-border px-3">
+        <div className="flex items-center gap-3 border-b border-border px-4">
           <SearchIcon className="size-4 shrink-0 text-muted-foreground" />
           <input
             autoFocus
@@ -491,10 +491,10 @@ export function CommandPalette({
             onChange={(e) => setQuery(e.target.value)}
             placeholder={placeholder}
             aria-label="Command"
-            className="h-11 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+            className="h-12 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
-        <ul role="listbox" className="max-h-80 overflow-y-auto p-1">
+        <ul role="listbox" className="max-h-80 overflow-y-auto p-1.5">
           {results.length === 0 ? (
             <li className="px-3 py-6 text-center text-sm text-muted-foreground">No results.</li>
           ) : (
@@ -509,12 +509,12 @@ export function CommandPalette({
                   onClose?.();
                 }}
                 className={cn(
-                  "flex cursor-pointer items-center justify-between rounded-sm px-3 py-2 text-sm",
+                  "flex cursor-pointer items-center justify-between rounded-md px-3 py-2.5 text-sm",
                   i === activeIndex ? "bg-accent text-foreground" : "text-muted-foreground"
                 )}
               >
                 <span>{a.label}</span>
-                {a.hint && <span className="text-xs text-muted-foreground">{a.hint}</span>}
+                {a.hint && <span className="font-mono text-[0.625rem] uppercase tracking-[0.08em] text-muted-foreground">{a.hint}</span>}
               </li>
             ))
           )}

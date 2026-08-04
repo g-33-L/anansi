@@ -10,9 +10,13 @@ docsRoutes.get("/", (c) => c.html(layout("/docs", [
   { label: "How it works", href: "#how-it-works" },
   { label: "Base URL", href: "#base-url" },
 ], <>
-  <div class="breadcrumb"><a href="/docs">Docs</a></div>
-  <div class="page-title">Anansi Documentation</div>
-  <p class="page-sub">Persistent, synthesized memory for any LLM application. Two API calls. Works with any model.</p>
+  <div class="doc-home-masthead">
+    <div class="breadcrumb"><a href="/docs">Docs</a></div>
+    <div class="doc-kicker">Research lab / Documentation</div>
+    <div class="page-title">Anansi Documentation</div>
+    <p class="page-sub">Persistent, synthesized memory for any LLM application. Two API calls. Works with any model.</p>
+    <div class="doc-home-index"><span>HTTP API</span><span>Concepts</span><span>Implementation guides</span></div>
+  </div>
 
   <h2 class="first" id="what-is-anansi">What is Anansi?</h2>
   <p>Anansi is a memory layer for AI applications. You send content to it — conversations, documents, notes, meeting transcripts — and it returns synthesized, curated context ready to inject into your LLM system prompt.</p>

@@ -128,7 +128,7 @@ Conventions: ESM throughout with `.js` import specifiers; server-rendered UI via
 
 ## Deploy & release
 
-- **API deploy:** Railway auto-deploys `main` on push (`railway.toml`; api + worker services from the same Dockerfile). CI (`.github/workflows/ci.yml`) runs build, lint, audit, tests — it does **not** deploy.
+- **API deploy:** `railway.toml` is included as a working example; deploy the Dockerfile to any container host. CI (`.github/workflows/ci.yml`) runs build, lint, audit, tests — it does **not** deploy.
 - **Package publish:** a `v*` tag triggers `.github/workflows/publish.yml` (all npm packages + PyPI, idempotent). Gate releases on `scripts/cold-install-smoke-test.sh`.
 - Deployment guide: [`docs/enterprise/self-hosting.md`](docs/enterprise/self-hosting.md). Versioning policy: [README → API versioning](README.md#api-versioning) (breaking changes only under `/v2` with 90-day notice).
 

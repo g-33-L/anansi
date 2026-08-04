@@ -1,4 +1,11 @@
 /*
+ * Anansi Enterprise Edition — licensed under LICENSE-EE, not MIT.
+ * See /LICENSE-EE at the repo root. Production use requires a commercial
+ * license; evaluation, self-hosted non-production use, and contributions
+ * are permitted under LICENSE-EE terms.
+ */
+
+/*
  * SCIM 2.0 provisioning logic (Phase 7). Maps the SCIM resource model onto the
  * identity schema, scoped to ONE org (resolved from the SCIM token):
  *   User  ↔ users + memberships   (deprovision = suspend the membership, not the

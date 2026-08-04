@@ -388,19 +388,28 @@ Disclosure policy: [`SECURITY.md`](SECURITY.md).
 
 ## Open core: what's here, what isn't
 
-**This repository is the whole engine.** Ingestion, chunking, embedding, synthesis, the
-bi-temporal graph, the ledger, hybrid retrieval, the connectors, the SDKs, the identity
-and SSO layer. MIT licensed. You can run all of it, forever, without talking to us.
+**The engine is MIT.** Ingestion, chunking, embedding, synthesis, the bi-temporal graph,
+the ledger, hybrid retrieval, the connectors, the SDKs, and basic multi-user identity
+(organizations, members, API keys) within a single self-hosted org. You can run all of
+it, forever, without talking to us.
+
+**One layer is commercial, not MIT:** enterprise auth (SSO/SAML, SCIM provisioning),
+audit/governance/redaction workflows, team management, and the hosted control plane
+(billing, the staff ops console). Those files carry a header naming `LICENSE-EE` — you
+can read and evaluate them freely, but running them in production requires a commercial
+license. See [`LICENSE-EE`](LICENSE-EE) for the exact terms, and `LICENSE` for the full
+path list. This is the same shape as GitLab CE/EE or Sentry's open-core split: the code
+is visible, the enterprise surface is licensed separately.
 
 **The hosted service adds** operations, not capability: managed Postgres/Redis and
 upgrades, self-serve signup and billing, managed connector OAuth apps (so you don't
 register your own Slack/Notion/Google apps), support with a response time, and an
-issued enterprise license.
+issued enterprise license for the EE surface above.
 
 **Two things to know before you assume "MIT means unlimited":**
 
 1. **The plan tiers exist in the engine, but they do not apply to you.** `lib/billing/plans.ts`
-   and `feature-gate.ts` are part of the engine, and `routes/v1.ts` calls `gateFeature()`
+   and `feature-gate.ts` are MIT and part of the engine, and `routes/v1.ts` calls `gateFeature()`
    at ten sites — that machinery is here because the same code runs the hosted service.
    On a self-hosted install it is inert: a workspace with no subscription row defaults to
    `enterprise` — unlimited, nothing expires, every retrieval feature on.
@@ -416,12 +425,14 @@ issued enterprise license.
    memory engine that forgets after a week is not a product, and we fixed it rather than
    documenting it.
 
-2. **Enterprise console routes sit behind a license check** you can satisfy yourself, as
-   described above.
+2. **Enterprise console routes sit behind an edition check** — self-hostable, but the code
+   backing SSO/SCIM/audit/governance is `LICENSE-EE`, not MIT, so running it in production
+   needs a license from us even if you mint your own signing key.
 
-We are not going to relicense the engine or move existing features behind a paywall. If
-that guarantee matters to you, the MIT grant on the code you already have is the part
-that is actually binding — not this paragraph.
+We are not going to relicense the *engine* or move existing MIT-licensed features behind
+a paywall. That guarantee is about the code above the line, not the EE surface below it —
+the MIT grant on the engine you already have is the part that is actually binding, not
+this paragraph.
 
 ---
 
@@ -440,4 +451,6 @@ Issues and PRs welcome — [`CONTRIBUTING.md`](CONTRIBUTING.md) has the setup, a
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE).
+Open-core. MIT for the engine, `LICENSE-EE` for the enterprise surface described above
+— see [Open core: what's here, what isn't](#open-core-whats-here-what-isnt) for the full
+path list, [`LICENSE`](LICENSE), and [`LICENSE-EE`](LICENSE-EE).

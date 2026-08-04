@@ -100,8 +100,9 @@ function Gate() {
   const { me, loading } = useSession();
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner className="size-6 text-muted-foreground" />
+      <div className="lab-loading-screen" aria-live="polite" aria-label="Loading workspace">
+        <div className="lab-loading-mark" aria-hidden="true"><span /><span /><span /></div>
+        <Spinner className="size-4 text-primary" />
       </div>
     );
   }
@@ -110,7 +111,7 @@ function Gate() {
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme="light">
       <BrowserRouter>
         <SessionProvider>
           <Gate />

@@ -29,6 +29,8 @@ export default defineConfig({
         // docs.tsx was split into per-section modules (commit c50bc20); exclude the
         // markup modules as before. index.ts/router.ts (routing logic) stay counted.
         "src/routes/docs/**/*.tsx",
+        "src/routes/legal.tsx",
+        "src/routes/portal.tsx",
         "src/routes/dashboard.tsx",
         "src/routes/onboarding.tsx",
         "src/routes/memory-view.tsx",

@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { eq } from "drizzle-orm";
 import { db } from "../lib/db/index.js";
 import { staticDocuments, workspaces } from "../lib/db/schema.js";
-import { TOKENS_CSS, BASE_CSS, withDoctype } from "../lib/ui/theme.js";
+import { TOKENS_CSS, BASE_CSS, THEME_TOGGLE_CSS, THEME_TOGGLE_HTML, THEME_SCRIPT, withDoctype } from "../lib/ui/theme.js";
 
 export const memoryViewRoutes = new Hono();
 
@@ -57,72 +57,82 @@ memoryViewRoutes.get("/view", async (c) => {
         <style>{`
           ${TOKENS_CSS}
           ${BASE_CSS}
-          body { padding: 32px 16px 64px }
-          .container { max-width: 680px; margin: 0 auto }
-          .header { margin-bottom: 32px }
-          .workspace { font-size: .8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px }
-          h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 8px }
-          .meta { font-size: .82rem; color: var(--text-muted) }
+          ${THEME_TOGGLE_CSS}
+          body { padding:clamp(28px,7vw,84px) 16px 72px }
+          .container { max-width: 760px; margin: 0 auto }
+          .header { display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end;padding-bottom:28px;margin-bottom:34px;border-bottom:1px solid var(--border) }
+          .workspace { font-family:var(--font-mono);font-size:.66rem;font-weight:650;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px }
+          h1 { font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:600;line-height:1.02;letter-spacing:-.045em;margin-bottom:8px }
+          .meta { font-family:var(--font-mono);font-size:.69rem;color:var(--text-muted);white-space:nowrap }
           .meta a { color: inherit }
 
           .banner {
-            background: var(--warn-soft);
-            border: 1px solid var(--warn-border);
-            border-radius: var(--radius-md);
-            padding: 10px 14px;
-            font-size: .83rem;
-            color: var(--warn);
-            margin-bottom: 24px;
+            background: var(--brand-soft);
+            border-left: 2px solid var(--brand);
+            padding: 11px 13px;
+            font-size: .82rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
           }
 
-          .section { margin-bottom: 32px }
+          .section { margin-bottom: 38px }
           .section-title {
-            font-size: .72rem;
-            font-weight: 700;
+            font-family:var(--font-mono);
+            font-size: .67rem;
+            font-weight: 650;
             text-transform: uppercase;
-            letter-spacing: .08em;
+            letter-spacing: .1em;
             color: var(--text-muted);
-            margin-bottom: 12px
+            margin-bottom: 12px;
           }
-          .fact-list { list-style: none; display: flex; flex-direction: column; gap: 6px }
+          .fact-list { list-style: none; display: flex; flex-direction: column; gap:8px }
           .fact {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 10px 14px;
-            font-size: .9rem;
-            line-height: 1.5;
+            border-radius: var(--radius-lg);
+            box-shadow:var(--shadow-card);
+            padding: 14px 16px;
+            font-size: .91rem;
+            line-height: 1.6;
             display: flex;
-            gap: 10px;
+            gap: 14px;
             align-items: flex-start;
           }
           .fact.cited {
-            background: var(--warn-soft);
-            border-color: var(--warn-border);
+            background: var(--brand-soft);
+            border-color: var(--brand);
+            box-shadow:none;
           }
           .fact-num {
-            font-size: .72rem;
-            font-weight: 700;
+            font-family:var(--font-mono);
+            font-size: .68rem;
+            font-weight: 650;
             color: var(--text-muted);
-            min-width: 28px;
-            padding-top: 2px;
+            min-width: 34px;
+            padding-top: 3px;
           }
-          .fact.cited .fact-num { color: var(--warn) }
+          .fact.cited .fact-num { color: var(--brand) }
           .fact-text { flex: 1 }
           .cited-tag {
-            font-size: .68rem;
-            font-weight: 700;
-            background: var(--warn-soft);
-            border: 1px solid var(--warn-border);
-            color: var(--warn);
-            padding: 2px 6px;
-            border-radius: var(--radius-pill);
+            font-family:var(--font-mono);
+            font-size: .61rem;
+            font-weight:650;
+            text-transform:uppercase;
+            letter-spacing:.07em;
+            color: var(--brand);
+            padding: 3px 5px;
+            border:1px solid var(--brand);
+            border-radius: var(--radius-sm);
             white-space: nowrap;
           }
-          .empty { font-style: italic; padding: 10px 0 }
+          .empty { font-family:var(--font-display);font-size:1.06rem;color:var(--text-secondary);font-style:italic;padding:10px 0 }
+          .theme-toggle{position:fixed;top:18px;right:18px;z-index:1}
+          @media(max-width:540px){.header{grid-template-columns:1fr;gap:10px}.meta{white-space:normal}.fact{padding:12px;gap:10px}.fact-num{min-width:30px}.cited-tag{display:none}}
         `}</style>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
+        <div dangerouslySetInnerHTML={{ __html: THEME_TOGGLE_HTML }} />
         <div class="container">
           <div class="header">
             <div class="workspace">{workspace.slackTeamName}</div>
