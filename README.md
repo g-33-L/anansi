@@ -331,7 +331,7 @@ with everything else. There is no separate vector database to operate or keep in
 
 ## What state this is in
 
-Version `0.3.0`. Honest read, component by component.
+Version `0.3.1`. Honest read, component by component.
 
 **Solid.** The ingest → embed → synthesize → retrieve loop, the bi-temporal entity graph,
 hybrid retrieval, the SDKs, the API-key auth and rate limiting. 40 test files under

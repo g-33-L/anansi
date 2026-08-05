@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-08-05
+
 ### Added
+
+- **MCP client example** (`examples/mcp-client`) — a runnable Node.js walkthrough connecting `anansi-mcp` to Claude Desktop, Claude Code, Cursor, and Windsurf, contributed by [@ShahbazCoder1](https://github.com/ShahbazCoder1).
+- **README: "What runs where" table** — a local/optional matrix next to the Quickstart, and the bi-temporal graph's Pro+ gating is now called out next to the pitch itself instead of only in the Usage section further down.
 
 - **Open-core licensing** — `LICENSE-EE` introduces a source-available commercial license for the Enterprise Edition surface (SSO/SAML, SCIM, audit/governance/redaction, team management, hosted control plane billing + staff ops console). Every covered file carries a header naming `LICENSE-EE`. Everything else stays MIT. See `README.md#license` for the full path list and rationale.
 - **One-command local Compose startup** — `docker compose up -d` now starts a fresh checkout without requiring a `.env` file. It supplies development-only secrets and local Ollama defaults; real deployments must still set their own secrets and provider configuration.
@@ -21,9 +26,11 @@ All notable changes to this project will be documented in this file.
 - `.env.example` and `.env.railway.template` now document `STRIPE_SCALE_PRICE_ID` (read by billing but previously missing from both templates).
 - **README rewritten** as an accurate open-source front page: correct clone URL, a working Docker quickstart on port 3000, a real ingest/context usage example, and an honest roadmap (previously listed already-shipped SDKs as future work).
 - **ARCHITECTURE.md refreshed** — module map now lists `lib/config`, `lib/skill`, `lib/ui`, the ledger, and the attestations repo; test count corrected to 409 across 31 files; a ledger section was added.
+- **`docs/product/comparison.md` re-verified** — Mem0, Supermemory, and Zep/Graphiti all now ship official MCP servers (previously listed as a differentiator against all three; it isn't one); corrected Supermemory's license from "varies" to MIT (core self-hosted engine), confirmed against their GitHub `LICENSE`.
 
 ### Fixed
 
+- **`/status` no longer reports a healthy embedding backend when the configured model isn't pulled, and `/v1/context` returns a named `503` instead of a bare `500` in that case.** Ollama being reachable and the configured model actually being present are different things; `/status` only checked the former. A first-run install that skipped pulling `nomic-embed-text` saw a green status page right up until the first `/v1/context` call failed opaquely. Added `EmbeddingModelNotFoundError`, distinct from the existing "backend unreachable" error, since the fix differs (start Ollama vs. pull the model).
 - **`pnpm audit --audit-level high` now exits clean** — the `brace-expansion` pnpm override was bumped to the patched `>=5.0.8` (was pinned to the still-vulnerable `5.0.7`/`2.1.2`, GHSA-mh99-v99m-4gvg, DoS via unbounded expansion length) and a `postcss` override (`>=8.5.18`) was added to close a path-traversal advisory (GHSA-r28c-9q8g-f849) pulled in transitively via `vite`/`vitest`. CI's dependency-audit gate was red on both.
 - **API reference: `/v1/search` corrected from `GET` to `POST`** — the served docs (method badge, nav labels, sidebar, rate-limit table) and request description labelled it a GET with query parameters; it is a `POST` with a JSON body (`routes/v1.ts`).
 - **API reference: removed a non-existent `limit` parameter from `GET /v1/context`** — the handler never read it, and the two docs disagreed (default 5/max 20 vs default 8/max 50). Retrieval is internally capped at the top 8 relevant chunks.

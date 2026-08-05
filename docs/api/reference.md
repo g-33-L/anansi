@@ -619,7 +619,7 @@ Public process-liveness endpoint. No authentication required. It returns JSON an
 
 ```bash
 curl https://anansimemory.com/health
-# → { "status": "ok", "version": "0.3.0" }
+# → { "status": "ok", "version": "0.3.1" }
 ```
 
 ## GET /status

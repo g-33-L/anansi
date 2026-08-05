@@ -1,6 +1,6 @@
 {
   "name": "@anansi/ui",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "type": "module",
   "description": "Anansi design system — tokens + React 19 component library (Tailwind v4).",

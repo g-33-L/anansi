@@ -1,6 +1,6 @@
 {
   "name": "anansi-mcp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "MCP server for Anansi — give Claude Desktop, Cursor, and any MCP client persistent, synthesized memory",
   "type": "module",
   "bin": {
