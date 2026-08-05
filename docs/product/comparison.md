@@ -28,6 +28,7 @@ Be honest here — this is a capable field:
 - **Entity/graph memory**: All three ship some form of knowledge graph
 - **Connector ecosystems**: Mem0 and Supermemory have Notion, Google, Slack integrations
 - **Dashboards and observability**: Mem0 and Supermemory ship dashboards
+- **MCP servers**: All three now ship one (Mem0, Supermemory, and Zep's Graphiti MCP Server all shipped/matured in 2026) — do not position an MCP server as differentiating against any of them
 
 The synthesized profile is table stakes, not a moat.
 
@@ -40,14 +41,14 @@ The synthesized profile is table stakes, not a moat.
 | Valid-time queries (`asOf`) | Yes | Yes | Yes | Yes |
 | Hybrid search (BM25 + vector + RRF) | Yes | Yes | Yes | Yes |
 | Entity graph | Yes | Yes | Yes | Yes |
-| MIT license | Yes | No (Apache 2.0) | No (varies) | Yes (Apache 2.0) |
-| Self-hostable with local models | Yes | Yes | Yes | Yes |
-| First-party Slack app | Yes | No | No | No |
+| MIT license | Yes | No (Apache 2.0) | Yes (core; hosted platform is commercial) | Yes (Apache 2.0, Graphiti engine) |
+| Self-hostable with local models | Yes | Yes | Yes (core engine; connectors/MCP are hosted-only) | Yes |
+| First-party Slack app | Yes | No (blog-post demo pattern, not shipped) | No (third-party via viaSocket) | No |
 | Outbound webhooks | Yes | No | Yes | No |
 | Bring-your-own embeddings | Yes | No | Yes | No |
-| MCP server | Yes | No | No | No |
+| MCP server | Yes | Yes | Yes (hosted platform only, not the self-hosted core) | Yes (Graphiti MCP Server 1.0) |
 
-*Feature matrix is factual and based on public documentation as of July 2026. Verify against current product pages before using in sales materials.*
+*Feature matrix verified against public documentation/repos as of August 2026 (corrected the MCP-server and Supermemory-license rows, previously stale from a July 2026 pass). Re-verify against current product pages before using in sales materials — this space moves fast.*
 
 ## Where Anansi is behind
 

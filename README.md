@@ -31,6 +31,8 @@ instance, no signup.
 **What that citation actually buys you** — the entity graph carries two independent
 time axes, so you can ask what was true *and* what the system knew, separately:
 
+The entity graph and `temporal` query results (the two-axis reasoning above) are a **Pro+** feature. Self-hosted installs default to the `enterprise` plan (see [Plan limits](#plan-limits-do-not-apply-to-self-hosted-installs)) and get it automatically; on the hosted service it requires a paid tier.
+
 ![Bi-temporal query example: the same fact answered two different ways depending on whether you ask what was true as-of a date, or what was known as-of that date](docs/assets/bitemporal-query-demo.svg)
 
 ---
@@ -193,6 +195,18 @@ Check [`/status`](http://localhost:3000/status) first: it reports Postgres, Redi
 queue, **and** the embedding backend, and returns `503` when any of them is down. A `503`
 from `/v1/context` names the failing dependency and how to fix it directly in the
 response body.
+
+### What runs where
+
+| | Local (no keys, no account) | Optional / external |
+|---|---|---|
+| API, Postgres, Redis, workers | ✅ started by `docker compose up -d` | |
+| Embedding + synthesis (Ollama) | ✅ option A/C above | Nomic hosted embeddings (option B), Cerebras/GitHub Models for synthesis |
+| Everything in [Quickstart](#quickstart--self-hosted-about-5-minutes) above | ✅ fully local | |
+| Slack / Notion / Google Docs / Linear connectors | | require their own OAuth credentials |
+| Hosted hybrid search hints, error reporting | | Sentry (`SENTRY_DSN`) is optional and off by default |
+
+The full local path — Docker + Ollama, no connectors configured — never sends ingested content off your machine. Once you add a cloud embedding/LLM provider or a connector, that surface's data leaves the box; see [Security](#security) for exactly what each `DEPLOYMENT_MODE` allows.
 
 ### Notes on the Compose defaults
 
