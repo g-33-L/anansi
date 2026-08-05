@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+  <rect x="0" y="0" width="900" height="340" fill="#ffffff" rx="10"/>
+  <rect x="0.5" y="0.5" width="899" height="339" fill="none" stroke="#d0d7de" rx="10"/>
+
+  <text x="30" y="38" font-size="15" fill="#57606a">Same fact. Two questions. One API.</text>
+
+  <!-- divider -->
+  <line x1="450" y1="20" x2="450" y2="300" stroke="#d0d7de" stroke-width="1"/>
+
+  <!-- Left panel: as we knew it then -->
+  <text x="30" y="78" font-size="13.5" fill="#0969da" font-weight="bold">GET /v1/entities?userId=user_123</text>
+  <text x="30" y="98" font-size="13.5" fill="#0969da" font-weight="bold">    &amp;asOf=2026-05-01&amp;asOfKnowledge=2026-05-01</text>
+  <text x="30" y="128" font-size="12.5" fill="#57606a">"What was true on May 1 — as we knew it, on May 1?"</text>
+
+  <rect x="30" y="150" width="390" height="70" rx="6" fill="#ddf4e4" stroke="#2da44e"/>
+  <text x="46" y="178" font-size="14" fill="#1a7f37" font-weight="bold">Alex —works_at→ Acme</text>
+  <text x="46" y="198" font-size="12" fill="#1a7f37">current: true</text>
+
+  <text x="30" y="250" font-size="12" fill="#57606a">In June we learn Alex actually left in April —</text>
+  <text x="30" y="268" font-size="12" fill="#57606a">but on May 1 we hadn't recorded that yet, so</text>
+  <text x="30" y="286" font-size="12" fill="#57606a">the graph honestly answers as we knew it then.</text>
+
+  <!-- Right panel: as we know it now -->
+  <text x="480" y="78" font-size="13.5" fill="#8250df" font-weight="bold">GET /v1/entities?userId=user_123</text>
+  <text x="480" y="98" font-size="13.5" fill="#8250df" font-weight="bold">    &amp;asOf=2026-05-01</text>
+  <text x="480" y="128" font-size="12.5" fill="#57606a">"What was true on May 1 — as we know it TODAY?"</text>
+
+  <rect x="480" y="150" width="390" height="70" rx="6" fill="#ffebe9" stroke="#cf222e"/>
+  <text x="496" y="178" font-size="14" fill="#cf222e" font-weight="bold">no works_at edge</text>
+  <text x="496" y="198" font-size="12" fill="#cf222e">ended April (recorded in June)</text>
+
+  <text x="480" y="250" font-size="12" fill="#57606a">The April end date, recorded in June,</text>
+  <text x="480" y="268" font-size="12" fill="#57606a">now applies retroactively — today's</text>
+  <text x="480" y="286" font-size="12" fill="#57606a">hindsight, not May's.</text>
+
+  <text x="30" y="320" font-size="11" fill="#8c959f">valid-time (asOf) × knowledge-time (asOfKnowledge) — a real query against apps/api/src/lib/ai/query-engine.ts</text>
+</svg>

@@ -1,5 +1,10 @@
 # Anansi
 
+[![CI](https://github.com/g-33-L/anansi/actions/workflows/ci.yml/badge.svg)](https://github.com/g-33-L/anansi/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![npm](https://img.shields.io/npm/v/anansi-memory.svg)](https://www.npmjs.com/package/anansi-memory)
+[![GitHub stars](https://img.shields.io/github/stars/g-33-L/anansi.svg?style=social)](https://github.com/g-33-L/anansi/stargazers)
+
 Anansi gives an AI system a durable understanding of how an organization actually
 works — and how that changed over time.
 
@@ -22,6 +27,11 @@ can paste straight into a system prompt — not a pile of chunks to rank yoursel
 
 Self-hosted, MIT licensed, runs on Postgres and Redis. About five minutes to a working
 instance, no signup.
+
+**What that citation actually buys you** — the entity graph carries two independent
+time axes, so you can ask what was true *and* what the system knew, separately:
+
+![Bi-temporal query example: the same fact answered two different ways depending on whether you ask what was true as-of a date, or what was known as-of that date](docs/assets/bitemporal-query-demo.svg)
 
 ---
 

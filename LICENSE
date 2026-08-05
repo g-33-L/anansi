@@ -1,14 +1,3 @@
-Anansi is open-core: the license below (MIT) covers the memory engine, the
-public API, all SDKs, and everything needed to self-host. A separate set of
-files under the "Enterprise Edition" surface — enterprise auth (SSO/SAML),
-SCIM provisioning, audit/governance/redaction, team management, and the
-hosted control plane (billing, staff ops console) — is licensed instead under
-LICENSE-EE. Each of those files carries its own header naming LICENSE-EE; see
-README.md's "License" section for the full path list. Everything else in this
-repository is MIT.
-
----
-
 MIT License
 
 Copyright (c) 2026 Jibril Suleiman

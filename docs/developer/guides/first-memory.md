@@ -4,7 +4,7 @@ description: A task-first tutorial on how to get started with Anansi Memory by i
 audience: [developer]
 edition: [oss, self-host, cloud, enterprise]
 last_verified: 2026-08-01
-verified_commit: "94c039fc" # Placeholder, replace with actual SHA
+verified_commit: "1ef7616"
 owner: "Developer Experience Lead"
 related_runbook: ""
 ---
