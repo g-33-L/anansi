@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=20"
   },
-  "description": "The memory layer for AI apps — persistent, synthesized context for any LLM application",
+  "description": "A self-hostable memory engine for AI agents that can distinguish what was true from what the agent knew at the time",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

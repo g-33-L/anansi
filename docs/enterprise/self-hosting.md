@@ -33,32 +33,34 @@ git clone https://github.com/g-33-L/anansi.git
 cd anansi
 ```
 
-### Step 2.2: Set Up Environment Variables
+### Step 2.2: Environment Variables
 
-Anansi is configured using environment variables.
+**For a quick trial, skip this step.** `docker compose up -d` alone brings up a full working stack without a `.env` file — Compose supplies development-only cryptographic values and local Ollama defaults. See the [README Quickstart](/README.md#quickstart--self-hosted-about-5-minutes) for the fastest path; the section below is for a persistent or production deployment.
+
+For anything beyond a disposable trial:
 
 1.  **Copy the example `.env` file:**
     ```bash
     cp .env.example .env
     ```
 
-2.  **Generate Required Secrets:**
-    The `.env` file requires several cryptographic keys for signing and encryption. The API server will not start without them. Generate these using `openssl` or a similar tool.
+2.  **Generate Distinct Secrets:**
+    The Compose defaults are published in this repository and therefore public — do not use them outside local development. Generate your own with `openssl` or a similar tool.
 
     ```bash
     # Generate a key for encrypting secrets at rest
-    openssl rand -base64 32
+    openssl rand -hex 32
 
     # Generate a key for signing CSRF cookies
-    openssl rand -base64 32
+    openssl rand -hex 32
 
     # Generate a key for HMAC-signing API keys
-    openssl rand -base64 32
+    openssl rand -hex 32
 
     # Generate a shared secret for authenticating internal queries (e.g., /metrics)
-    openssl rand -base64 32
+    openssl rand -hex 32
     ```
-    Copy the output of these commands into the corresponding variables in your `.env` file (`ENCRYPTION_KEY`, `CSRF_SIGNING_KEY`, `API_KEY_HMAC_SECRET`, `QUERY_API_KEY`).
+    Copy the output of these commands into the corresponding variables in your `.env` file (`ENCRYPTION_KEY`, `CSRF_SIGNING_KEY`, `API_KEY_HMAC_SECRET`, `QUERY_API_KEY`). **Never change `ENCRYPTION_KEY` after first install** — all stored connector tokens are encrypted with it.
 
 3.  **Configure Deployment Mode:**
     Anansi's security and privacy posture is controlled by the `DEPLOYMENT_MODE` environment variable. For a self-hosted instance where you control all infrastructure (including the LLM), `local` mode is recommended.
@@ -94,7 +96,7 @@ The `docker-compose.yml` file in the root of the repository defines the services
 3.  **Check the Health of the Application:**
     Anansi provides two health check endpoints:
     *   **`/health`**: A simple liveness probe. Returns `200 OK` if the API server is running.
-    *   **`/status`**: A readiness probe that checks connectivity to PostgreSQL and Redis. Returns `200 OK` if all checks pass, `503 Service Unavailable` otherwise.
+    *   **`/status`**: A readiness probe that checks PostgreSQL, Redis, **and the embedding backend** (Ollama reachable *and* the configured model actually pulled — reachability alone isn't enough). Returns `200 OK` if all checks pass, `503 Service Unavailable` otherwise, naming whichever dependency failed. This is the first place to look if ingestion succeeds but retrieval doesn't — see the README's Quickstart step 2 for the most common cause (the embedding model was never pulled).
 
 ## 4. Supported Topologies
 

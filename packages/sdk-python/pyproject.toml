@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "anansi-memory"
 version = "0.3.1"
-description = "The memory layer for AI apps — persistent, synthesized context for any LLM application"
+description = "A self-hostable memory engine for AI agents that can distinguish what was true from what the agent knew at the time"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"

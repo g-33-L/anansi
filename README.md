@@ -5,6 +5,8 @@
 [![npm](https://img.shields.io/npm/v/anansi-memory.svg)](https://www.npmjs.com/package/anansi-memory)
 [![GitHub stars](https://img.shields.io/github/stars/g-33-L/anansi.svg?style=social)](https://github.com/g-33-L/anansi/stargazers)
 
+**A self-hostable memory engine for AI agents that can distinguish what was true from what the agent knew at the time.**
+
 Anansi gives an AI system a durable understanding of how an organization actually
 works — and how that changed over time.
 
@@ -13,6 +15,10 @@ meeting transcripts. Anansi turns that into structured memory your agent can rea
 before it answers, and keeps every version of it. So you can ask not just *"what is
 our escalation process?"* but *"what did we think it was in March, and when did it
 change?"* — and get an answer with a citation.
+
+> **TL;DR:** MIT-licensed self-hostable core, with a commercial enterprise/hosted layer. See [License](#license).
+
+![Anansi live demo: four synthetic Slack messages ingested via POST /v1/ingest, synthesized into a structured profile and entity graph, then queried with GET /v1/context — "Why did the team switch to GraphQL?" — answered with cited evidence and an "as of" toggle showing what was known before vs. after a later message](docs/assets/anansi-live-demo.gif)
 
 Two API calls do the work:
 
