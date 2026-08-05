@@ -14,7 +14,7 @@ import { consoleRoutes } from "./routes/console/index.js";
 import { ssoRoutes } from "./routes/sso.js";
 import { scimRoutes } from "./routes/scim.js";
 import { correlationId, getCorrelationId } from "./lib/middleware/correlation-id.js";
-import { getEmbedStats, EmbeddingProviderUnavailableError, probeEmbeddingProvider } from "./lib/ai/embed.js";
+import { getEmbedStats, EmbeddingProviderUnavailableError, EmbeddingModelNotFoundError, probeEmbeddingProvider } from "./lib/ai/embed.js";
 import { captureError } from "./lib/infra/error-reporting.js";
 import { getDeploymentConfig } from "./lib/config/deployment.js";
 import { readFileSync } from "fs";
@@ -251,9 +251,10 @@ export function createApp() {
      * the request would succeed once the dependency is up — and it tells
      * clients the call is worth retrying.
      */
-    if (err instanceof EmbeddingProviderUnavailableError) {
+    if (err instanceof EmbeddingProviderUnavailableError || err instanceof EmbeddingModelNotFoundError) {
+      const code = err instanceof EmbeddingModelNotFoundError ? "embedding_model_not_found" : "embedding_provider_unavailable";
       if (wantsJson) {
-        return c.json({ error: err.publicMessage(), code: "embedding_provider_unavailable" }, 503);
+        return c.json({ error: err.publicMessage(), code }, 503);
       }
       return c.html(errorPage("Embedding provider unavailable", err.publicMessage(), "/"), 503);
     }

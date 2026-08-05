@@ -97,6 +97,32 @@ export class EmbeddingProviderUnavailableError extends Error {
   }
 }
 
+/*
+ * Raised when Ollama answers normally but the configured embedding model has
+ * not been pulled. Distinct from EmbeddingProviderUnavailableError (backend
+ * unreachable) — this is Ollama responding and saying "no such model." Both
+ * are dependency outages from the caller's perspective and both map to 503,
+ * but conflating them would blur the fix: "start Ollama" vs. "pull the model."
+ * Without this, the request fell through to a bare 500 with no indication
+ * that `ollama pull` was the fix — the exact failure a first-run install hits
+ * if step 2 of the quickstart (pulling the embedding model) is skipped.
+ */
+export class EmbeddingModelNotFoundError extends Error {
+  readonly provider: EmbeddingProvider;
+  readonly model: string;
+
+  constructor(provider: EmbeddingProvider, model: string) {
+    super(`Embedding model "${model}" is not available on the "${provider}" backend. Pull it with \`ollama pull ${model}\` and retry.`);
+    this.name = "EmbeddingModelNotFoundError";
+    this.provider = provider;
+    this.model = model;
+  }
+
+  publicMessage(): string {
+    return this.message;
+  }
+}
+
 /** A refused/reset/timed-out connection, as opposed to an HTTP error response. */
 function isConnectionFailure(err: unknown): boolean {
   const code = (err as { cause?: { code?: string }; code?: string })?.cause?.code ?? (err as { code?: string })?.code;
@@ -126,7 +152,13 @@ async function embedBatchOllama(texts: string[]): Promise<number[][]> {
     throw err;
   }
 
-  if (!res.ok) throw new Error(`Ollama embed failed: ${res.status} ${await res.text()}`);
+  if (!res.ok) {
+    const body = await res.text();
+    // Ollama's /api/embed returns 404 specifically for "no such model" — any other
+    // non-ok status is a genuine backend error, not a missing-model condition.
+    if (res.status === 404) throw new EmbeddingModelNotFoundError("ollama", OLLAMA_EMBED_MODEL);
+    throw new Error(`Ollama embed failed: ${res.status} ${body}`);
+  }
 
   const data = (await res.json()) as { embeddings: number[][]; prompt_eval_count?: number };
   if (!Array.isArray(data.embeddings))
@@ -180,9 +212,24 @@ export async function probeEmbeddingProvider(): Promise<EmbeddingProbe> {
 
   try {
     const res = await fetch(`${OLLAMA_BASE_URL}/api/tags`, { signal: AbortSignal.timeout(3_000) });
-    return res.ok
+    if (!res.ok) {
+      return { provider, ok: false, detail: `${OLLAMA_BASE_URL} returned ${res.status}` };
+    }
+
+    // Reachability alone is not enough — Ollama serving requests while the
+    // configured embedding model isn't pulled previously reported "ok" here,
+    // then failed on the very next /v1/context call with no warning.
+    const data = (await res.json()) as { models?: { name: string }[] };
+    const hasModel = (data.models ?? []).some(
+      (m) => m.name === OLLAMA_EMBED_MODEL || m.name.startsWith(`${OLLAMA_EMBED_MODEL}:`)
+    );
+    return hasModel
       ? { provider, ok: true, detail: OLLAMA_BASE_URL }
-      : { provider, ok: false, detail: `${OLLAMA_BASE_URL} returned ${res.status}` };
+      : {
+          provider,
+          ok: false,
+          detail: `${OLLAMA_BASE_URL} is reachable but "${OLLAMA_EMBED_MODEL}" is not pulled — run \`ollama pull ${OLLAMA_EMBED_MODEL}\``,
+        };
   } catch {
     return { provider, ok: false, detail: `unreachable at ${OLLAMA_BASE_URL}` };
   }

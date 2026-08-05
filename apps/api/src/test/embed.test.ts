@@ -4,6 +4,7 @@ import {
   embedOne,
   getEmbedStats,
   EmbeddingProviderUnavailableError,
+  EmbeddingModelNotFoundError,
   probeEmbeddingProvider,
 } from "../lib/ai/embed.js";
 
@@ -156,6 +157,25 @@ describe("embed.ts — counters and validation", () => {
     await expect(embedBatch(["a"])).rejects.not.toBeInstanceOf(EmbeddingProviderUnavailableError);
     await expect(embedBatch(["a"])).rejects.toThrow(/Ollama embed failed: 500/);
   });
+
+  // ── test:10 ─────────────────────────────────────────────────────────────────
+
+  /*
+   * Ollama answers normally (not a connection failure) but 404s because the
+   * embedding model was never pulled — previously fell through to a bare
+   * "Ollama embed failed: 404 ..." Error, which app.ts's onError had no
+   * special case for and returned as an unhelpful generic 500.
+   */
+  it("reports a named model-not-found error, not a generic HTTP error", async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      ok: false,
+      status: 404,
+      text: () => Promise.resolve('{"error":"model \\"nomic-embed-text\\" not found, try pulling it first"}'),
+    } as unknown as Response);
+
+    await expect(embedBatch(["a"])).rejects.toBeInstanceOf(EmbeddingModelNotFoundError);
+    await expect(embedBatch(["a"])).rejects.toThrow(/ollama pull nomic-embed-text/);
+  });
 });
 
 // ─── Status probe ─────────────────────────────────────────────────────────────
@@ -199,13 +219,36 @@ describe("probeEmbeddingProvider — /status must not report green while embeddi
     expect(probe.detail).toMatch(/500/);
   });
 
-  it("reports ok when Ollama answers", async () => {
-    vi.mocked(fetch).mockResolvedValue({ ok: true, status: 200 } as unknown as Response);
+  it("reports ok when Ollama answers and the configured model is pulled", async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ models: [{ name: "nomic-embed-text:latest" }] }),
+    } as unknown as Response);
 
     const probe = await probeEmbeddingProvider();
 
     expect(probe.ok).toBe(true);
     expect(probe.provider).toBe("ollama");
+  });
+
+  /*
+   * The false-positive that let a broken first-run install present as green:
+   * Ollama is up and answers /api/tags, but the configured embedding model was
+   * never pulled. Reachability alone used to be reported as "ok".
+   */
+  it("reports not-ok when Ollama is reachable but the configured model is not pulled", async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ models: [{ name: "llama3.1:8b" }] }),
+    } as unknown as Response);
+
+    const probe = await probeEmbeddingProvider();
+
+    expect(probe.ok).toBe(false);
+    expect(probe.detail).toMatch(/is not pulled/);
+    expect(probe.detail).toMatch(/ollama pull nomic-embed-text/);
   });
 
   it("does not spend quota probing a cloud provider on every status check", async () => {
