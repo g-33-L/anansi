@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "anansi": {
+      "command": "npx",
+      "args": ["-y", "anansi-mcp"],
+      "env": {
+        "ANANSI_API_KEY": "ans_your_key_here"
+      }
+    }
+  }
+}
