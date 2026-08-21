@@ -18,8 +18,6 @@ change?"* — and get an answer with a citation.
 
 > **TL;DR:** MIT-licensed self-hostable core, with a commercial enterprise/hosted layer. See [License](#license).
 
-![Anansi live demo: four synthetic Slack messages ingested via POST /v1/ingest, synthesized into a structured profile and entity graph, then queried with GET /v1/context — "Why did the team switch to GraphQL?" — answered with cited evidence and an "as of" toggle showing what was known before vs. after a later message](docs/assets/anansi-live-demo.gif)
-
 Two API calls do the work:
 
 ```bash
