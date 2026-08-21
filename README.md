@@ -35,11 +35,13 @@ Self-hosted, MIT licensed, runs on Postgres and Redis. About five minutes to a w
 instance, no signup.
 
 **What that citation actually buys you** — the entity graph carries two independent
-time axes, so you can ask what was true *and* what the system knew, separately:
+time axes, so you can ask what was true *and* what the system knew, separately. Same
+query, same date, two different answers depending on which axis you ask about:
 
-The entity graph and `temporal` query results (the two-axis reasoning above) are a **Pro+** feature. Self-hosted installs default to the `enterprise` plan (see [Plan limits](#plan-limits-do-not-apply-to-self-hosted-installs)) and get it automatically; on the hosted service it requires a paid tier.
-
-![Bi-temporal query example: the same fact answered two different ways depending on whether you ask what was true as-of a date, or what was known as-of that date](docs/assets/bitemporal-query-demo.svg)
+| Query | Answer |
+|---|---|
+| `GET /v1/entities?asOf=2026-05-01&asOfKnowledge=2026-05-01`<br>*"What was true on May 1 — as we knew it then?"* | `Alex —works_at→ Acme` (current: true) |
+| `GET /v1/entities?asOf=2026-05-01`<br>*"What was true on May 1 — as we know it today?"* | no `works_at` edge — Alex's April departure, recorded in June, now applies |
 
 ---
 
